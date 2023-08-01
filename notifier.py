@@ -15,7 +15,7 @@ def main():
         message += sys.argv[i]+" "
 
     TOKEN = "YourTelegramBotToken"
-    chat_id = "YourChatIdWithBot"
+    chat_id = "YourChatId"
 
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message}"
 
