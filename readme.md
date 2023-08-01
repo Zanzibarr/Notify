@@ -7,3 +7,11 @@ Open a terminal inside the cloned folder and run the command
 sudo python3 setup.py develop
 ```
 After running this command, you should be ready to use the Notify command everywhere on your computer.
+
+# Use
+After the configuration, you can call from command line the notify app using 1+ argumends as the text to be sent.  
+Es:
+```shell
+notify Hello, this is an automated message
+```
+The message recieved on telegram shall be "Hello, this is an automated message"
