@@ -31,9 +31,14 @@ notify Hello, this is an automated message
 ```
 The message recieved on telegram shall be "Hello, this is an automated message"
 
-You will also be able to import the notify lib into your python projects from anywhere in your computer:  
+You will also be able to use the notify app into your python projects from anywhere in your computer:  
 ```python
 import notify
-
 notify.send("Hello, this is an automated message")
 ```
+or
+```python
+import subprocess, shlex
+subprocess.run(shlex.split("notify Hello, this is an automated message"))
+```
+to run the program from command line.
