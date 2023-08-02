@@ -1,5 +1,8 @@
 # Telegram_Python_Notifier
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
+Currently it is configured to build text messages, markdown text messages, documents, photos, video and audio.  
+
+Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
 # Configuration
 Clone this repo into a folder of your choice (the folder must be kept into the system for the app to work).  
@@ -55,7 +58,7 @@ Open a terminal and write:
 ```shell
 notify -h
 ```
-to get the list of commands
+to get the list of commands.
 
 
 # Credits
