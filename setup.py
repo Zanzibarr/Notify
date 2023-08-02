@@ -2,6 +2,9 @@
 
 import setuptools
 
+print("Thanks for installing notify!\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
+print("\nBeginning setup...")
+
 token = input("Insert the token for the bot you want to use: ")
 chat_id = input("Insert the your chat id: ")
 
@@ -32,4 +35,4 @@ setuptools.setup(
         ],
     },
     include_package_data=True,
-    )
+)

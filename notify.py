@@ -11,8 +11,7 @@ def send_text(message):
 
 def send_markdown_text(message):
     url = def_url + f"/sendMessage?chat_id={chat_id}&text={message}&parse_mode=MarkdownV2"
-    response = requests.get(url) 
-    print(response.content) 
+    requests.get(url)
 
 def send_media(type, file_url, caption = " "):
     type = type.lower()
