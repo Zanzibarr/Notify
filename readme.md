@@ -42,12 +42,14 @@ sudo python3 setup.py develop
 You can use the application as a python library:
 ```python
 import notify
-
-notify.set_env(token="your_bot_token", i_chat_id="your_chat_id") # Remember to use this method before calling any other method
-notify.send_text("Hello, this is an automated message")
-notify.send_document("url_to_doc")
-#etc...
 ```
+
+First of all, you must setup the bot token and chat id:
+```python
+notify.set_env(token="your_bot_token", i_chat_id="your_chat_id")
+```
+
+Then you can use all the methods from the library.  
 
 # Command line use
 Open a terminal and write:
