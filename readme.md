@@ -1,13 +1,22 @@
 # Telegram_Python_Notifier
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 
+Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
+
+Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
+
 # Configuration
 Clone this repo into a folder of your choice (the folder must be kept into the system for the app to work).  
 
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it.  
 
-Make sure to fill your info about your telegram bot and chat id into the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/notify_app.py">notify_app.py</a> file.  
+Make sure to fill your info about your telegram bot and chat id into the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/notify_app.py">notify_app.py</a> file:  
+
+```python
+#Into the notify_app.py file, inside the main() function
+'''edit this --->'''notify.set_env("your_bot_token", "your_chat_id")'''<--- edit this'''
+```
 
 Open a terminal inside the cloned folder and run the command  
 ```shell
@@ -29,7 +38,10 @@ then
 sudo rm /path/to/file/notify
 ```
 
-Once you've done this, you're ready to edit your files and build again.
+Once you've done this, you can apply your changes, then run again the command (into the folder with the setup.py file):
+```shell
+sudo python3 setup.py develop
+```
 
 # Python lib use
 You can use the application as a python library:
@@ -47,7 +59,7 @@ Open a terminal and write:
 ```shell
 notify -h
 ```
-to get the list of commands
+to get the list of commands.
 
 
 # Credits
