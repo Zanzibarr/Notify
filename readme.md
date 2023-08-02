@@ -13,7 +13,7 @@ Clone this repo into a folder of your choice (the folder must be kept into the s
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it (without this step, the application will run, but you won't recieve any message).  
 
-Open a terminal inside the cloned folder and run the command  
+You won't need to edit any file, just open a terminal inside the cloned folder and run the command  
 ```shell
 sudo python3 setup.py develop
 ```
