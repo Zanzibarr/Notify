@@ -42,7 +42,7 @@ notify.send_document("url_to_doc")
 ```
 
 # Command line use
-Open a cmd and write:
+Open a terminal and write:
 ```shell
 notify -h
 ```
