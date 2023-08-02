@@ -3,7 +3,7 @@ import sys, notify
 def main():
     
     if (len(sys.argv)<2):
-        print("Notify error: wrong arguments.")
+        print("Notify error: wrong arguments.\nExpected command: > notify This is the message")
         exit(0)
         
     l = len(sys.argv)
