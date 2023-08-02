@@ -1,7 +1,14 @@
+# Telegram_Python_Notifier
+This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
+
 # Configuration
 Clone this repo into a folder of your choice (the folder must be kept into the system for the app to work).  
-Make sure to fill your info about your telegram bot and chat id into the notify.py file.  
+
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
+Once you created your bot, open a chat with him.  
+
+Make sure to fill your info about your telegram bot and chat id into the notify.py file.  
+
 Open a terminal inside the cloned folder and run the command  
 ```shell
 sudo python3 setup.py develop
