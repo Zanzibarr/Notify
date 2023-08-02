@@ -5,6 +5,8 @@ Currently it is configured to send text messages, markdown text messages, docume
 
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
+### STILL A WORK IN PROGRESS
+
 # Configuration
 Clone this repo into a folder of your choice (the folder must be kept into the system for the app to work).  
 
