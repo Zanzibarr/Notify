@@ -44,4 +44,4 @@ subprocess.run(shlex.split("notify Hello, this is an automated message"))
 to run the program from command line.
 
 # Credits
-Authors: <a href="https://github.com/Zanzibarr">@zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
+Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
