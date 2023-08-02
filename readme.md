@@ -49,6 +49,7 @@ notify type content
 
 The content could be missing in some cases.  
 
+```
 notify -h / > notify -help  
     Prints the instructions  
 notify -t This is a text message  
@@ -68,7 +69,7 @@ notify -a url
     Sends an audio located in the url specified (is the same of > notify -m audio url)  
 notify -v url  
     Sends a video located in the url specified (is the same of > notify -m video url)  
-
+```
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
