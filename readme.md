@@ -49,27 +49,26 @@ notify type content
 
 The content could be missing in some cases.  
 
-```
 notify -h / > notify -help  
-    Prints the instructions  
+&nbsp; Prints the instructions  
 notify -t This is a text message  
-    Sends the full message followed by '-t' (message -> This is a text message)  
+&nbsp; Sends the full message followed by '-t' (message -> This is a text message)  
 notify -m <media_type> url  
-    Sends a media located in the url specified.  
-    media_type:  
-        photo (> notify -m photo /path/to/photo.png)  
-        document (> notify -m document /path/to/document.txt)  
-        audio (> notify -m audio /path/to/audio.mp3)  
-        video (> notify -m video /path/to/video.mp4)  
+&nbsp; Sends a media located in the url specified.  
+&nbsp; media_type:  
+&nbsp;&nbsp; photo (> notify -m photo /path/to/photo.png)  
+&nbsp;&nbsp; document (> notify -m document /path/to/document.txt)  
+&nbsp;&nbsp; audio (> notify -m audio /path/to/audio.mp3)  
+&nbsp;&nbsp; video (> notify -m video /path/to/video.mp4)  
 notify -p url  
-    Sends a photo located in the url specified (is the same of > notify -m photo url)  
+&nbsp; Sends a photo located in the url specified (is the same of > notify -m photo url)  
 notify -d url  
-    Sends a document located in the url specified (is the same of > notify -m document url)  
+&nbsp; Sends a document located in the url specified (is the same of > notify -m document url)  
 notify -a url  
-    Sends an audio located in the url specified (is the same of > notify -m audio url)  
+&nbsp; Sends an audio located in the url specified (is the same of > notify -m audio url)  
 notify -v url  
-    Sends a video located in the url specified (is the same of > notify -m video url)  
-```
+&nbsp; Sends a video located in the url specified (is the same of > notify -m video url)  
+
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
