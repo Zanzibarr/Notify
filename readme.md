@@ -42,12 +42,32 @@ notify.send_document("url_to_doc")
 ```
 
 # Command line use
-After the configuration, you can call from command line the notify app using 1+ argumends as the text to be sent.  
-Es:
+Commands accepted:
 ```shell
-notify Hello, this is an automated message
+> notify <type> <content>
 ```
-The message recieved on telegram shall be "Hello, this is an automated message"
+The content could be missing in some cases.
+
+> notify -h / > notify -help
+    Prints the instructions
+> notify -t This is a text message
+    Sends the full message followed by '-t' (message -> This is a text message)
+> notify -m <media_type> url
+    Sends a media located in the url specified.
+    media_type:
+        photo (> notify -m photo /path/to/photo.png)
+        document (> notify -m document /path/to/document.txt)
+        audio (> notify -m audio /path/to/audio.mp3)
+        video (> notify -m video /path/to/video.mp4)
+> notify -p url
+    Sends a photo located in the url specified (is the same of > notify -m photo url)
+> notify -d url
+    Sends a document located in the url specified (is the same of > notify -m document url)
+> notify -a url
+    Sends an audio located in the url specified (is the same of > notify -m audio url)
+> notify -v url
+    Sends a video located in the url specified (is the same of > notify -m video url)
+
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
