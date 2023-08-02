@@ -1,17 +1,64 @@
-import sys, notify
+import sys, notify, os
+
+error = "Notify error: wrong arguments.\nUse notify -h or notify -help to get instructions."
+map = {"-p":"photo", "-d":"document", "-a":"audio", "-v":"video"}
+
+def help():
+    print(f"""
+    Commands accepted: > notify <type> <content>
+    The content could be missing in some cases.
+
+    > notify -h / > notify -help
+        Prints the instructions
+    > notify -t This is a text message
+        Sends the full message followed by '-t' (message -> This is a text message)
+    > notify -m <media_type> url
+        Sends a media located in the url specified.
+        media_type:
+            photo (> notify -m photo /path/to/photo.png)
+            document (> notify -m document /path/to/document.txt)
+            audio (> notify -m audio /path/to/audio.mp3)
+            video (> notify -m video /path/to/video.mp4)
+    > notify -p url
+        Sends a photo located in the url specified (is the same of > notify -m photo url)
+    > notify -d url
+        Sends a document located in the url specified (is the same of > notify -m document url)
+    > notify -a url
+        Sends an audio located in the url specified (is the same of > notify -m audio url)
+    > notify -v url
+        Sends a video located in the url specified (is the same of > notify -m video url)
+
+
+    If you wish to change the token or chat_id associated to this application (for command line use), you will need to follow the 'Edit build' procedure in the readme.md, located at {os.path.dirname(__file__)}/readme.md
+
+    Base repo: https://github.com/Zanzibarr/Telegram_Python_Notifier
+    """)
 
 def main():
     
-    if (len(sys.argv)<2):
-        print("Notify error: wrong arguments.\nExpected command: > notify This is the message")
+    global error, map
+    
+    #Edit this before building the project, or read the readme.md file to edit the build
+    notify.set_env("your_bot_token", "your_chat_id")
+    
+    if (len(sys.argv)==1):
+        print(error)
         exit(0)
         
-    l = len(sys.argv)
-    
-    message = ""
-        
-    for i in range(1, l):
-        message += sys.argv[i]+" "
-        
-    notify.set_env("your_bot_token", "your_chat_id")
-    notify.send_text(message=message)
+    if (sys.argv[1] in ("-h", "-help")):
+        help()
+        exit(0)
+    elif (sys.argv[1] == "-t"):
+        notify.send_text(" ".join(sys.argv[2:]))
+        exit(0)
+    elif (sys.argv[1] == "-m"):
+        notify.send_media(sys.argv[2], " ".join(sys.argv[3:]))
+        exit(0)
+    elif (sys.argv[1] in ("-p", "-d", "-a", "-v")):
+        notify.send_media(map[sys.argv[1]], " ".join(sys.argv[2:]))
+        exit(0)
+    else:
+        print(error)
+        exit(0)
+
+main()

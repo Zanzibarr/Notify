@@ -7,7 +7,7 @@ Clone this repo into a folder of your choice (the folder must be kept into the s
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it.  
 
-Make sure to fill your info about your telegram bot and chat id into the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/notify.py">notify.py</a> file.  
+Make sure to fill your info about your telegram bot and chat id into the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/notify_app.py">notify_app.py</a> file.  
 
 Open a terminal inside the cloned folder and run the command  
 ```shell
@@ -15,6 +15,8 @@ sudo python3 setup.py develop
 ```
 
 Now you're ready to go!
+
+# Edit build
 
 If you edit some files and want to build the application again, you have to locate the build first and delete it.
 
@@ -27,7 +29,7 @@ then
 sudo rm /path/to/file/notify
 ```
 
-Once you've done this, you're ready to build again
+Once you've done this, you're ready to edit your files and build again.
 
 
 # Use
