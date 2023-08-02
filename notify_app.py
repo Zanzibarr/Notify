@@ -5,34 +5,34 @@ map = {"-p":"photo", "-d":"document", "-a":"audio", "-v":"video"}
 
 def help():
     print(f"""
-    Commands accepted: > notify <type> <content>
-    The content could be missing in some cases.
+Commands accepted: > notify <type> <content>
+The content could be missing in some cases.
 
-    > notify -h / > notify -help
-        Prints the instructions
-    > notify -t This is a text message
-        Sends the full message followed by '-t' (message -> This is a text message)
-    > notify -m <media_type> url
-        Sends a media located in the url specified.
-        media_type:
-            photo (> notify -m photo /path/to/photo.png)
-            document (> notify -m document /path/to/document.txt)
-            audio (> notify -m audio /path/to/audio.mp3)
-            video (> notify -m video /path/to/video.mp4)
-    > notify -p url
-        Sends a photo located in the url specified (is the same of > notify -m photo url)
-    > notify -d url
-        Sends a document located in the url specified (is the same of > notify -m document url)
-    > notify -a url
-        Sends an audio located in the url specified (is the same of > notify -m audio url)
-    > notify -v url
-        Sends a video located in the url specified (is the same of > notify -m video url)
+> notify -h / > notify -help
+    Prints the instructions
+> notify -t This is a text message
+    Sends the full message followed by '-t' (message -> This is a text message)
+> notify -m <media_type> url
+    Sends a media located in the url specified.
+    media_type:
+        photo (> notify -m photo /path/to/photo.png)
+        document (> notify -m document /path/to/document.txt)
+        audio (> notify -m audio /path/to/audio.mp3)
+        video (> notify -m video /path/to/video.mp4)
+> notify -p url
+    Sends a photo located in the url specified (is the same of > notify -m photo url)
+> notify -d url
+    Sends a document located in the url specified (is the same of > notify -m document url)
+> notify -a url
+    Sends an audio located in the url specified (is the same of > notify -m audio url)
+> notify -v url
+    Sends a video located in the url specified (is the same of > notify -m video url)
 
 
-    If you wish to change the token or chat_id associated to this application (for command line use), you will need to follow the 'Edit build' procedure in the readme.md, located at {os.path.dirname(__file__)}/readme.md
+If you wish to change the token or chat_id associated to this application (for command line use), you will need to follow the 'Edit build' procedure in the readme.md, located at {os.path.dirname(__file__)}/readme.md
 
-    Base repo: https://github.com/Zanzibarr/Telegram_Python_Notifier
-    """)
+Base repo: https://github.com/Zanzibarr/Telegram_Python_Notifier
+""")
 
 def main():
     
