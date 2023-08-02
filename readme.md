@@ -39,6 +39,7 @@ import notify
 notify.set_env(token="your_bot_token", i_chat_id="your_chat_id") # Remember to use this method before calling any other method
 notify.send_text("Hello, this is an automated message")
 notify.send_document("url_to_doc")
+#etc...
 ```
 
 # Command line use
