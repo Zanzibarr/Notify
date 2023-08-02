@@ -9,6 +9,12 @@ Once you created your bot, start a chat with it.
 
 Make sure to fill your info about your telegram bot and chat id into the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/notify_app.py">notify_app.py</a> file.  
 
+```python
+#...
+'''--->'''notify.set_env("your_bot_token", "your_chat_id")'''<---'''
+#...
+```
+
 Open a terminal inside the cloned folder and run the command  
 ```shell
 sudo python3 setup.py develop
