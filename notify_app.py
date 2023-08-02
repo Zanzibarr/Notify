@@ -13,4 +13,5 @@ def main():
     for i in range(1, l):
         message += sys.argv[i]+" "
         
-    notify.send(message=message)
+    notify.set_env("your_bot_token", "your_chat_id")
+    notify.send_text(message=message)
