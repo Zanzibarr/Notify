@@ -20,7 +20,7 @@ then
 sudo rm /path/to/file/notify
 ```
 
-Once you've done this, your ready to build again
+Once you've done this, you're ready to build again
 
 
 # Use
