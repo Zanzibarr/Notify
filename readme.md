@@ -27,28 +27,24 @@ then
 sudo rm /path/to/file/notify
 ```
 
+# Python lib use
 Once you've done this, you're ready to build again
+You can use the application as a python library:
+```python
+import notify
 
+notify.set_env(token="your_bot_token", i_chat_id="your_chat_id") # Remember to use this method before calling any other method
+notify.send_text("Hello, this is an automated message")
+notify.send_document("url_to_doc")
+```
 
-# Use
+# Command line use
 After the configuration, you can call from command line the notify app using 1+ argumends as the text to be sent.  
 Es:
 ```shell
 notify Hello, this is an automated message
 ```
 The message recieved on telegram shall be "Hello, this is an automated message"
-
-You will also be able to use the notify app into your python projects from anywhere in your computer:  
-```python
-import notify
-notify.send("Hello, this is an automated message")
-```
-or
-```python
-import subprocess, shlex
-subprocess.run(shlex.split("notify Hello, this is an automated message"))
-```
-to run the program from command line.
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
