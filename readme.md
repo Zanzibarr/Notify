@@ -44,7 +44,7 @@ notify.send_document("url_to_doc")
 # Command line use
 Commands accepted:
 ```shell
-> notify <type> <content>
+notify <type> <content>
 ```
 The content could be missing in some cases.
 
