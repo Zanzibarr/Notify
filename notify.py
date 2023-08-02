@@ -1,18 +1,14 @@
 import requests
 
-
 def set_env(token, i_chat_id):
     global def_url,chat_id
     def_url = f"https://api.telegram.org/bot{token}"
     chat_id= i_chat_id
-    
 
 def send_text(message):
     url = def_url + f"/sendMessage?chat_id={chat_id}&text={message}"
     requests.get(url)  
 
-
-#USARE '''stringhe''' come quando scrivi un readme
 def send_markdown_text(message):
     url = def_url + f"/sendMessage?chat_id={chat_id}&text={message}&parse_mode=MarkdownV2"
     response = requests.get(url) 
