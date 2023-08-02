@@ -29,11 +29,7 @@ then
 sudo rm /path/to/file/notify
 ```
 
-<<<<<<< HEAD
 Once you've done this, you're ready to edit your files and build again.
-=======
-Once you've done this, you're ready to build again.  
->>>>>>> dcde0ff77c72ea3cf7cd021481a746b1d54c1d9e
 
 # Python lib use
 You can use the application as a python library:
