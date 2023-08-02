@@ -7,12 +7,11 @@ Clone this repo into a folder of your choice (the folder must be kept into the s
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it.  
 
-Make sure to fill your info about your telegram bot and chat id into the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/notify_app.py">notify_app.py</a> file.  
+Make sure to fill your info about your telegram bot and chat id into the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/notify_app.py">notify_app.py</a> file:  
 
 ```python
-#...
-'''--->'''notify.set_env("your_bot_token", "your_chat_id")'''<---'''
-#...
+#Into the notify_app.py file, inside the main() function
+'''edit this --->'''notify.set_env("your_bot_token", "your_chat_id")'''<--- edit this'''
 ```
 
 Open a terminal inside the cloned folder and run the command  
