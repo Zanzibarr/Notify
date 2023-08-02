@@ -33,7 +33,7 @@ then
 sudo rm /path/to/file/notify
 ```
 
-Once you've done this, you can apply your changes, then run again the command (into the folder with the setup.py file):
+Once you've done this, you can apply your changes, then repeat the setup command used during the initial configuration:
 ```shell
 sudo python3 setup.py develop
 ```
