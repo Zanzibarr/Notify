@@ -34,7 +34,10 @@ then
 sudo rm /path/to/file/notify
 ```
 
-Once you've done this, you're ready to edit your files and build again.
+Once you've done this, you can apply your changes, then run again the command (into the folder with the files):
+```shell
+sudo python3 setup.py develop
+```
 
 # Python lib use
 You can use the application as a python library:
