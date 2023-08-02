@@ -5,7 +5,7 @@ This python application, will send messages on telegram, to the chat id specifie
 Clone this repo into a folder of your choice (the folder must be kept into the system for the app to work).  
 
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
-Once you created your bot, open a chat with him.  
+Once you created your bot, start a chat with it.  
 
 Make sure to fill your info about your telegram bot and chat id into the notify.py file.  
 
