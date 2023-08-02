@@ -1,5 +1,4 @@
-import requests
-import sys
+import sys, notify
 
 def main():
     
@@ -13,10 +12,5 @@ def main():
         
     for i in range(1, l):
         message += sys.argv[i]+" "
-
-    TOKEN = "YourTelegramBotToken"
-    chat_id = "YourChatId"
-
-    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message}"
-
-    requests.get(url)
+        
+    notify.send(message=message)
