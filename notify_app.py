@@ -12,8 +12,6 @@ The content could be missing in some cases.
     Prints the instructions
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
-> notify -md #This is a markdown text
-    Sends the full markdown text followed by '-md' (message -> #This is a markdown text)
 > notify -m <media_type> url
     Sends a media located in the url specified.
     media_type:
@@ -52,9 +50,6 @@ def main():
         exit(0)
     elif (sys.argv[1] == "-t"):
         notify.send_text(" ".join(sys.argv[2:]))
-        exit(0)
-    elif (sys.argv[1] == "-md"):
-        notify.send_markdown_text(" ".join(sys.argv[2:]))
         exit(0)
     elif (sys.argv[1] == "-m"):
         if (sys.argv[2] not in ("photo", "document", "audio", "video")):
