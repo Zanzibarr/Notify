@@ -27,8 +27,9 @@ then
 sudo rm /path/to/file/notify
 ```
 
+Once you've done this, you're ready to build again.  
+
 # Python lib use
-Once you've done this, you're ready to build again
 You can use the application as a python library:
 ```python
 import notify
