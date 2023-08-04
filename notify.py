@@ -4,6 +4,7 @@ def set_env(token, i_chat_id):
     global def_url,chat_id
     def_url = f"https://api.telegram.org/bot{token}"
     chat_id= i_chat_id
+    on()
     
 def on():
     global send
