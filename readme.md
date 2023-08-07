@@ -6,7 +6,7 @@ We also added a simple listener so that you can send messages to the bot (edit t
 
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
-#### STILL A WORK IN PROGRESS
+#### STILL ADDING FEATURES
 
 # Configuration
 Clone this repo into a folder of your choice (the folder must be kept into the system for the app to work).  
