@@ -21,6 +21,7 @@ sudo python3 setup.py develop
 
 Follow the steps and then you're ready to go!
 
+### IF YOU NEED THE LISTENER:  
 To configure the listener, you will need to install the python packages for telegram:
 ```shell
 pip install python-telegram-bot
