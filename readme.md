@@ -2,8 +2,6 @@
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
-We also added a simple listener so that you can send messages to the bot (edit the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/listener.py">listener.py</a> to customize the responses).  
-
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
 #### STILL ADDING FEATURES
@@ -20,15 +18,6 @@ sudo python3 setup.py develop
 ```
 
 Follow the steps and then you're ready to go!
-
-### IF YOU NEED THE LISTENER:  
-To configure the listener, you will need to install the python packages for telegram:
-```shell
-pip install python-telegram-bot
-```
-Then you will need to insert your bot token and authorized chat id's in the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/listener.py">listener.py</a> file.  
-
-(The listener must be running for it to work)
 
 # Edit build
 
