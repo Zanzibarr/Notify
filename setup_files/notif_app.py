@@ -61,7 +61,7 @@ def main():
 
         os.mkdir(f"{base_path}/git")
         subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
-        subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -silent"))
+        subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
         subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
         
         exit(0)
