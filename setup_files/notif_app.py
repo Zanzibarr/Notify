@@ -16,6 +16,8 @@ The content could be missing in some cases.
     Prints the instructions
 > notify -update
     Download the latest version of notify
+> notify -uninstall
+    Uninstall all the files associated to the notify app except, eventually, the credentials that have been stored in /etc/zanz_notify_config 
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
 > notify -md #This is a markdown text
@@ -64,6 +66,10 @@ def main():
         subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
         subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
         
+        exit(0)
+    elif sys.argv[1] == "-uninstall":
+        subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
+        print("notify has been succesfully uninstalled.")
         exit(0)
 
     '''>>__EDIT__>> credentials = your_json_credentials <<__EDIT__<<'''

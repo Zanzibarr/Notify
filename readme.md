@@ -59,7 +59,11 @@ notify -h
 to get the list of commands.
 
 # Uninstall
-To uninstall just delete your repo and remove the lines added to the ~/.bashrc file.  
+To uninstall just run the command
+```shell
+notify -uninstall
+```
+And remove the lines added to the ~/.bashrc file.  
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
