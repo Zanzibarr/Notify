@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import setuptools, os
+import os
 
 setup_error = "Command not recognised.\nExiting setup."
 std_config_path = "/etc/zanz_notify_config"
@@ -56,16 +56,3 @@ script = p1+credentials+r
 
 with open(f"{base_path}/notify_app.py", "w") as f:
     f.write(script)
-
-setuptools.setup(
-    name="notifier",
-    version="1.1",
-    packages=setuptools.find_packages(),
-    install_requires=[],
-    entry_points={
-        'console_scripts': [
-            'notify = notify_app:main',
-        ],
-    },
-    include_package_data=True,
-)

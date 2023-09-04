@@ -1,4 +1,4 @@
-import subprocess, notify, shlex, json, sys, os
+import subprocess, notify, shlex, sys, os
 
 error = """
 Notify error: wrong arguments.
