@@ -1,5 +1,7 @@
 import subprocess, notify, shlex, json, sys, os
 
+version = "notify version: 1.1"
+
 error = """
 Notify error: wrong arguments.
 Use notify -h or notify -help to get instructions.
@@ -18,6 +20,8 @@ The content could be missing in some cases.
     Download the latest version of notify
 > notify -uninstall
     Uninstall all the files associated to the notify app except, eventually, the credentials that have been stored in /etc/zanz_notify_config 
+> notify -version
+    See the current notify version
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
 > notify -md #This is a markdown text
@@ -52,14 +56,17 @@ def main():
     
     if len(sys.argv)==1:
         print(error)
-        exit(0)
+        exit(1)
     elif sys.argv[1] in ("-h", "-help"):
+        if len(sys.argv) != 2:
+            print(error)
+            exit(1)
         help()
         exit(0)
     elif sys.argv[1] == "-update":
         if len(sys.argv) != 2:
             print(error)
-            exit(0)
+            exit(1)
 
         os.mkdir(f"{base_path}/git")
         subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
@@ -68,6 +75,9 @@ def main():
         
         exit(0)
     elif sys.argv[1] == "-uninstall":
+        if len(sys.argv) != 2:
+            print(error)
+            exit(1)
         res = ""
         while res not in ("y", "n"):
             res = input("Proceeding to uninstall notify? [y/n]: ")
@@ -80,6 +90,11 @@ def main():
         subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
         print("notify has been succesfully uninstalled.")
         exit(0)
+    elif sys.argc[1] == "-version":
+        if len(sys.argv) != 2:
+            print(error)
+            exit(1)
+        print(version)
 
     '''>>__EDIT__>> credentials = your_json_credentials <<__EDIT__<<'''
 
