@@ -2,8 +2,8 @@
 
 import setuptools, json, os
 
-print("Thanks for installing notify!\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
-print("\nBeginning setup...")
+print("\nThanks for installing notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
+print("\nBeginning setup...\n")
 
 setup_mode = ""
 
