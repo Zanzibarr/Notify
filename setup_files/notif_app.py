@@ -41,7 +41,7 @@ If you wish to change the token or chat_id associated to this application (for c
 
 Base folder: {base_path}
 Credentials folder: /etc/zanz_notify_config
-Base repo: https://github.com/Zanzibarr/Telegram_Python_Notifier
+Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
 """)
 
 def main():
