@@ -68,6 +68,15 @@ def main():
         
         exit(0)
     elif sys.argv[1] == "-uninstall":
+        res = ""
+        while res not in ("y", "n"):
+            res = input("Proceeding to uninstall notify? [y/n]: ")
+            if res not in ("y", "n"):
+                print("Command not recognised")
+        if res == "n":
+            print("Uninstall aborted.")
+            exit(0)
+        
         subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
         print("notify has been succesfully uninstalled.")
         exit(0)
