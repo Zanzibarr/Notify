@@ -43,6 +43,7 @@ The content could be missing in some cases.
 If you wish to change the token or chat_id associated to this application (for command line use), you will need to follow the 'Edit build' procedure in the readme.md, located at {base_path}/readme.md
 
 Base folder: {base_path}
+Credentials folder: /etc/zanz_notify_config
 Base repo: https://github.com/Zanzibarr/Telegram_Python_Notifier
 """)
 
