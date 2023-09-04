@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import subprocess, shlex, os
 
 setup_error = "Command not recognised.\nExiting setup."
