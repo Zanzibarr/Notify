@@ -65,8 +65,9 @@ def main():
                 print("Input non recognised: stopping the update.") 
                 exit(0)
             if check == "y":
-                subprocess.run(shlex.split(f"sudo rm -r {os.path.dirname(__file__)}"))
-                subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {os.path.dirname(__file__)}"))
+                base_path = os.path.dirname(__file__)
+                subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
+                subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}"))
             else:
                 print("Cancelling the update.")
         elif sys.argv[2] == "-copy":
