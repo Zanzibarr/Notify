@@ -70,5 +70,6 @@ if not update:
     print(f"Moving files to base path ({home}/.notify)")
     subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/notify.py"))
     subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/notify_app.py"))
-
+else:
+    print(base_path)
 print("Setup completed.")
