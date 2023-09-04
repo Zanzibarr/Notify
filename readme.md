@@ -12,17 +12,22 @@ Clone this repo into a folder of your choice (the folder must be kept into the s
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it (without this step, the application will run, but you won't recieve any message).  
 
-If you dont have done it already, you will have to install pip:
+Firstly, open a terminal inside the cloned folder and run the command  
 ```shell
-sudo apt install python3-pip
+python3 setup.py
 ```
 
-You won't need to edit any file, just open a terminal inside the cloned folder and run the command  
+You will also need to add a line at the .bashrc file into you home directory:
 ```shell
-sudo python3 setup.py develop
+sudo nano ~/.bashrc
 ```
+At the end of the file you will need to add
+```shell
+alias notify='python3 path/to/file/notify_app.py
+```
+The path you will need to use is the location of the cloned repo.  
 
-Follow the steps and then you're ready to go!
+Once you're done, reboot and you will be ready to go!
 
 # Update build
 To get the latest version of notify, open a terminal inside a folder that's NOT INSIDE nor is the base_folder (u can see the base folder at the bottom of the -h response)
@@ -33,10 +38,8 @@ Please read the instructions to understand the <update_type> functionality:
 ```shell
 notify -h
 ```
-If you edit some files and want to build the application again, you just have to run the configuration again (you must be inside the cloned repo):
-```shell
-sudo python3 setup.py develop
-```
+
+Remember to change the path into the ~/.bashrc file if you decide to move the notify_app.py file.  
 
 # Python lib use
 You can use the application as a python library:
@@ -59,17 +62,7 @@ notify -h
 to get the list of commands.
 
 # Uninstall
-To uninstall
-```shell
-sudo rm /usr/local/bin/notify
-```
-If the executable is not there, u can find it with
-```shell
-whereis notify
-```
-and remove it with the previous command (using the path returned by the whereis).
-
-Then remove the cloned repo and you succesfully uninstalled the application.
+To uninstall just delete your repo and remove the line added to the ~/.bashrc file.  
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>

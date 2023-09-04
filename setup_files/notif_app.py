@@ -1,4 +1,4 @@
-import subprocess, notify, shlex, sys, os
+import subprocess, notify, shlex, json, sys, os
 
 error = """
 Notify error: wrong arguments.
@@ -107,3 +107,6 @@ def main():
         notify.send_media(map[sys.argv[1]], " ".join(sys.argv[2:]))
     else:
         print(error)
+
+if __name__ == "__main__":
+    main()
