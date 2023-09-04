@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import setuptools, json
+import setuptools, json, os
 
 print("Thanks for installing notify!\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
 print("\nBeginning setup...")
@@ -36,7 +36,7 @@ else:
     token = "{input('Insert the token for the bot you want to use: ')}"
     chat_id = "{input('Insert the your chat id: ')}"
 
-with open("setup_files/notif_app.py", "r") as f:
+with open(f"{os.path.dirname(__file__)}/setup_files/notif_app.py", "r") as f:
     script = f.read()
     
 START_IN = ">>__EDIT__>>"
@@ -49,7 +49,7 @@ r = r.partition(END_IN)[2]
 
 script = p1+token+p2+chat_id+r
 
-with open("notify_app.py", "w") as f:
+with open(f"{os.path.dirname(__file__)}/notify_app.py", "w") as f:
     f.write(script)
 
 setuptools.setup(
