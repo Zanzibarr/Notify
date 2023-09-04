@@ -1,4 +1,4 @@
-import subprocess, shlex, sys, notify, os
+import subprocess, notify, shlex, json, sys, os
 
 error = """
 Notify error: wrong arguments.
@@ -85,8 +85,13 @@ def main():
         else:
             print("Input non recognised: stopping the update.")
         exit(0)
-    
-    notify.set_env(f">>__EDIT__>>your_bot_token<<__EDIT__<<", f">>__EDIT__>>your_chat_id<<__EDIT__<<")
+
+    '''>>__EDIT__>> credentials = your_json_credentials <<__EDIT__<<'''
+
+    if credentials != 0:
+        notify.set_env(credentials["token"], credentials["chatid"])
+    else:
+        notify.set_env(input("Insert the token for the bot you want to use: "), input("Insert your chat id: "))
 
     if sys.argv[1] == "-t":
         notify.send_text(" ".join(sys.argv[2:]))
