@@ -14,11 +14,8 @@ The content could be missing in some cases.
 
 > notify -h / > notify -help
     Prints the instructions
-> notify -update <update_type>
+> notify -update
     Download the latest version of notify
-    update_type:
-        full : uninstalls notify, removing all files inside the base folder, clones them back from github (in the base folder) and runs the setup
-        version : creates a folder named __update inside the base folder with the new version, doesn't remove anything from the original folder (except the content of the __update folder, if there was one)
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
 > notify -md #This is a markdown text
@@ -58,33 +55,15 @@ def main():
         help()
         exit(0)
     elif sys.argv[1] == "-update":
-        if len(sys.argv) != 3:
+        if len(sys.argv) != 2:
             print(error)
             exit(0)
-        if sys.argv[2] == "full":
-            check = input(f"The folder {base_path} and all of it's files are gonna be removed and replaced with the new version of the notify.\nAfter downloading the new version the configuration will start automatically.\nContinue? [y/n]: ")
-            if check not in ("y", "n"):
-                print("Input non recognised: stopping the update.") 
-                exit(0)
-            if check == "y":
-                subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
-                subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}"))
-                subprocess.run(shlex.split(f"sudo python3 {base_path}/setup.py develop"))
-            else:
-                print("Cancelling the update.")
-        elif sys.argv[2] == "version":
-            check = input(f"The folder {base_path}/__update and all of it's files are gonna be removed and replaced with the new version of the notify.\nTo use it as the new notify, you will have to run the setup procedure in the __update folder.\nContinue? [y/n]: ")
-            if check not in ("y", "n"):
-                print("Input non recognised: stopping the update.") 
-                exit(0)
-            if check == "y":
-                subprocess.run(shlex.split(f"sudo rm -r {base_path}/__update"))
-                subprocess.run(shlex.split(f"mkdir {base_path}/__update"))
-                subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/__update"))
-            else:
-                print("Cancelling the update.")
-        else:
-            print("Input non recognised: stopping the update.")
+
+        os.mkdir(f"{base_path}/git")
+        subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
+        subprocess.run(shlex.split(f"sudo python3 {base_path}/git/setup.py develop"))
+        subprocess.run(shlex.split(f"rm -r {base_path}/git"))
+        
         exit(0)
 
     '''>>__EDIT__>> credentials = your_json_credentials <<__EDIT__<<'''
