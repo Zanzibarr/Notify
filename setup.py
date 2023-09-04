@@ -5,8 +5,20 @@ import setuptools
 print("Thanks for installing notify!\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
 print("\nBeginning setup...")
 
-token = input("Insert the token for the bot you want to use: ")
-chat_id = input("Insert the your chat id: ")
+setup_mode = ""
+
+while setup_mode not in ("y", "n", "q"):
+    setup_mode = input("You wish to save the credentials?\nStoring the credentials writes them on plain text inside the notify_app.py file.\nIf you choose not to store them you will be asked to insert the credentials each time.\nStore the credentials? [y/n /q to exit]: ")
+
+if setup_mode == "q":
+    print("Exiting setup.")
+    exit(0)
+elif setup_mode == "y":
+    token = input("Insert the token for the bot you want to use: ")
+    chat_id = input("Insert the your chat id: ")
+else:
+    token = "{input('Insert the token for the bot you want to use: ')}"
+    chat_id = "{input('Insert the your chat id: ')}"
 
 with open("setup_files/notif_app.py", "r") as f:
     script = f.read()

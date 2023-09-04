@@ -40,7 +40,7 @@ def main():
     
     global error, map
     
-    notify.set_env(">>__EDIT__>>your_bot_token<<__EDIT__<<", ">>__EDIT__>>your_chat_id<<__EDIT__<<")
+    notify.set_env(f">>__EDIT__>>your_bot_token<<__EDIT__<<", f">>__EDIT__>>your_chat_id<<__EDIT__<<")
     
     if (len(sys.argv)==1):
         print(error)
