@@ -7,12 +7,12 @@ home = os.path.expanduser('~')
 
 credentials = "credentials = 0"
 done = False
-silent = False
+update = False
 
-if len(sys.argv) == 2 and sys.argv[1] == "-silent":
-    silent = True
+if len(sys.argv) == 2 and sys.argv[1] == "-update":
+    update = True
 
-if not silent:
+if not update:
     print("\nThanks for installing notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
 print("\nBeginning setup...\n")
 
@@ -68,7 +68,8 @@ if not os.path.isdir(f"{home}/.notify"):
     os.mkdir(f"{home}/.notify")
 if not os.path.isdir(f"{home}/.notify/python_module"):
     os.mkdir(f"{home}/.notify/python_module")
-subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/notify.py"))
-subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/notify_app.py"))
+if not update:
+    subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/notify.py"))
+    subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/notify_app.py"))
 
 print("Setup completed.")
