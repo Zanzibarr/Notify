@@ -1,6 +1,6 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.2"
+version = "notify version: 1.1"
 
 error = """
 Notify error: wrong arguments.
