@@ -27,7 +27,7 @@ Follow the steps and then you're ready to go!
 # Update build
 To get the latest version of notify you can simply run the command
 ```shell
-notify -update <type>
+notify -update <update_type>
 ```
 Please read the instructions to understand the <type> functionality:
 ```shell
