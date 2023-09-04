@@ -68,7 +68,7 @@ if not os.path.isdir(f"{home}/.notify"):
     os.mkdir(f"{home}/.notify")
 if not os.path.isdir(f"{home}/.notify/python_module"):
     os.mkdir(f"{home}/.notify/python_module")
-subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/"))
-subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/"))
+subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/notify.py"))
+subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/notify_app.py"))
 
 print("Setup completed.")
