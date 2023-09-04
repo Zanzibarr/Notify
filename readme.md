@@ -25,7 +25,14 @@ sudo python3 setup.py develop
 Follow the steps and then you're ready to go!
 
 # Update build
-
+To get the latest version of notify you can simply run the command
+```shell
+notify -update <type>
+```
+Please read the instructions to understand the <type> functionality:
+```shell
+notify -h
+```
 If you edit some files and want to build the application again, you just have to run the configuration again (you must be inside the cloned repo):
 ```shell
 sudo python3 setup.py develop
