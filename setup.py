@@ -1,4 +1,4 @@
-import subprocess, shlex, os
+import subprocess, shlex, sys, os
 
 setup_error = "Command not recognised.\nExiting setup."
 std_config_path = "/etc/zanz_notify_config"
@@ -7,8 +7,13 @@ home = os.path.expanduser('~')
 
 credentials = "credentials = 0"
 done = False
+silent = False
 
-print("\nThanks for installing notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
+if len(sys.argv) == 2 and sys.argv[1] == "-silent":
+    silent = True
+
+if not silent:
+    print("\nThanks for installing notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
 print("\nBeginning setup...\n")
 
 if os.path.exists(std_config_path):
@@ -40,7 +45,8 @@ if not done:
         conf_file.write(json_cred)
         conf_file.close()
         credentials = "credentials = json.load(open('"+std_config_path+"', 'r'))"
-        
+
+print("Writing notify_app.py")
 
 with open(f"{base_path}/setup_files/notif_app.py", "r") as f:
     script = f.read()
@@ -56,9 +62,13 @@ script = p1+credentials+r
 with open(f"{base_path}/notify_app.py", "w") as f:
     f.write(script)
 
+print(f"Moving files to base path ({home}/.notify)")
+
 if not os.path.isdir(f"{home}/.notify"):
     os.mkdir(f"{home}/.notify")
 if not os.path.isdir(f"{home}/.notify/python_module"):
     os.mkdir(f"{home}/.notify/python_module")
 subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/"))
 subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/"))
+
+print("Setup completed.")
