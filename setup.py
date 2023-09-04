@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
-import os
+import subprocess, shlex, os
 
 setup_error = "Command not recognised.\nExiting setup."
 std_config_path = "/etc/zanz_notify_config"
 base_path = os.path.dirname(__file__)
+home = os.path.expanduser('~')
 
 credentials = "credentials = 0"
 done = False
@@ -56,3 +57,10 @@ script = p1+credentials+r
 
 with open(f"{base_path}/notify_app.py", "w") as f:
     f.write(script)
+
+if not os.path.isdir(f"{home}/.notify"):
+    os.mkdir(f"{home}/.notify")
+if not os.path.isdir(f"{home}/.notify/python_module"):
+    os.mkdir(f"{home}/.notify/python_module")
+subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/"))
+subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/"))

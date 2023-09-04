@@ -17,15 +17,17 @@ Firstly, open a terminal inside the cloned folder and run the command
 python3 setup.py
 ```
 
-You will also need to add a line at the .bashrc file into you home directory:
+You will also need to add two lines at the .bashrc file into your home directory:
 ```shell
 sudo nano ~/.bashrc
 ```
-At the end of the file you will need to add
+At the end of the file add
 ```shell
-alias notify='python3 path/to/file/notify_app.py
+alias notify='python3 $HOME/notify/notify_app.py
+export PYTHONPATH=$HOME/notify/python_module
 ```
-The path you will need to use is the location of the cloned repo.  
+The first one is to enable notify on the terminal.  
+The second one is to enable the python module.  
 
 Once you're done, reboot and you will be ready to go!
 
