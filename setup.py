@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import setuptools
+import setuptools, json
 
 print("Thanks for installing notify!\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
 print("\nBeginning setup...")
@@ -14,8 +14,23 @@ if setup_mode == "q":
     print("Exiting setup.")
     exit(0)
 elif setup_mode == "y":
-    token = input("Insert the token for the bot you want to use: ")
-    chat_id = input("Insert the your chat id: ")
+    js_choice = input("""
+If you have a file with the credentials stored as a json you can specify the path to that file and read the credentials from that file.
+Accepted json format:
+{'token':'your_token', 'chatid':'your_chat_id'}
+Wish to use a json file? [y/n]: """)
+    if js_choice not in ("y", "n"):
+        print("Command not recognised.\nExiting setup.")
+        exit(0)
+    if js_choice == "y":
+        path = input("Please give us the absolute path to the json file with the credentials: ")
+        file = open(path, "r")
+        credentials = json.load(file)
+        token = credentials["token"]
+        chat_id = credentials["chatid"]
+    else:
+        token = input("Insert the token for the bot you want to use: ")
+        chat_id = input("Insert the your chat id: ")
 else:
     token = "{input('Insert the token for the bot you want to use: ')}"
     chat_id = "{input('Insert the your chat id: ')}"
