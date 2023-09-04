@@ -25,11 +25,11 @@ sudo python3 setup.py develop
 Follow the steps and then you're ready to go!
 
 # Update build
-To get the latest version of notify you can simply run the command
+To get the latest version of notify, open a terminal inside a folder that's NOT INSIDE nor is the base_folder (u can see the base folder at the bottom of the -h response)
 ```shell
 notify -update <update_type>
 ```
-Please read the instructions to understand the <type> functionality:
+Please read the instructions to understand the <update_type> functionality:
 ```shell
 notify -h
 ```
