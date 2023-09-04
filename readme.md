@@ -7,7 +7,8 @@ Feel free to suggest us new improvements or to report some bugs/problems by open
 #### STILL ADDING FEATURES
 
 # Configuration
-Clone this repo into a folder of your choice (the folder must be kept into the system for the app to work).  
+Clone this repo into a folder of your choice.  
+Once the setup ended, you can uninstall the cloned repo.  
 
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it (without this step, the application will run, but you won't recieve any message).  
@@ -23,8 +24,8 @@ sudo nano ~/.bashrc
 ```
 At the end of the file add
 ```shell
-alias notify='python3 $HOME/notify/notify_app.py
-export PYTHONPATH=$HOME/notify/python_module
+alias notify='python3 $HOME/.notify/notify_app.py
+export PYTHONPATH=$HOME/.notify/python_module
 ```
 The first one is to enable notify on the terminal.  
 The second one is to enable the python module.  
@@ -32,16 +33,10 @@ The second one is to enable the python module.
 Once you're done, reboot and you will be ready to go!
 
 # Update build
-To get the latest version of notify, open a terminal inside a folder that's NOT INSIDE nor is the base_folder (u can see the base folder at the bottom of the -h response)
+To get the latest version of notify:
 ```shell
-notify -update <update_type>
+notify -update
 ```
-Please read the instructions to understand the <update_type> functionality:
-```shell
-notify -h
-```
-
-Remember to change the path into the ~/.bashrc file if you decide to move the notify_app.py file.  
 
 # Python lib use
 You can use the application as a python library:
@@ -64,7 +59,7 @@ notify -h
 to get the list of commands.
 
 # Uninstall
-To uninstall just delete your repo and remove the line added to the ~/.bashrc file.  
+To uninstall just delete your repo and remove the lines added to the ~/.bashrc file.  
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
