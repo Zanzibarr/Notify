@@ -8,7 +8,7 @@ print("\nBeginning setup...")
 setup_mode = ""
 
 while setup_mode not in ("y", "n", "q"):
-    setup_mode = input("You wish to save the credentials?\nStoring the credentials writes them on plain text inside the notify_app.py file.\nIf you choose not to store them you will be asked to insert the credentials each time.\nStore the credentials? [y/n /q to exit]: ")
+    setup_mode = input("Wish to store the credentials?\nStoring the credentials writes them on plain text inside the notify_app.py file.\nIf you choose not to store them you will be asked to insert the credentials each time.\nSTORE THE CREDENTIALS? [y/n /q to exit]: ")
 
 if setup_mode == "q":
     print("Exiting setup.")
@@ -16,9 +16,10 @@ if setup_mode == "q":
 elif setup_mode == "y":
     js_choice = input("""
 If you have a file with the credentials stored as a json you can specify the path to that file and read the credentials from that file.
+IF YOU DONT HAVE ONE, select no and input the credentials manually in the next steps.
 Accepted json format:
 {'token':'your_token', 'chatid':'your_chat_id'}
-Wish to use a json file? [y/n]: """)
+USE A JSON FILE? [y/n]: """)
     if js_choice not in ("y", "n"):
         print("Command not recognised.\nExiting setup.")
         exit(0)

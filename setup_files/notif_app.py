@@ -5,6 +5,7 @@ Notify error: wrong arguments.
 Use notify -h or notify -help to get instructions.
 """
 map = {"-p":"photo", "-d":"document", "-a":"audio", "-v":"video"}
+base_path = os.path.dirname(__file__)
 
 def help():
     print(f"""
@@ -16,8 +17,8 @@ The content could be missing in some cases.
 > notify -update <update_type>
     Download the latest version of notify
     update_type:
-        -reset : uninstalls notify, removing all files inside the base folder, and clones them from github, back in the same place (you will need to go through the setup)
-        -copy : creates a folder named __update inside the base folder with the new version, doesn't remove anything from the original folder (except the content of the __update folder, if there was one)
+        reset : uninstalls notify, removing all files inside the base folder, and clones them from github, back in the same place (you will need to go through the setup)
+        copy : creates a folder named __update inside the base folder with the new version, doesn't remove anything from the original folder (except the content of the __update folder, if there was one)
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
 > notify -md #This is a markdown text
@@ -39,9 +40,9 @@ The content could be missing in some cases.
     Sends a video located in the url specified (is the same of > notify -m video url)
 
 
-If you wish to change the token or chat_id associated to this application (for command line use), you will need to follow the 'Edit build' procedure in the readme.md, located at {os.path.dirname(__file__)}/readme.md
+If you wish to change the token or chat_id associated to this application (for command line use), you will need to follow the 'Edit build' procedure in the readme.md, located at {base_path}/readme.md
 
-Base folder: {os.path.dirname(__file__)}
+Base folder: {base_path}
 Base repo: https://github.com/Zanzibarr/Telegram_Python_Notifier
 """)
 
@@ -60,25 +61,24 @@ def main():
             print(error)
             exit(0)
         if sys.argv[2] == "-reset":
-            check = input(f"The folder {os.path.dirname(__file__)} and all of it's files are gonna be removed and replaced with the new version of the notify.\nIf you proceed you will also need to run the setup procedure.\nContinue? [y/n]: ")
+            check = input(f"The folder {base_path} and all of it's files are gonna be removed and replaced with the new version of the notify.\nIf you proceed you will also need to run the setup procedure.\nContinue? [y/n]: ")
             if check not in ("y", "n"):
                 print("Input non recognised: stopping the update.") 
                 exit(0)
             if check == "y":
-                base_path = os.path.dirname(__file__)
                 subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
                 subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}"))
             else:
                 print("Cancelling the update.")
         elif sys.argv[2] == "-copy":
-            check = input(f"The folder {os.path.dirname(__file__)}/__update and all of it's files are gonna be removed and replaced with the new version of the notify.\nTo use it as the new notify, you will have to run the setup procedure.\nContinue? [y/n]: ")
+            check = input(f"The folder {base_path}/__update and all of it's files are gonna be removed and replaced with the new version of the notify.\nTo use it as the new notify, you will have to run the setup procedure in the __update folder.\nContinue? [y/n]: ")
             if check not in ("y", "n"):
                 print("Input non recognised: stopping the update.") 
                 exit(0)
             if check == "y":
-                subprocess.run(shlex.split(f"sudo rm -r {os.path.dirname(__file__)}/__update"))
-                subprocess.run(shlex.split(f"mkdir {os.path.dirname(__file__)}/__update"))
-                subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {os.path.dirname(__file__)}/__update"))
+                subprocess.run(shlex.split(f"sudo rm -r {base_path}/__update"))
+                subprocess.run(shlex.split(f"mkdir {base_path}/__update"))
+                subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/__update"))
             else:
                 print("Cancelling the update.")
         else:
