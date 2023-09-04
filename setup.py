@@ -62,13 +62,12 @@ script = p1+credentials+r
 with open(f"{base_path}/notify_app.py", "w") as f:
     f.write(script)
 
-print(f"Moving files to base path ({home}/.notify)")
-
 if not os.path.isdir(f"{home}/.notify"):
     os.mkdir(f"{home}/.notify")
 if not os.path.isdir(f"{home}/.notify/python_module"):
     os.mkdir(f"{home}/.notify/python_module")
 if not update:
+    print(f"Moving files to base path ({home}/.notify)")
     subprocess.run(shlex.split(f"cp notify.py {home}/.notify/python_module/notify.py"))
     subprocess.run(shlex.split(f"cp notify_app.py {home}/.notify/notify_app.py"))
 
