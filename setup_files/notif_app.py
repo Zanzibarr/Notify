@@ -90,11 +90,12 @@ def main():
         subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
         print("notify has been succesfully uninstalled.")
         exit(0)
-    elif sys.argc[1] == "-version":
+    elif sys.argv[1] == "-version":
         if len(sys.argv) != 2:
             print(error)
             exit(1)
         print(version)
+        exit(0)
 
     '''>>__EDIT__>> credentials = your_json_credentials <<__EDIT__<<'''
 
