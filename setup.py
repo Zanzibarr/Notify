@@ -65,21 +65,38 @@ print(f"Moving files to base path ({dest_path})")
 subprocess.run(shlex.split(f"cp {base_path}/notify.py {dest_path}/python_module/notify.py"))
 subprocess.run(shlex.split(f"cp {base_path}/notify_app.py {dest_path}/notify_app.py"))
 
-check = False
+if not os.path.exists(f"{home}/.bashrc") and not os.path.exists(f"{home}/.zshrc"):
+    print(f"Couldnt find {home}/.bashrc nor {home}/.zshrc.\nnotify files can still be used manually.\nLocation: {dest_path}")
 
-with open(f"{home}/.bashrc", "r") as f:
-    if bashrc_edit in f.read():
-        check = True
+check_bashrc = False
+check_zshrc = False
 
-if not check:
-    print(f"Writing on {home}/.bashrc file (append)...")
-    with open(f"{home}/.bashrc", "a") as f:
-        f.write(bashrc_edit)
-    reb = ""
+if os.path.exists(f"{home}/.bashrc"):
+    with open(f"{home}/.bashrc", "r") as f:
+        if bashrc_edit in f.read():
+            check_bashrc = True
+    if not check_bashrc:
+        print(f"Writing on {home}/.bashrc file (append)...")
+        with open(f"{home}/.bashrc", "a") as f:
+            f.write(bashrc_edit)
+else:
+    check_bashrc = True
+
+if os.path.exists(f"{home}/.zshrc"):
+    with open(f"{home}/.zshrc", "r") as f:
+        if bashrc_edit in f.read():
+            check_zshrc = True
+    if not check_zshrc:
+        print(f"Writing on {home}/.zshrc file (append)...")
+        with open(f"{home}/.zshrc", "a") as f:
+            f.write(bashrc_edit)
+else:
+    check_zshrc = True
+
+if not check_zshrc or not check_bashrc:
+    reb = input(f"To use notify you will have to reboot.\nREBOOT NOW? [y/n]: ")
     while reb not in ("y", "n"):
-        reb = input(f"To use notify you will have to reboot.\nREBOOT NOW? [y/n]: ")
-        if reb not in ("y", "n"):
-            print("Command not recognised.")
+        print(f"{command_error}REBOOT NOW? [y/n]: ")
     if reb == "y":
         subprocess.run(shlex.split("reboot"))
 

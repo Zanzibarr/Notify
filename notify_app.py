@@ -107,12 +107,20 @@ def main():
         print("Uninstalling...")
         subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
         
-        bashrc = ""
-        with open(f"{os.path.expanduser('~')}/.bashrc", "r") as f:
-            bashrc = f.read()
-        bashrc = bashrc.replace(bashrc_edit, "")
-        with open(f"{os.path.expanduser('~')}/.bashrc", "w") as f:
-            f.write(bashrc)
+        if os.path.exists(f"{os.path.expanduser('~')}/.bashrc"):
+            bashrc = ""
+            with open(f"{os.path.expanduser('~')}/.bashrc", "r") as f:
+                bashrc = f.read()
+            bashrc = bashrc.replace(bashrc_edit, "")
+            with open(f"{os.path.expanduser('~')}/.bashrc", "w") as f:
+                f.write(bashrc)
+        if os.path.exists(f"{os.path.expanduser('~')}/.zshrc"):
+            zshrc = ""
+            with open(f"{os.path.expanduser('~')}/.zshrc", "r") as f:
+                zshrc = f.read()
+            zshrc = zshrc.replace(bashrc_edit, "")
+            with open(f"{os.path.expanduser('~')}/.zshrc", "w") as f:
+                f.write(zshrc)
         print("notify has been succesfully uninstalled.")
 
         exit(0)
