@@ -2,7 +2,7 @@
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
-Current version: 1.2.1  
+Current version: 1.2.2  
 For informations about versione, read the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/change_log.md">change_log</a>.    
 
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
@@ -20,12 +20,7 @@ Firstly, open a terminal inside the cloned folder and run the command
 ```shell
 python3 setup.py
 ```
-
-You will also need to add two lines at the .bashrc file into your home directory:
-```shell
-sudo nano ~/.bashrc
-```
-At the end of the file add
+With this setup, those two lines will be appended at your ~/.bashrc file:
 ```shell
 alias notify='python3 $HOME/.notify/notify_app.py
 export PYTHONPATH=$HOME/.notify/python_module
@@ -66,7 +61,7 @@ To uninstall just run the command
 ```shell
 notify -uninstall
 ```
-And remove the lines added to the ~/.bashrc file.  
+and remove the lines added at the end to the ~/.bashrc file.  
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>

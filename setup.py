@@ -4,6 +4,10 @@ setup_error = "Command not recognised.\nExiting setup."
 std_config_path = "/etc/zanz_notify_config"
 base_path = os.path.dirname(__file__)
 home = os.path.expanduser('~')
+bashrc_edit = """
+alias notify='python3 $HOME/.notify/notify_app.py'
+export PYTHONPATH=$HOME/.notify/python_module\n
+"""
 
 credentials = "credentials = 0"
 done = False
@@ -72,5 +76,23 @@ if not os.path.isdir(f"{home}/.notify/python_module"):
 print(f"Moving files to base path ({home}/.notify)")
 subprocess.run(shlex.split(f"cp {base_path}/notify.py {home}/.notify/python_module/notify.py"))
 subprocess.run(shlex.split(f"cp {base_path}/notify_app.py {home}/.notify/notify_app.py"))
+
+done = False
+
+with open(f"{home}/.bashrc", "r") as f:
+    if bashrc_edit in f.read():
+        done = True
+
+if not done:
+    print(f"Writing on {home}/.bashrc file (append)...")
+    with open(f"{home}/.bashrc", "a") as f:
+        f.write(bashrc_edit)
+    reb = ""
+    while reb not in ("y", "n"):
+        reb = input(f"To use notify you will have to reboot.\nREBOOT NOW? [y/n]")
+        if reb not in ("y", "n"):
+            print("Command not recognised.")
+    if reb == "y":
+        subprocess.run(shlex.split("reboot"))
 
 print("Setup completed.")

@@ -1,3 +1,6 @@
+# Version 1.2.2
+- easier setup
+
 # Version 1.2.1
 - fixed -v and -u commands not working
 
