@@ -140,14 +140,22 @@ def main():
         if len(sys.argv) != 2:
             print(error)
             exit(1)
-
+        
+        prev_not_saved = False
+        with open(std_config_path, "r") as f:
+            prev_not_saved = f.read() == "none"
         print(f"Credentials location: {std_config_path}")
-        choice = input("Continue using the previously stored credenials? [y/n]: ")
+        if prev_not_saved:
+            print("No credentials saved.")
+        choice = input("Continue using this configuration? [y/n]: ")
         while choice not in ("y", "n"):
-            choice = input(f"{command_error}Change the credenials? [y/n]: ")
+            choice = input(f"{command_error}Continue using this configuration? [y/n]: ")
 
         if choice == "n":
-            choice = input(f"Continue storing credentials? [y to change the stored credentials /n to not have credentials saved /q to quit]: ")
+            if prev_not_saved:
+                choice = input(f"Store credentials? [y to store the credentials /n to not store credentials /q to quit]: ")
+            else:
+                choice = input(f"Change credentials? [y to change credentials /n to not have credentials saved /q to quit]: ")
             while choice not in ("y", "n", "q"):
                 choice = input(f"{command_error}Continue storing credentials? [y/n/q]: ")
             
@@ -160,6 +168,8 @@ def main():
                 conf_file.write(json_cred)
                 conf_file.close()
             elif choice == "n":
+                if not prev_not_saved:
+                    print(f"Removing credentials from {std_config_path}...")
                 conf_file = open(std_config_path, "w")
                 conf_file.write("none")
                 conf_file.close()
