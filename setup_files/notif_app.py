@@ -1,6 +1,6 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.1"
+version = "notify version: 1.2"
 
 error = """
 Notify error: wrong arguments.
@@ -16,12 +16,13 @@ The content could be missing in some cases.
 
 > notify -h / > notify -help
     Prints the instructions
-> notify -update
+> notify -version / > notify -v
+    See the current notify version
+> notify -update / > notify -u
     Download the latest version of notify
 > notify -uninstall
     Uninstall all the files associated to the notify app except, eventually, the credentials that have been stored in /etc/zanz_notify_config 
-> notify -version
-    See the current notify version
+
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
 > notify -md #This is a markdown text
