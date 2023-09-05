@@ -1,6 +1,6 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.4"
+version = "notify version: 1.5"
 
 command_error = "Command not recognised.\n"
 error = """
@@ -57,6 +57,8 @@ The content could be missing in some cases.
 Base folder: {base_path}
 Credentials folder: {std_config_path}
 Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
+
+{version}
 """)
 
 def main():

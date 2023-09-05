@@ -1,3 +1,7 @@
+# Version 1.5
+- added zsh support
+- removed need to reboot after setup
+
 # Version 1.4
 - enhanced -credentials feature
 - new setup procedure

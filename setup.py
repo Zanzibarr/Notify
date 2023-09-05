@@ -94,10 +94,6 @@ else:
     check_zshrc = True
 
 if not check_zshrc or not check_bashrc:
-    reb = input(f"To use notify you will have to reboot.\nREBOOT NOW? [y/n]: ")
-    while reb not in ("y", "n"):
-        print(f"{command_error}REBOOT NOW? [y/n]: ")
-    if reb == "y":
-        subprocess.run(shlex.split("reboot"))
+    print(f"[ATTENTION]: To use notify now, you will have to open a NEW terminal and use it there.")
 
 print("Setup completed.")
