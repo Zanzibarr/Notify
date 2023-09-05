@@ -1,12 +1,15 @@
 import subprocess, shlex, sys, os
 
-setup_error = "Command not recognised.\nExiting setup."
-std_config_path = "/etc/zanz_notify_config"
-base_path = os.path.dirname(__file__)
+command_error = "Command not recognised.\n"
+setup_error = f"{command_error}Exiting setup."
+
 home = os.path.expanduser('~')
-bashrc_edit = """
-alias notify='python3 $HOME/.notify/notify_app.py'
-export PYTHONPATH=$HOME/.notify/python_module\n
+base_path = os.path.dirname(__file__)
+std_config_path = f"{home}/.zanz_notify_config"
+dest_path = f"{home}/.notify"
+
+bashrc_edit = """alias notify='python3 $HOME/.notify/notify_app.py'
+export PYTHONPATH=$HOME/.notify/python_module
 """
 
 credentials = "credentials = 0"
@@ -21,9 +24,9 @@ if not update:
 print("\nBeginning setup...\n")
 
 if os.path.exists(std_config_path):
-    load_conf_in = input(f"Found config file ({std_config_path}).\nLOAD THIS CONFIGURATION? [y/n /q to quit]: ")
+    load_conf_in = input(f"Found config file inside {std_config_path}.\nLOAD THIS CONFIGURATION? [y/n /q to quit]: ")
     while load_conf_in not in ("y", "n", "q"):
-        load_conf_in = input("Command not recognised.\nLOAD THIS CONFIGURATION? [y/n /q to quit]: ")
+        load_conf_in = input(f"{command_error}LOAD THIS CONFIGURATION? [y/n /q to quit]: ")
         
     if load_conf_in == "q":
         print("Exiting setup.")
@@ -37,7 +40,7 @@ if not done:
     setup_mode = input(f"Wish to store the credentials?\nStoring the credentials writes them on plain text inside the config file ({std_config_path}).\nIf you choose not to store them you will be asked to insert the credentials each time.\nSTORE THE CREDENTIALS? [y/n /q to quit]: ")
 
     while setup_mode not in ("y", "n", "q"):
-        setup_mode = input("Command not recognised.\nLOAD THIS CONFIGURATION? [y/n /q to quit]: ")
+        setup_mode = input(f"{command_error}LOAD THIS CONFIGURATION? [y/n /q to quit]: ")
     
     if setup_mode == "q":
         print("Exiting setup.")
@@ -68,14 +71,14 @@ script = p1+credentials+r
 with open(f"{base_path}/notify_app.py", "w") as f:
     f.write(script)
 
-if not os.path.isdir(f"{home}/.notify"):
-    os.mkdir(f"{home}/.notify")
-if not os.path.isdir(f"{home}/.notify/python_module"):
-    os.mkdir(f"{home}/.notify/python_module")
+if not os.path.isdir(f"{dest_path}"):
+    os.mkdir(f"{dest_path}")
+if not os.path.isdir(f"{dest_path}/python_module"):
+    os.mkdir(f"{dest_path}/python_module")
 
-print(f"Moving files to base path ({home}/.notify)")
-subprocess.run(shlex.split(f"cp {base_path}/notify.py {home}/.notify/python_module/notify.py"))
-subprocess.run(shlex.split(f"cp {base_path}/notify_app.py {home}/.notify/notify_app.py"))
+print(f"Moving files to base path ({dest_path})")
+subprocess.run(shlex.split(f"cp {base_path}/notify.py {dest_path}/python_module/notify.py"))
+subprocess.run(shlex.split(f"cp {base_path}/notify_app.py {dest_path}/notify_app.py"))
 
 done = False
 

@@ -1,3 +1,11 @@
+# Version 1.3
+- added -credentials feature
+- easier uninstall
+- new directory management
+
+# Version 1.2.3
+- easier uninstall
+
 # Version 1.2.2
 - easier setup
 

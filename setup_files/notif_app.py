@@ -1,13 +1,22 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.2.2"
+version = "notify version: 1.3"
 
+command_error = "Command not recognised.\n"
 error = """
 Notify error: wrong arguments.
 Use notify -h or notify -help to get instructions.
 """
+
+bashrc_edit = """alias notify='python3 $HOME/.notify/notify_app.py'
+export PYTHONPATH=$HOME/.notify/python_module
+"""
+
 map = {"-p":"photo", "-d":"document", "-a":"audio", "-v":"video"}
+
+home = os.path.expanduser('~')
 base_path = os.path.dirname(__file__)
+std_config_path = f"{home}/.zanz_notify_config"
 
 def help():
     print(f"""
@@ -16,12 +25,14 @@ The content could be missing in some cases.
 
 > notify -h / > notify -help
     Prints the instructions
-> notify -version / > notify -v
+> notify -version
     See the current notify version
 > notify -update / > notify -u
     Download the latest version of notify
+> notify -credentials / > notify -c
+    Print the credentials location and asks if you wish to update them.
 > notify -uninstall
-    Uninstall all the files associated to the notify app except, eventually, the credentials that have been stored in /etc/zanz_notify_config 
+    Uninstall all the files associated to the notify app except, eventually, the credentials that have been stored in {std_config_path}
 
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
@@ -43,11 +54,8 @@ The content could be missing in some cases.
 > notify -v url
     Sends a video located in the url specified (is the same of > notify -m video url)
 
-
-If you wish to change the token or chat_id associated to this application (for command line use), you will need to follow the 'Edit build' procedure in the readme.md, located at {base_path}/readme.md
-
 Base folder: {base_path}
-Credentials folder: /etc/zanz_notify_config
+Credentials folder: {std_config_path}
 Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
 """)
 
@@ -58,12 +66,16 @@ def main():
     if len(sys.argv)==1:
         print(error)
         exit(1)
+
     elif sys.argv[1] in ("-h", "-help"):
         if len(sys.argv) != 2:
             print(error)
             exit(1)
+
         help()
+
         exit(0)
+
     elif sys.argv[1] in ("-update", "-u"):
         if len(sys.argv) != 2:
             print(error)
@@ -78,28 +90,61 @@ def main():
         print("Update completed.")
         
         exit(0)
+
     elif sys.argv[1] == "-uninstall":
         if len(sys.argv) != 2:
             print(error)
             exit(1)
-        res = ""
+        
+        res = input("Proceeding to uninstall notify? [y/n]: ")
         while res not in ("y", "n"):
-            res = input("Proceeding to uninstall notify? [y/n]: ")
-            if res not in ("y", "n"):
-                print("Command not recognised")
+            res = input(f"{command_error}Proceeding to uninstall notify? [y/n]: ")
+
         if res == "n":
             print("Uninstall aborted.")
             exit(0)
         
         print("Uninstalling...")
         subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
+        
+        bashrc = ""
+        with open(f"{os.path.expanduser('~')}/.bashrc", "r") as f:
+            bashrc = f.read()
+        bashrc = bashrc.replace(bashrc_edit, "")
+        with open(f"{os.path.expanduser('~')}/.bashrc", "w") as f:
+            f.write(bashrc)
         print("notify has been succesfully uninstalled.")
+
         exit(0)
-    elif sys.argv[1] in ("-version", "-v"):
+
+    elif sys.argv[1] in ("-version"):
         if len(sys.argv) != 2:
             print(error)
             exit(1)
+
         print(version)
+        
+        exit(0)
+
+    elif sys.argv[1] in ("-credentials", "-c"):
+        if len(sys.argv) != 2:
+            print(error)
+            exit(1)
+
+        print(f"Credentials location: {std_config_path}")
+        choice = input("Change the credenials? [y/n]: ")
+        while choice not in ("y", "n"):
+            choice = input(f"{command_error}Change the credenials? [y/n]: ")
+
+        if choice == "y":
+            token = input("Insert the token for the bot you want to use: ")
+            chat_id = input("Insert the your chat id: ")
+            print(f"Storing credentials inside {std_config_path}...")
+            json_cred = '{"token":"'+token+'","chatid":"'+chat_id+'"}'
+            conf_file = open(std_config_path, "w")
+            conf_file.write(json_cred)
+            conf_file.close()
+
         exit(0)
 
     '''>>__EDIT__>> credentials = your_json_credentials <<__EDIT__<<'''
@@ -116,12 +161,14 @@ def main():
     elif sys.argv[1] == "-m" and len(sys.argv)>=4:
         if (sys.argv[2] not in ("photo", "document", "audio", "video")):
             print(error)
-            exit(0)
+            exit(1)
+
         notify.send_media(sys.argv[2], " ".join(sys.argv[3:]))
     elif sys.argv[1] in ("-p", "-d", "-a", "-v") and len(sys.argv)>=3:
         notify.send_media(map[sys.argv[1]], " ".join(sys.argv[2:]))
     else:
         print(error)
+        exit(1)
 
 if __name__ == "__main__":
     main()
