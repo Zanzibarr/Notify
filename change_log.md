@@ -1,3 +1,6 @@
+# Version 1.2.1
+- fixed -v and -u commands not working
+
 # Version 1.2
 - Added change_log  
 - -version now can be called with -v  

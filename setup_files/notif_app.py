@@ -1,6 +1,6 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.2"
+version = "notify version: 1.2.1"
 
 error = """
 Notify error: wrong arguments.
@@ -64,7 +64,7 @@ def main():
             exit(1)
         help()
         exit(0)
-    elif sys.argv[1] == "-update":
+    elif sys.argv[1] in ("-update", "-u"):
         if len(sys.argv) != 2:
             print(error)
             exit(1)
@@ -95,7 +95,7 @@ def main():
         subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
         print("notify has been succesfully uninstalled.")
         exit(0)
-    elif sys.argv[1] == "-version":
+    elif sys.argv[1] in ("-version", "-v"):
         if len(sys.argv) != 2:
             print(error)
             exit(1)
