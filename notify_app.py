@@ -1,6 +1,6 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.5.2"
+version = "notify version: 1.5.3"
 
 def main():
     
@@ -221,7 +221,7 @@ export PYTHONPATH=$HOME/.notify/python_module
 map = {"-p":"photo", "-d":"document", "-a":"audio", "-v":"video"}
 
 home = os.path.expanduser('~')
-base_path = os.path.dirname(__file__)
+base_path = os.path.dirname(os.path.abspath(__file__))
 std_config_path = f"{home}/.zanz_notify_config"
 
 

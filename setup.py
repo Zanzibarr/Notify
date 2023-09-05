@@ -4,7 +4,7 @@ command_error = "Command not recognised.\n"
 setup_error = f"{command_error}Exiting setup."
 
 home = os.path.expanduser('~')
-base_path = os.path.dirname(__file__)
+base_path = os.path.dirname(os.path.abspath(__file__))
 std_config_path = f"{home}/.zanz_notify_config"
 dest_path = f"{home}/.notify"
 

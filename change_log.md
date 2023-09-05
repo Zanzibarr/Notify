@@ -1,3 +1,6 @@
+### Version 1.5.3
+- added support for mac and windows
+
 ### Version 1.5.2
 - storing the change_log with the build
 
