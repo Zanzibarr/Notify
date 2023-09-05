@@ -25,6 +25,7 @@ if os.path.exists(std_config_path):
         print("Exiting setup.")
         exit(0)
     elif load_conf_in == "y":
+        print("Loading configuration...")
         credentials = "credentials = json.load(open('"+std_config_path+"', 'r'))"
         done = True
 
@@ -40,6 +41,7 @@ if not done:
     elif setup_mode == "y":
         token = input("Insert the token for the bot you want to use: ")
         chat_id = input("Insert the your chat id: ")
+        print(f"Storing credentials inside {std_config_path}...")
         json_cred = '{"token":"'+token+'","chatid":"'+chat_id+'"}'
         conf_file = open(std_config_path, "w")
         conf_file.write(json_cred)

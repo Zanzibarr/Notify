@@ -68,9 +68,11 @@ def main():
             print(error)
             exit(1)
 
+        print("Downloading latest version...")
         os.mkdir(f"{base_path}/git")
-        subprocess.run(shlex.split(f"git clone https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
+        subprocess.run(shlex.split(f"git clone --quiet https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
         subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
+        print("Removing temporary files...")
         subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
         
         exit(0)
@@ -87,6 +89,7 @@ def main():
             print("Uninstall aborted.")
             exit(0)
         
+        print("Uninstalling...")
         subprocess.run(shlex.split(f"rm -r {os.path.expanduser('~')}/.notify"))
         print("notify has been succesfully uninstalled.")
         exit(0)
