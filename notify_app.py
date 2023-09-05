@@ -1,6 +1,6 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.3"
+version = "notify version: 1.4"
 
 command_error = "Command not recognised.\n"
 error = """
@@ -96,11 +96,11 @@ def main():
             print(error)
             exit(1)
         
-        res = input("Proceeding to uninstall notify? [y/n]: ")
-        while res not in ("y", "n"):
-            res = input(f"{command_error}Proceeding to uninstall notify? [y/n]: ")
+        choice = input("Proceeding to uninstall notify? [y/n]: ")
+        while choice not in ("y", "n"):
+            choice = input(f"{command_error}Proceeding to uninstall notify? [y/n]: ")
 
-        if res == "n":
+        if choice == "n":
             print("Uninstall aborted.")
             exit(0)
         
@@ -132,27 +132,42 @@ def main():
             exit(1)
 
         print(f"Credentials location: {std_config_path}")
-        choice = input("Change the credenials? [y/n]: ")
+        choice = input("Continue using the previously stored credenials? [y/n]: ")
         while choice not in ("y", "n"):
             choice = input(f"{command_error}Change the credenials? [y/n]: ")
 
-        if choice == "y":
-            token = input("Insert the token for the bot you want to use: ")
-            chat_id = input("Insert the your chat id: ")
-            print(f"Storing credentials inside {std_config_path}...")
-            json_cred = '{"token":"'+token+'","chatid":"'+chat_id+'"}'
-            conf_file = open(std_config_path, "w")
-            conf_file.write(json_cred)
-            conf_file.close()
+        if choice == "n":
+            choice = input(f"Continue storing credentials? [y to change the stored credentials /n to not have credentials saved /q to quit]: ")
+            while choice not in ("y", "n", "q"):
+                choice = input(f"{command_error}Continue storing credentials? [y/n/q]: ")
+            
+            if choice == "y":
+                token = input("Insert the token for the bot you want to use: ")
+                chat_id = input("Insert the your chat id: ")
+                print(f"Storing credentials inside {std_config_path}...")
+                json_cred = '{"token":"'+token+'","chatid":"'+chat_id+'"}'
+                conf_file = open(std_config_path, "w")
+                conf_file.write(json_cred)
+                conf_file.close()
+            elif choice == "n":
+                conf_file = open(std_config_path, "w")
+                conf_file.write("none")
+                conf_file.close()
+            else:
+                print("No change has been done.")
 
         exit(0)
 
-    '''>>__EDIT__>> credentials = your_json_credentials <<__EDIT__<<'''
+    credentials = ""
+    with open(std_config_path, "r") as f:
+        credentials = f.read()
 
-    if credentials != 0:
-        notify.set_env(credentials["token"], credentials["chatid"])
-    else:
+    if credentials == "none":
         notify.set_env(input("Insert the token for the bot you want to use: "), input("Insert your chat id: "))
+    else:
+        credentials = json.loads(credentials)
+        notify.set_env(credentials["token"], credentials["chatid"])
+
 
     if sys.argv[1] == "-t":
         notify.send_text(" ".join(sys.argv[2:]))

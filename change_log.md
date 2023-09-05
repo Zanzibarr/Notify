@@ -1,3 +1,7 @@
+# Version 1.4
+- enhanced -credentials feature
+- new setup procedure
+
 # Version 1.3
 - added -credentials feature
 - easier uninstall
