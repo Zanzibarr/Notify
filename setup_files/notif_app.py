@@ -1,6 +1,6 @@
 import subprocess, notify, shlex, json, sys, os
 
-version = "notify version: 1.2"
+version = "notify version: 1.1"
 
 error = """
 Notify error: wrong arguments.
@@ -74,6 +74,7 @@ def main():
         subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
         print("Removing temporary files...")
         subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
+        print("Update completed.")
         
         exit(0)
     elif sys.argv[1] == "-uninstall":
