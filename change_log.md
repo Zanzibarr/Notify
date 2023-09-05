@@ -1,3 +1,6 @@
+### Version 1.5.1
+- changed -credentials with -cred
+
 # Version 1.5
 - added zsh support
 - removed need to reboot after setup
@@ -11,13 +14,13 @@
 - easier uninstall
 - new directory management
 
-# Version 1.2.3
+### Version 1.2.3
 - easier uninstall
 
-# Version 1.2.2
+### Version 1.2.2
 - easier setup
 
-# Version 1.2.1
+### Version 1.2.1
 - fixed -v and -u commands not working
 
 # Version 1.2
