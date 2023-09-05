@@ -26,7 +26,7 @@ alias notify='python3 $HOME/.notify/notify_app.py
 export PYTHONPATH=$HOME/.notify/python_module
 ```
 The first one is to enable notify on the terminal.  
-The second one is to enable the python module.  
+The second one is to enable the python notify module.  
 
 Once you're done, reboot and you will be ready to go!
 
