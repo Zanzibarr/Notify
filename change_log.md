@@ -1,3 +1,6 @@
+### Version 1.5.2
+- storing the change_log with the build
+
 ### Version 1.5.1
 - changed -credentials with -cred
 

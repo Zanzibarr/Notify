@@ -64,6 +64,7 @@ if not os.path.isdir(f"{dest_path}/python_module"):
 print(f"Moving files to base path ({dest_path})")
 subprocess.run(shlex.split(f"cp {base_path}/notify.py {dest_path}/python_module/notify.py"))
 subprocess.run(shlex.split(f"cp {base_path}/notify_app.py {dest_path}/notify_app.py"))
+subprocess.run(shlex.split(f"cp {base_path}/change_log.md {dest_path}/change_log.md"))
 
 if not os.path.exists(f"{home}/.bashrc") and not os.path.exists(f"{home}/.zshrc"):
     print(f"Couldnt find {home}/.bashrc nor {home}/.zshrc.\nnotify files can still be used manually.\nLocation: {dest_path}")
