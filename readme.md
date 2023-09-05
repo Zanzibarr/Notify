@@ -20,13 +20,7 @@ Firstly, open a terminal inside the cloned folder and run the command
 ```shell
 python3 setup.py
 ```
-With this setup, those two lines will be appended at your ~/.bashrc file:
-```shell
-alias notify='python3 $HOME/.notify/notify_app.py
-export PYTHONPATH=$HOME/.notify/python_module
-```
-The first one is to enable notify on the terminal.  
-The second one is to enable the python notify module.  
+This setup works by editing the ~/.bashrc file.
 
 Once you're done, reboot and you will be ready to go!
 
@@ -61,7 +55,6 @@ To uninstall just run the command
 ```shell
 notify -uninstall
 ```
-and remove the lines added at the end to the ~/.bashrc file.  
 
 # Credits
 Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
