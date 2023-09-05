@@ -89,7 +89,7 @@ if not done:
         f.write(bashrc_edit)
     reb = ""
     while reb not in ("y", "n"):
-        reb = input(f"To use notify you will have to reboot.\nREBOOT NOW? [y/n]")
+        reb = input(f"To use notify you will have to reboot.\nREBOOT NOW? [y/n]: ")
         if reb not in ("y", "n"):
             print("Command not recognised.")
     if reb == "y":
