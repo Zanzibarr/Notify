@@ -19,7 +19,7 @@ def main():
         exit(0)
 
     elif sys.argv[1] in ("-update", "-u"):
-        if len(sys.argv) != 2:
+        if len(sys.argv) not in (2, 3):
             print(error)
             exit(1)
 
@@ -99,6 +99,8 @@ The content could be missing in some cases.
     See the current notify version
 > notify -update / > notify -u
     Download the latest version of notify
+    > notify -update force / > notify -u force
+        To force the download of the new version (without checking current version)
 > notify -cred / > notify -c
     Print the credentials location and asks if you wish to update them.
 > notify -uninstall
@@ -133,16 +135,22 @@ Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
     
 def ntf_update():
 
-    r = requests.get('https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/change_log.md')
-
-    if "200" in str(r):
-        if version.partition(": ")[2] in r.text.partition("\n")[0]:
-            print("notify is already up-to-date")
-            exit(0)
-
-    else:
-        print(f"Request to find latest version had as response: {r}.\nUpdate failed")
+    if len(sys.argv) == 3 and sys.argv[2] != "force":
+        print(error)
         exit(1)
+
+    if len(sys.argv) == 2:
+
+        r = requests.get('https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/change_log.md')
+
+        if "200" in str(r):
+            if version.partition(": ")[2] in r.text.partition("\n")[0]:
+                print("notify is already up-to-date")
+                exit(0)
+
+        else:
+            print(f"Request to find latest version had as response: {r}.\nUpdate failed")
+            exit(1)
 
     print("Downloading latest version...")
     os.mkdir(f"{base_path}/git")
