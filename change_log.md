@@ -1,5 +1,8 @@
+### Version 1.5.4
+- checks latest version before downloading new one
+
 ### Version 1.5.3
-- added support for mac and windows
+- added support for mac
 
 ### Version 1.5.2
 - storing the change_log with the build

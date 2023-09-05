@@ -1,6 +1,6 @@
-import subprocess, notify, shlex, json, sys, os
+import subprocess, requests, notify, shlex, json, sys, os
 
-version = "notify version: 1.5.3"
+version = "notify version: 1.5.4"
 
 def main():
     
@@ -132,6 +132,17 @@ Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
 """)
     
 def ntf_update():
+
+    r = requests.get('https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/change_log.md')
+
+    if "200" in str(r):
+        if version.partition(": ")[2] in r.text.partition("\n")[0]:
+            print("notify is already up-to-date")
+            exit(0)
+
+    else:
+        print(f"Request to find latest version had as response: {r}.\nUpdate failed")
+        exit(1)
 
     print("Downloading latest version...")
     os.mkdir(f"{base_path}/git")
