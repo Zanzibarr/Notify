@@ -117,7 +117,7 @@ def main():
 
         exit(0)
 
-    elif sys.argv[1] in ("-version"):
+    elif sys.argv[1] == "-v":
         if len(sys.argv) != 2:
             print(error)
             exit(1)
