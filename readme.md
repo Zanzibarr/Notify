@@ -27,6 +27,7 @@ python3 setup.py
 This setup works by editing the ~/.bashrc (or ~/.zshrc) file.
 
 Please note that notify will work only on python3, if you wish you can change the setup.py and notify_app.py by replacing all python3 commands with python commands.  
+
 If any problems occur, let me know by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
 Once you're done, reboot and you will be ready to go!
