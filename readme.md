@@ -25,7 +25,7 @@ To setup properly notify, open a terminal inside the cloned folder and run the c
 python3 setup.py
 ```
 
-Once you're done, reboot and you will be ready to go!  
+Once you're done you will be ready to go (on a different terminal from the one used for the setup)!  
 
 This setup works by editing the ~/.bashrc (or ~/.zshrc) file.  
 
