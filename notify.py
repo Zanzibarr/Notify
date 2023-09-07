@@ -14,7 +14,7 @@ def off():
     global send
     send = False
 
-def send_text(message, silent):
+def send_text(message, silent= False):
     if not send: return
     url = def_url + f'''/sendMessage?chat_id={chat_id}{"&disable_notification=true" if silent is True else ""}&text={message}'''
     requests.get(url)  
