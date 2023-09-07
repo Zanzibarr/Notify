@@ -192,7 +192,7 @@ def ntf_update():
     subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
     print("Removing temporary files...")
     subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
-    print("Update completed.")
+    print(f"Update completed.\n{version}")
 
 def ntf_uninstall():
         
