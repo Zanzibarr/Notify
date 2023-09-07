@@ -1,3 +1,8 @@
+### Version 1.5.5
+- added force update
+- added silent messages
+- added caption to medias
+
 ### Version 1.5.4
 - checks latest version before downloading new one
 

@@ -12,6 +12,7 @@ bashrc_edit = """alias notify='python3 $HOME/.notify/notify_app.py'
 export PYTHONPATH=$HOME/.notify/python_module
 """
 
+# CHECK IF IT'S A SETUP OR AN UPDATE
 check = len(sys.argv) == 2 and sys.argv[1] == "-update"
 
 if not check:
@@ -19,8 +20,8 @@ if not check:
 
 print("\nBeginning setup...\n")
 
+# LOAD PREVIOUS CONFIGURATION IF FOUND
 check = False
-
 if os.path.exists(std_config_path):
     choice = input(f"Found config file inside {std_config_path}.\nIf the config file contains 'none', you will be asked the credentials each time you use notify.\nUSE THIS CONFIGURATION? [y/n /q to quit]: ")
     while choice not in ("y", "n", "q"):
@@ -33,6 +34,7 @@ if os.path.exists(std_config_path):
     elif choice == "y":
         check = True
 
+# IF CONFIGURATION WASNT LOADED
 if not check:
     choice = input(f"Wish to store the credentials?\nStoring the credentials writes them on plain text inside the config file ({std_config_path}).\nIf you choose not to store them you will be asked the credentials each time you use notify.\nSTORE THE CREDENTIALS? [y/n /q to quit]: ")
     while choice not in ("y", "n", "q"):
@@ -56,16 +58,20 @@ if not check:
         conf_file.write("none")
         conf_file.close()
 
+# CREATE DESTINATION PATH
 if not os.path.isdir(f"{dest_path}"):
     os.mkdir(f"{dest_path}")
 if not os.path.isdir(f"{dest_path}/python_module"):
     os.mkdir(f"{dest_path}/python_module")
 
+# MOVING FILES TO DESTINATION PATH
 print(f"Moving files to base path ({dest_path})")
 subprocess.run(shlex.split(f"cp {base_path}/notify.py {dest_path}/python_module/notify.py"))
 subprocess.run(shlex.split(f"cp {base_path}/notify_app.py {dest_path}/notify_app.py"))
 subprocess.run(shlex.split(f"cp {base_path}/change_log.md {dest_path}/change_log.md"))
+subprocess.run(shlex.split(f"cp {base_path}/readme.md {dest_path}/readme.md"))
 
+#EDITING BASHRC AND/OR ZSHRC
 if not os.path.exists(f"{home}/.bashrc") and not os.path.exists(f"{home}/.zshrc"):
     print(f"Couldnt find {home}/.bashrc nor {home}/.zshrc.\nnotify files can still be used manually.\nLocation: {dest_path}")
 

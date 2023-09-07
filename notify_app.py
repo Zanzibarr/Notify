@@ -1,6 +1,6 @@
 import subprocess, requests, notify, shlex, json, sys, os
 
-version = "notify version: 1.5.4"
+version = "notify version: 1.5.5"
 
 def main():
     
@@ -66,21 +66,36 @@ def main():
 
 def send():
 
-    if sys.argv[1] == "-t":
-        notify.send_text(" ".join(sys.argv[2:]))
+    command = " ".join(sys.argv)
 
-    elif sys.argv[1] == "-md":
-        notify.send_markdown_text(" ".join(sys.argv[2:]))
+    silent = False
+    caption = " "
+    
+    if "--silent" in command:
+        silent = True
+        command = command.replace(" --silent", "")
 
-    elif sys.argv[1] == "-m" and len(sys.argv)>=4:
-        if (sys.argv[2] not in ("photo", "document", "audio", "video")):
+    if "--caption" in command:
+        caption = command.partition("--caption ")[2].partition(" -")[0]
+        command = command.replace(f" --caption {caption}", "")
+        
+    lst = command.split(" ")
+
+    if lst[1] == "-t":
+        notify.send_text(" ".join(lst[2:]), silent=silent)
+
+    elif lst[1] == "-md":
+        notify.send_markdown_text(" ".join(lst[2:]), silent=silent)
+
+    elif lst[1] == "-m" and len(sys.argv)>=4:
+        if (lst[2] not in ("photo", "document", "audio", "video")):
             print(error)
             exit(1)
 
-        notify.send_media(sys.argv[2], " ".join(sys.argv[3:]))
+        notify.send_media(lst[2], " ".join(lst[3:]), caption=caption, silent=silent)
 
-    elif sys.argv[1] in ("-p", "-d", "-a", "-v") and len(sys.argv)>=3:
-        notify.send_media(map[sys.argv[1]], " ".join(sys.argv[2:]))
+    elif lst[1] in ("-p", "-d", "-a", "-v") and len(sys.argv)>=3:
+        notify.send_media(map[lst[1]], " ".join(lst[2:]), caption=caption, silent=silent)
 
     else:
         print(error)
@@ -106,10 +121,29 @@ The content could be missing in some cases.
 > notify -uninstall
     Uninstall all the files associated to the notify app except, eventually, the credentials that have been stored in {std_config_path}
 
+For all the type of messages you want to send, you can use these modes:
+    --silent
+
+Examples:
+    > notify --silent -t This is a silent text message
+    > notify -p path/to/img.png --silent
+        
 > notify -t This is a text message
     Sends the full message followed by '-t' (message -> This is a text message)
 > notify -md #This is a markdown text
     Sends the full markdown text followed by '-md' (message -> #This is a markdown text)
+
+For all the media type of messages you want to send, you can use also the --caption parameter to specify the caption.
+The caption to use must not contain '-' and must be right after the --caption command.
+The caption must not be specified between the media type and the media url
+
+Example:
+    > notify -p path/to/img.png --caption This is a caption
+    > notify --silent --caption Silent media with caption -p path/to/doc.txt
+
+Wrong:
+    > notify -p --caption Wrong caption path/to/img.png
+
 > notify -m <media_type> url
     Sends a media located in the url specified.
     media_type:
