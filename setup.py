@@ -9,8 +9,8 @@ std_config_path = f"{home}/.zanz_notify_config"
 dest_path = f"{home}/.notify_zanz"
 
 bashrc_edit = """#notify - zanzi
-alias notify='python3 $HOME/.notify/notify_app.py'
-export PYTHONPATH=$HOME/.notify/python_module
+alias notify='python3 $HOME/.notify_zanz/notify_app.py'
+export PYTHONPATH=$HOME/.notify_zanz/python_module
 """
 
 # CHECK IF IT'S A SETUP OR AN UPDATE

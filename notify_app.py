@@ -274,8 +274,8 @@ Use notify -h or notify -help to get instructions.
 """
 
 bashrc_edit_title = "#notify - zanzi"
-bashrc_edit_content = """alias notify='python3 $HOME/.notify/notify_app.py'
-export PYTHONPATH=$HOME/.notify/python_module
+bashrc_edit_content = """alias notify='python3 $HOME/.notify_zanz/notify_app.py'
+export PYTHONPATH=$HOME/.notify_zanz/python_module
 """
 
 map = {"-p":"photo", "-d":"document", "-a":"audio", "-v":"video"}
