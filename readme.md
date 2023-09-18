@@ -19,7 +19,7 @@ python3 pip -m install requests
 ```
 To download and install properly notify, open a terminal and run the command  
 ```shell
-git clone https://github.com/Zanzibarr/Telegram_Python_Notifier && python3 Telegram_Python_Notifier/setup.py
+git clone https://github.com/Zanzibarr/Telegram_Python_Notifier temp/ && python3 temp/setup.py
 ```
 
 Once you're done you will be ready to go (on a freshly opened terminal)  
