@@ -211,14 +211,16 @@ def ntf_uninstall():
         bashrc = ""
         with open(f"{home}/.bashrc", "r") as f:
             bashrc = f.read()
-        bashrc = bashrc.replace(bashrc_edit, "")
+        bashrc = bashrc.replace(bashrc_edit_title, "")
+        bashrc = bashrc.replace(bashrc_edit_content, "")
         with open(f"{home}/.bashrc", "w") as f:
             f.write(bashrc)
     if os.path.exists(f"{home}/.zshrc"):
         zshrc = ""
         with open(f"{home}/.zshrc", "r") as f:
             zshrc = f.read()
-        zshrc = zshrc.replace(bashrc_edit, "")
+        zshrc = zshrc.replace(bashrc_edit_title, "")
+        zshrc = zshrc.replace(bashrc_edit_content, "")
         with open(f"{home}/.zshrc", "w") as f:
             f.write(zshrc)
     print("notify has been succesfully uninstalled.")
@@ -267,7 +269,8 @@ Notify error: wrong arguments.
 Use notify -h or notify -help to get instructions.
 """
 
-bashrc_edit = """alias notify='python3 $HOME/.notify/notify_app.py'
+bashrc_edit_title = "#notify - zanzi"
+bashrc_edit_content = """alias notify='python3 $HOME/.notify/notify_app.py'
 export PYTHONPATH=$HOME/.notify/python_module
 """
 

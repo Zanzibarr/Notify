@@ -8,7 +8,8 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 std_config_path = f"{home}/.zanz_notify_config"
 dest_path = f"{home}/.notify"
 
-bashrc_edit = """alias notify='python3 $HOME/.notify/notify_app.py'
+bashrc_edit = """#notify - zanzi
+alias notify='python3 $HOME/.notify/notify_app.py'
 export PYTHONPATH=$HOME/.notify/python_module
 """
 
@@ -16,7 +17,7 @@ export PYTHONPATH=$HOME/.notify/python_module
 check = len(sys.argv) == 2 and sys.argv[1] == "-update"
 
 if not check:
-    print("\nThanks for installing notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
+    print("\nThanks for downloading notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
 
 print("\nBeginning setup...\n")
 
