@@ -1,3 +1,7 @@
+# Version 1.7
+IF YOU ARE USING AN EARLIER VERSION, it's suggested to not update it, but to uninstall and repeat the setup procedure indicated in the readme to not have duplicates due to change of folder organization.  
+- changed folder organization
+
 # Version 1.6
 - new download and install procedure
 

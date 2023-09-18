@@ -1,6 +1,6 @@
 import subprocess, requests, notify, shlex, json, sys, os
 
-version = "notify version: 1.6"
+version = "notify version: 1.7"
 
 def main():
     
@@ -196,7 +196,7 @@ def ntf_update():
         new_version = f.read().partition("notify version: ")[2].partition('"\n')[0]
     print("Removing temporary files...")
     subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
-    print(f"Update completed.\nnotify version: {new_version}")
+    print(f"Update completed.\nRemember to check the change log file on github before updating!\nnotify version: {new_version}")
 
 def ntf_uninstall():
         
