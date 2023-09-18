@@ -189,7 +189,8 @@ def ntf_update():
 
     print("Downloading latest version...")
     os.mkdir(f"{base_path}/git")
-    subprocess.run(shlex.split(f"git clone --quiet https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git && python3 {base_path}/git/setup.py -update"))
+    subprocess.run(shlex.split(f"git clone --quiet https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
+    subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
     new_version = version
     with open(f"{base_path}/notify_app.py", "r") as f:
         new_version = f.read().partition("notify version: ")[2].partition('"\n')[0]
