@@ -1,6 +1,6 @@
 import subprocess, requests, notify, shlex, json, sys, os
 
-version = "notify version: 1.5.6"
+version = "notify version: 1.5.5"
 
 def main():
     
@@ -173,12 +173,15 @@ def ntf_update():
         print(error)
         exit(1)
 
+    new_version = "up-to-date"
+
     if len(sys.argv) == 2:
 
         r = requests.get('https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/change_log.md')
+        new_version = r.text.partition("Version ")[2].partition("\n")[0]
 
         if "200" in str(r):
-            if version.partition(": ")[2] in r.text.partition("\n")[0]:
+            if version.partition(": ")[2] == new_version:
                 print("notify is already up-to-date")
                 exit(0)
 
@@ -192,7 +195,7 @@ def ntf_update():
     subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
     print("Removing temporary files...")
     subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
-    print(f"Update completed.\n{version}")
+    print(f"Update completed.\nnotify version: {new_version}")
 
 def ntf_uninstall():
         
