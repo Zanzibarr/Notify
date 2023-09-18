@@ -6,7 +6,7 @@ setup_error = f"{command_error}Exiting setup."
 home = os.path.expanduser('~')
 base_path = os.path.dirname(os.path.abspath(__file__))
 std_config_path = f"{home}/.zanz_notify_config"
-dest_path = f"{home}/.notify"
+dest_path = f"{home}/.notify_zanz"
 
 bashrc_edit = """#notify - zanzi
 alias notify='python3 $HOME/.notify/notify_app.py'
