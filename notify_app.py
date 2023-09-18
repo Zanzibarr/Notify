@@ -173,10 +173,10 @@ def ntf_update():
         print(error)
         exit(1)
 
-    if len(sys.argv) == 2:
+    r = requests.get('https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/change_log.md')
+    new_version = r.text.partition("Version ")[2].partition("\n")[0]
 
-        r = requests.get('https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/change_log.md')
-        new_version = r.text.partition("Version ")[2].partition("\n")[0]
+    if len(sys.argv) == 2:
 
         if "200" in str(r):
             if version.partition(": ")[2] == new_version:
@@ -191,12 +191,9 @@ def ntf_update():
     os.mkdir(f"{base_path}/git")
     subprocess.run(shlex.split(f"git clone --quiet https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
     subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
-    new_version = version
-    with open(f"{base_path}/notify_app.py", "r") as f:
-        new_version = f.read().partition("notify version: ")[2].partition('"\n')[0]
     print("Removing temporary files...")
     subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
-    print(f"Update completed.\nRemember to check the change log file on github before updating!\nnotify version: {new_version}")
+    print(f"Update completed.\nnotify version: {new_version}")
 
 def ntf_uninstall():
         
