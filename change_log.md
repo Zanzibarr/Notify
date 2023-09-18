@@ -1,3 +1,6 @@
+### Version 1.5.6
+- minor changes
+
 ### Version 1.5.5
 - added force update
 - added silent messages

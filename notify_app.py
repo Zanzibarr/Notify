@@ -1,6 +1,6 @@
 import subprocess, requests, notify, shlex, json, sys, os
 
-version = "notify version: 1.5.5"
+version = "notify version: 1.5.6"
 
 def main():
     
