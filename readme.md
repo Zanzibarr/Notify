@@ -10,9 +10,6 @@ Feel free to suggest us new improvements or to report some bugs/problems by open
 #### STILL ADDING FEATURES
 
 # Configuration
-Clone this repo into a folder of your choice.  
-Once the setup ended, you can uninstall the cloned repo.  
-
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it (without this step, the application will run, but you won't recieve any message).  
 
@@ -20,12 +17,12 @@ Make sure you have already installed the requests module:
 ```shell
 python3 pip -m install requests
 ```
-To setup properly notify, open a terminal inside the cloned folder and run the command  
+To download and install properly notify, open a terminal and run the command  
 ```shell
-python3 setup.py
+git clone https://github.com/Zanzibarr/Telegram_Python_Notifier && python3 Telegram_Python_Notifier/setup.py
 ```
 
-Once you're done you will be ready to go (on a different terminal from the one used for the setup)  
+Once you're done you will be ready to go (on a freshly opened terminal)  
 
 This setup works by editing the ~/.bashrc (or ~/.zshrc) file.  
 
