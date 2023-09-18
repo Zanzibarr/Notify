@@ -14,9 +14,9 @@ export PYTHONPATH=$HOME/.notify/python_module
 """
 
 # CHECK IF IT'S A SETUP OR AN UPDATE
-check = len(sys.argv) == 2 and sys.argv[1] == "-update"
+update = len(sys.argv) == 2 and sys.argv[1] == "-update"
 
-if not check:
+if not update:
     print("\nThanks for downloading notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
 
 print("\nBeginning setup...\n")
@@ -103,5 +103,9 @@ else:
 
 if not check_zshrc or not check_bashrc:
     print(f"[ATTENTION]: To use notify now, you will have to open a NEW terminal and use it there.")
+
+if not update:
+    print("Removing temporary files...")
+    subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
 
 print("Setup completed.")

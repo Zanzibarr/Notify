@@ -1,3 +1,6 @@
+# Version 1.6
+- new download and install procedure
+
 ### Version 1.5.6
 - minor changes
 
