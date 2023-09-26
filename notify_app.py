@@ -206,7 +206,7 @@ def ntf_uninstall():
         exit(0)
     
     print("Uninstalling...")
-    subprocess.run(shlex.split(f"rm -r {home}/.notify"))
+    subprocess.run(shlex.split(f"rm -r {home}/.notify_zanz"))
     
     if os.path.exists(f"{home}/.bashrc"):
         bashrc = ""
