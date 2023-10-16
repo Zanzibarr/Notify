@@ -2,8 +2,6 @@ import subprocess, requests, notify, shlex, json, sys, os
 
 def main():
     
-    global error, map
-    
     if len(sys.argv)==1:
         print(error)
         exit(1)
