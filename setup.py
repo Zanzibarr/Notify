@@ -105,7 +105,11 @@ if not check_zshrc or not check_bashrc:
     print(f"[ATTENTION]: To use notify now, you will have to open a NEW terminal and use it there.")
 
 if not update:
-    print("Removing temporary files...")
-    subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
+    choice = input(f"To remove the folder {base_path}, the setup will need to have root permission. Continue anyway? [y/n]: ")
+    while choice not in ("y", "n"):
+        choice = input(f"{command_error}Continue anyway? [y/n]: ")
+    if choice == "y":
+        print("Removing temporary files...")
+        subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
 
 print("Setup completed.")
