@@ -1,7 +1,5 @@
 import subprocess, requests, notify, shlex, json, sys, os
 
-version = "notify version: 1.7"
-
 def main():
     
     global error, map
@@ -188,12 +186,20 @@ def ntf_update():
             exit(1)
 
     print("Downloading latest version...")
-    os.mkdir(f"{base_path}/git")
-    subprocess.run(shlex.split(f"git clone --quiet https://github.com/Zanzibarr/Telegram_Python_Notifier {base_path}/git"))
-    subprocess.run(shlex.split(f"python3 {base_path}/git/setup.py -update"))
-    print("Removing temporary files...")
-    subprocess.run(shlex.split(f"sudo rm -r {base_path}/git"))
+    for file in files:
+        with open(f"{base_path}/{file}", "w") as f:
+            f.write(download_file_content(file))
+    subprocess.run(shlex.split(f"mv notify.py python_module/"))
     print(f"Update completed.\nnotify version: {new_version}")
+
+def download_file_content(name):
+
+    r = requests.get(f'https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/{name}')
+
+    if "200" not in str(r):
+        raise Exception(f"Request to download updated files had as response: {r}.Request failed.")
+    
+    return r.text
 
 def ntf_uninstall():
         
@@ -264,6 +270,8 @@ def ntf_credentials():
             print("No change has been done.")
 
 
+version = "notify version: 1.7.1"
+
 command_error = "Command not recognised.\n"
 error = """
 Notify error: wrong arguments.
@@ -280,6 +288,7 @@ map = {"-p":"photo", "-d":"document", "-a":"audio", "-v":"video"}
 home = os.path.expanduser('~')
 base_path = os.path.dirname(os.path.abspath(__file__))
 std_config_path = f"{home}/.zanz_notify_config"
+files = ["notify.py", "notify_app.py", "change_log.md", "readme.md"]
 
 
 if __name__ == "__main__":

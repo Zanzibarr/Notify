@@ -1,4 +1,4 @@
-import subprocess, shlex, sys, os
+import subprocess, shlex, os
 
 command_error = "Command not recognised.\n"
 setup_error = f"{command_error}Exiting setup."
@@ -13,13 +13,7 @@ alias notify='python3 $HOME/.notify_zanz/notify_app.py'
 export PYTHONPATH=$HOME/.notify_zanz/python_module
 """
 
-# CHECK IF IT'S A SETUP OR AN UPDATE
-update = len(sys.argv) == 2 and sys.argv[1] == "-update"
-
-if not update:
-    print("\nThanks for downloading notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.")
-
-print("\nBeginning setup...\n")
+print("\nThanks for downloading notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.\nBeginning setup...\n")
 
 # LOAD PREVIOUS CONFIGURATION IF FOUND
 check = False
@@ -72,7 +66,7 @@ subprocess.run(shlex.split(f"cp {base_path}/notify_app.py {dest_path}/notify_app
 subprocess.run(shlex.split(f"cp {base_path}/change_log.md {dest_path}/change_log.md"))
 subprocess.run(shlex.split(f"cp {base_path}/readme.md {dest_path}/readme.md"))
 
-#EDITING BASHRC AND/OR ZSHRC
+# EDITING BASHRC AND/OR ZSHRC
 if not os.path.exists(f"{home}/.bashrc") and not os.path.exists(f"{home}/.zshrc"):
     print(f"Couldnt find {home}/.bashrc nor {home}/.zshrc.\nnotify files can still be used manually.\nLocation: {dest_path}")
 
@@ -104,12 +98,12 @@ else:
 if not check_zshrc or not check_bashrc:
     print(f"[ATTENTION]: To use notify now, you will have to open a NEW terminal and use it there.")
 
-if not update:
-    choice = input(f"To remove the folder {base_path}, the setup will need to have root permission. Continue anyway? [y/n]: ")
-    while choice not in ("y", "n"):
-        choice = input(f"{command_error}Continue anyway? [y/n]: ")
-    if choice == "y":
-        print("Removing temporary files...")
-        subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
+# REMOVING CLONED REPO
+choice = input(f"To remove the temporary folder {base_path}, the setup will need to have root permission.\nWish to remove automatically this folder? [y/n]: ")
+while choice not in ("y", "n"):
+    choice = input(f"{command_error}Continue anyway? [y/n]: ")
+if choice == "y":
+    print("Removing temporary files...")
+    subprocess.run(shlex.split(f"sudo rm -r {base_path}"))
 
 print("Setup completed.")
