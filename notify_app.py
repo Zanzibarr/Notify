@@ -137,7 +137,7 @@ def ntf_config():
 
         get(SEE)
 
-        print(notify.get_profiles())
+        print(json.dumps(notify.get_profiles()), indent=4)
 
     else:
 
