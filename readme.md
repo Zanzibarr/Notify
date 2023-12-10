@@ -2,7 +2,7 @@
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
-Current version: 1.7.1  
+Current version: 1.9.0  
 For informations about versions, read the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/change_log.md">change_log</a>.    
 
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
@@ -45,10 +45,12 @@ import notify
 
 First of all, you must setup the bot token and chat id:
 ```python
-notify.set_env(token="your_bot_token", i_chat_id="your_chat_id")
+bot = notify(token="your_bot_token")
 ```
 
 Then you can use all the methods from the library.  
+
+You can now create new profiles and use the to re-use bot configurations and parameters.  
 
 # Command line use
 Open a terminal and write:

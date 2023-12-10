@@ -1,3 +1,11 @@
+# Version 1.9.0
+- alpha version of the 2.0
+- added send features
+- added profiles
+- changed update parameters
+- changed configuration files
+- python functions to edit messages
+
 ### Version 1.7.1
 - new update procedure
 
