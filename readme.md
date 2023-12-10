@@ -7,7 +7,7 @@ For informations about versions, read the <a href="https://github.com/Zanzibarr/
 
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
-#### STILL ADDING FEATURES
+#### UNDER HEAVY IMPROVEMENTS
 
 # Configuration
 To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
