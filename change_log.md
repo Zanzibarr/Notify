@@ -1,5 +1,5 @@
 # Version 1.9.0
-- alpha version of the 2.0
+- alpha version of version 2.0.0
 - added send features
 - added profiles
 - changed update parameters
