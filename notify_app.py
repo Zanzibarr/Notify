@@ -204,6 +204,55 @@ Telegram API explanation: https://core.telegram.org/bots/api
 {version}
 """
 
+if not os.path.exists(std_config_path):
+    choice = "n"
+    if os.path.exists(old_config_path):
+
+        choice = input(f"Found a configuration file ({old_config_path}) from a past version.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
+        while choice not in ("y", "n", "q"):
+            choice = input("Command not recognised.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
+
+        if choice == "q":
+            print("notify not installed.\nExiting setup.")
+            exit(0)
+
+        if choice == "y":
+            with open(old_config_path, "r") as f:
+                conf = json.loads(f.read())
+                notify.write_conf_profile(name="default", token=conf["token"], to_chat_id=conf["chatid"])
+
+    if choice == "n":
+
+        choice = input("Do you wish to create a profile to store in the configuration file? [y/n/q to quit]: ")
+        while choice not in ("y", "n", "q"):
+            choice = input("Command not recognised.\nCreating a profile to store in the configuration file? [y/n/q to quit]: ")
+
+        if choice == "q":
+            print("notify not installed.\nExiting setup.")
+
+        elif choice == "n":
+            print("No profile loaded, remember to specify the token each time or create a new profile.")
+
+        else:
+            print("Creating a new profile.")
+            name = input("Insert the name of the profile to create: ")
+            token=input("Insert the token of the profile to create: ")
+            notify.write_conf_profile(name=name, token=token)
+            with open(std_config_path, "r") as f:
+                profiles = json.loads(f.read())
+            profiles["def"] = name
+            with open(std_config_path, "w") as f:
+                f.write(json.dumps(profiles, indent=4))
+
+            print("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
+
+    choice = input(f"Removing old credentials file ({old_config_path})? [y/n]: ")
+    while choice not in ("y", "n"):
+        choice = input(f"Command not recognised.\nRemoving old credentials file ({old_config_path})? [y/n]: ")
+
+    if choice == "y":
+        subprocess.run(shlex.split(f"rm {old_config_path}"))
+
 with open(std_config_path, "r") as f:
     bot = notify.bot(profile=json.loads(f.read())["def"])
 
@@ -219,56 +268,6 @@ with open(std_config_path, "r") as f:
 def main():
 
     global command
-
-    if not os.path.exists(std_config_path):
-    
-        choice = "n"
-        if os.path.exists(old_config_path):
-
-            choice = input(f"Found a configuration file ({old_config_path}) from a past version.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
-            while choice not in ("y", "n", "q"):
-                choice = input("Command not recognised.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
-
-            if choice == "q":
-                print("notify not installed.\nExiting setup.")
-                exit(0)
-
-            if choice == "y":
-                with open(old_config_path, "r") as f:
-                    conf = json.loads(f.read())
-                    notify.write_conf_profile(name="default", token=conf["token"], to_chat_id=conf["chatid"])
-
-        if choice == "n":
-
-            choice = input("Do you wish to create a profile to store in the configuration file? [y/n/q to quit]: ")
-            while choice not in ("y", "n", "q"):
-                choice = input("Command not recognised.\nCreating a profile to store in the configuration file? [y/n/q to quit]: ")
-
-            if choice == "q":
-                print("notify not installed.\nExiting setup.")
-
-            elif choice == "n":
-                print("No profile loaded, remember to specify the token each time or create a new profile.")
-
-            else:
-                print("Creating a new profile.")
-                name = input("Insert the name of the profile to create: ")
-                token=input("Insert the token of the profile to create: ")
-                notify.write_conf_profile(name=name, token=token)
-                with open(std_config_path, "r") as f:
-                    profiles = json.loads(f.read())
-                profiles["def"] = name
-                with open(std_config_path, "w") as f:
-                    f.write(json.dumps(profiles, indent=4))
-
-                print("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
-
-        choice = input(f"Removing old credentials file ({old_config_path})? [y/n]: ")
-        while choice not in ("y", "n"):
-            choice = input(f"Command not recognised.\nRemoving old credentials file ({old_config_path})? [y/n]: ")
-
-        if choice == "y":
-            subprocess.run(shlex.split(f"rm {old_config_path}"))
 
     try:
         
