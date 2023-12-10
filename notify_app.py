@@ -1036,6 +1036,14 @@ bashrc_edit_content = """alias notify='python3 $HOME/.notify_zanz/notify_app.py'
 export PYTHONPATH=$HOME/.notify_zanz/python_module
 """
 
+home = os.path.expanduser('~')
+base_path = os.path.dirname(os.path.abspath(__file__))
+old_config_path = f"{home}/.zanz_notify_config"
+std_config_path = f"{home}/.zanz_notify_profiles"
+conf_file_info = f"""
+Configuration file: {std_config_path}"""
+files = ["notify.py", "notify_app.py", "change_log.md", "readme.md"]
+
 help_beginning = "Hi! Thanks for using notify!\n\nIf this instructions are not helping, please open an issue on github or give a look to the telegram API website (linked at the end of this message).\n\nHere's """
 help_conclusion = f"""
 SHORTCUTS:
@@ -1050,14 +1058,6 @@ Telegram API explanation: https://core.telegram.org/bots/api
 
 {version}
 """
-
-home = os.path.expanduser('~')
-base_path = os.path.dirname(os.path.abspath(__file__))
-old_config_path = f"{home}/.zanz_notify_config"
-std_config_path = f"{home}/.zanz_notify_profiles"
-conf_file_info = f"""
-Configuration file: {std_config_path}"""
-files = ["notify.py", "notify_app.py", "change_log.md", "readme.md"]
 
 if not os.path.exists(std_config_path):
     choice = "n"
