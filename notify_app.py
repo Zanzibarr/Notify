@@ -811,7 +811,7 @@ def ntf_update():
     for file in files:
         with open(f"{base_path}/{file}", "w") as f:
             f.write(download_file_content(file))
-    subprocess.run(shlex.split(f"mv notify.py python_module/"))
+    subprocess.run(shlex.split(f"mv notify.py {base_path}/python_module/"))
 
     print(f"Update completed.\nnotify version: {new_version}")
 
