@@ -1052,7 +1052,7 @@ SHORTCUTS:
 
 
 Base folder: {base_path}
-Profiles folder: {std_config_path}
+Profiles file: {std_config_path}
 Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
 Telegram API explanation: https://core.telegram.org/bots/api
 
