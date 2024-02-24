@@ -1,3 +1,7 @@
+# Version 2.0
+- bug fixing
+- stable version
+
 # Version 1.9.0
 - alpha version of version 2.0.0
 - added send features

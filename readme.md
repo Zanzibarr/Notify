@@ -1,16 +1,16 @@
-# Telegram_Python_Notifier
+
+## Telegram Python Notifier
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
-Current version: 1.9.0  
-For informations about versions, read the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/change_log.md">change_log</a>.    
+Current version: 2.0.0  
 
-Feel free to suggest us new improvements or to report some bugs/problems by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
+For more informations, check out the <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier">GitHub page</a>.   
 
-#### UNDER HEAVY IMPROVEMENTS
+Feel free to suggest us new improvements or to report some bugs/problems by opening an <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
-# Configuration
-To create your bot and view his token you can use the @BotFather (follow this <a href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
+## Configuration
+To create your bot and view his token you can use the @BotFather (follow this <a target="_blank" href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a target="_blank" href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it (without this step, the application will run, but you won't recieve any message).  
 
 Make sure you have already installed the requests module:
@@ -28,16 +28,16 @@ This setup works by editing the ~/.bashrc (or ~/.zshrc) file.
 
 Please note that notify will work only on python3, if you wish you can change the setup.py and notify_app.py by replacing all python3 commands with python commands.  
 
-If any problems occur, let me know by opening an <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
+If any problems occur, let me know by opening an <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
-# Update build
-We suggest you to read the <a href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/change_log.md">change_log</a> before updating!  
+## Update build
+We suggest you to read the <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/change_log.md">change_log</a> before updating!  
 To get the latest version of notify:
 ```shell
 notify -update
 ```
 
-# Python lib use
+## Python lib use
 You can use the application as a python library:
 ```python
 import notify
@@ -52,18 +52,18 @@ Then you can use all the methods from the library.
 
 You can now create new profiles and use the to re-use bot configurations and parameters.  
 
-# Command line use
+## Command line use
 Open a terminal and write:
 ```shell
 notify -h
 ```
 to get the list of commands.
 
-# Uninstall
+## Uninstall
 To uninstall just run the command
 ```shell
 notify -uninstall
 ```
 
-# Credits
-Authors: <a href="https://github.com/Zanzibarr">@Zanzibarr</a> <a href="https://github.com/RickSrick">@RickSrick</a>
+## Credits
+Authors: <a target="_blank" href="https://github.com/Zanzibarr">@Zanzibarr</a> <a target="_blank" href="https://github.com/RickSrick">@RickSrick</a>

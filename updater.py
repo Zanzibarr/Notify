@@ -17,12 +17,14 @@ log_to_file = "s" in sys.argv[1]
 
 # --- VERSION CONTROL ---
 
-r = requests.get(f"{base_url}/{version_control}")
+r = requests.get(f"{base_url}{version_control}")
 
-if not r.ok():
-    utilities.print(f"Request to {base_url}/{version_control} had response {r}", on_file=log_to_file)
+if not r.ok:
+    utilities.ntf_print(f"Request to {base_url}{version_control} had response {r}", on_file=log_to_file)
     print(f"Exception: {r}")
     exit(1)
+
+print("Gone through")
 
 text = r.text
 
@@ -38,19 +40,21 @@ if not dev:
     update = new == old
 
 if not update:
-    utilities.print("notify is already up-to-date.", on_file=log_to_file)
+    utilities.ntf_print("notify is already up-to-date.", on_file=log_to_file)
     exit(0)
 
 
 # --- DOWNLOADING ---
 
 if not os.path.exists(down_folder):
-    utilities.print(f"{down_folder} not found, creating one.", on_file=log_to_file)
+    utilities.ntf_print(f"{down_folder} not found, creating one.", on_file=log_to_file)
     os.mkdir(down_folder)
+
 for file in utilities.files:
-    r = requests.get(f"{base_url}/{file}")
-    if not r.ok():
-        utilities.print(f"Request to {base_url}/{version_control} had response {r}", on_file=log_to_file)
+    r = requests.get(f"{base_url}{file}")
+    if not r.ok:
+        print("Here")
+        utilities.ntf_print(f"Request to {base_url}{file} had response {r}", on_file=log_to_file)
         print(f"Exception: {r}")
         exit(1)
     if not os.path.exists(f"{down_folder}/{file}"):
@@ -60,8 +64,8 @@ for file in utilities.files:
 
 
 # --- MOVING FILES TO DESTINATION ---
-\
-utilities.print(f"Moving files to base path {utilities.dest_path}")
+
+utilities.ntf_print(f"Moving files to base path {utilities.dest_path}")
 for file in utilities.files:
     subprocess.run(["cp", f"{down_folder}/{file}", f"{utilities.dest_path}/{file}"])
 
@@ -72,4 +76,4 @@ subprocess.run(["rm", "-r", down_folder])
 if os.path.exists(f"{utilities.dest_path}/{update_setup_file}"):
     subprocess.run(["python3", f"{utilities.dest_path}/{update_setup_file}"])
 
-utilities.print("Update completed.", on_file=log_to_file)
+utilities.ntf_print("Update completed.", on_file=log_to_file)
