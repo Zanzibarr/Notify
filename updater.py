@@ -24,8 +24,6 @@ if not r.ok:
     print(f"Exception: {r}")
     exit(1)
 
-print("Gone through")
-
 text = r.text
 
 update = True
@@ -53,7 +51,6 @@ if not os.path.exists(down_folder):
 for file in utilities.files:
     r = requests.get(f"{base_url}{file}")
     if not r.ok:
-        print("Here")
         utilities.ntf_print(f"Request to {base_url}{file} had response {r}", on_file=log_to_file)
         print(f"Exception: {r}")
         exit(1)
