@@ -1,4 +1,4 @@
-import subprocess, utilities, notify, requests, shlex, json, sys, os
+import subprocess, utilities, notify, shlex, json, sys, os
 
 def main():
 
@@ -20,6 +20,7 @@ def main():
 
         elif sys.argv[1] == utilities.UPDATE:
             if len(sys.argv) not in (2, 3):
+                print(sys.argv)
                 print(utilities.error)
                 exit(1)
 
