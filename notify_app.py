@@ -1,6 +1,5 @@
-import subprocess, notify, requests, shlex, json, sys, os
-
-version = "notify version: 1.9.0"
+import subprocess, notify, requests, utilities, shlex, json, sys, os
+import numpy as np
 
 # TODO : How to pass entities
 # TODO : How to pass reply_markup
@@ -18,68 +17,65 @@ def main():
     try:
         
         if len(sys.argv)==1:
-            print(error)
+            print(utilities.error)
             exit(1)
 
-        elif sys.argv[1] in (HELP_1, HELP_2):
+        elif sys.argv[1] in utilities.HELP:
             if len(sys.argv) not in (2, 3):
-                print(error)
+                print(utilities.error)
                 exit(1)
 
             help()
             exit(0)
 
-        elif sys.argv[1] in (UPDATE_1, UPDATE_2):
+        elif sys.argv[1] in utilities.UPDATE:
             if len(sys.argv) not in (2, 3):
-                print(error)
+                print(utilities.error)
                 exit(1)
 
             ntf_update()
             exit(0)
 
-        elif sys.argv[1] == UNINSTALL:
+        elif sys.argv[1] in utilities.UNINSTALL:
             if len(sys.argv) > 2:
-                print(error)
+                print(utilities.error)
                 exit(1)
 
             ntf_uninstall()
             exit(0)
 
-        elif sys.argv[1] == VERSION:
+        elif sys.argv[1] in utilities.VERSION:
             if len(sys.argv) > 2:
-                print(error)
+                print(utilities.error)
                 exit(1)
 
-            print(version)
+            print(utilities.version)
             exit(0)
 
-        elif sys.argv[1] in (CONF_1, CONF_2):
+        elif sys.argv[1] in utilities.CONF:
             
             command = " ".join(sys.argv[1:])
             ntf_config()
 
             if len(command.strip()) > 0:
-                print(f"\nIgnored parts of the input: {command}\n{suggestion}\n")
+                print(f"\nIgnored parts of the input: {command}\n{utilities.suggestion}\n")
 
             exit(0)
 
         command = " ".join(sys.argv[1:])
 
-        if sys.argv[1] == PROFILE:
+        if sys.argv[1] in utilities.PROFILE:
 
             ntf_profile()
 
-        index = command.find(EDIT)
-        if index < 0:
+        index = [command.find(e) for e in utilities.EDIT]
+        if all(i < 0 for i in index):
             ntf_send()
-        elif index == 0:
-            print("UNIMPLEMENTED")#ntf_edit() #TODO
         else:
-            print(error)
-            exit(1)
+            print("UNIMPLEMENTED")#ntf_edit() #TODO
 
         if len(command.strip()) > 0:
-            print(f"\nMessage sent successfully.\nIgnored parts of the input: {command}\n{suggestion}\n")
+            print(f"\nMessage sent successfully.\nIgnored parts of the input: {command}\n{utilities.suggestion}\n")
 
     except Exception as e:
         print(e)
@@ -91,37 +87,37 @@ def ntf_config():
     command = command[6:]
 
     if command == "":
-        print(conf_file_info)
+        print(utilities.conf_file_info)
         exit(0)
 
     type = command.partition(" ")[0]
 
-    if type == ADD:
+    if type in utilities.ADD:
 
-        name = get(ADD)
-        token = get(TOKEN)
+        name = get(utilities.ADD)
+        token = get(utilities.TOKEN)
 
         if name == "" or token == "":
-            print(add_conf_error)
+            print(utilities.add_conf_error)
             exit(1)
 
-        notify.write_conf_profile(name=name, token=token, from_chat_id=get(FROM_CHAT_ID), to_chat_id=get(CHAT_ID), disable_web_page_preview=get(DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), parse_mode=get(PARSE_MODE))
+        notify.write_conf_profile(name=name, token=token, from_chat_id=get(utilities.FROM_CHAT_ID), to_chat_id=get(utilities.CHAT_ID), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), parse_mode=get(utilities.PARSE_MODE))
         
-    elif type == REMOVE:
+    elif type in utilities.REMOVE:
 
-        name = get(REMOVE)
+        name = get(utilities.REMOVE)
 
         notify.remove_profile(name)
 
-    elif type == SET:
+    elif type in utilities.SET:
 
-        name = get(SET)
+        name = get(utilities.SET)
 
         if name == "":
-            print(set_conf_error)
+            print(utilities.set_conf_error)
             exit(1)
 
-        with open(std_config_path, "r") as f:
+        with open(utilities.std_config_path, "r") as f:
             profiles = json.loads(f.read())
         
         if name not in [i for i in profiles["profiles"].keys()]:
@@ -130,29 +126,29 @@ def ntf_config():
 
         profiles["def"] = name
 
-        with open(std_config_path, "w") as f:
+        with open(utilities.std_config_path, "w") as f:
             f.write(json.dumps(profiles, indent=4))
 
-    elif type == SEE:
+    elif type in utilities.SEE:
 
-        get(SEE)
+        get(utilities.SEE)
 
         print(json.dumps(notify.get_profiles()), indent=4)
 
     else:
 
-        print(command_error)
+        print(utilities.command_error)
         exit(1)
 
 def ntf_profile():
 
     global command
 
-    token = get(TOKEN)
-    profile = get(PROFILE)
+    token = get(utilities.TOKEN)
+    profile = get(utilities.PROFILE)
 
     if profile == "" and token == "":
-        print(profile_error)
+        print(utilities.profile_error)
         exit(1)
 
     bot.load_profile(token=token, name=profile)
@@ -161,196 +157,196 @@ def ntf_send():
 
     type = command.partition(" ")[0]
 
-    if type == TEXT:
+    if type in utilities.TEXT:
 
-        content = get(TEXT)
+        content = get(utilities.TEXT)
 
         if content == "":
-            print(message_error)
+            print(utilities.message_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_message_by_file(file_path=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), parse_mode=get(PARSE_MODE), entities=get(ENTITIES), disable_web_page_preview=get(DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_message_by_file(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), parse_mode=get(utilities.PARSE_MODE), entities=get(utilities.ENTITIES), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_message_by_text(text=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), parse_mode=get(PARSE_MODE), entities=get(ENTITIES), disable_web_page_preview=get(DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_message_by_text(text=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), parse_mode=get(utilities.PARSE_MODE), entities=get(utilities.ENTITIES), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == COPY:
+    elif type in utilities.COPY:
 
-        message_id = get(MESSAGE_ID)
-        chat_id = get(CHAT_ID)
+        message_id = get(utilities.MESSAGE_ID)
+        chat_id = get(utilities.CHAT_ID)
         if message_id == "" and chat_id == "":
-            print(copy_error)
+            print(utilities.copy_error)
             exit(1)
 
-        response = bot.copy_message(message_id=message_id, chat_id=chat_id, from_chat_id=get(FROM_CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+        response = bot.copy_message(message_id=message_id, chat_id=chat_id, from_chat_id=get(utilities.FROM_CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == FORWARD:
+    elif type in utilities.FORWARD:
 
-        message_id = get(MESSAGE_ID)
-        chat_id = get(CHAT_ID)
+        message_id = get(utilities.MESSAGE_ID)
+        chat_id = get(utilities.CHAT_ID)
         if message_id == "" and chat_id == "":
-            print(forward_error)
+            print(utilities.forward_error)
             exit(1)
 
-        response = bot.forward_message(message_id=message_id, chat_id=chat_id, from_chat_id=get(FROM_CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT))
+        response = bot.forward_message(message_id=message_id, chat_id=chat_id, from_chat_id=get(utilities.FROM_CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT))
 
-    elif type == PHOTO:
+    elif type in utilities.PHOTO:
 
-        content = get(PHOTO)
+        content = get(utilities.PHOTO)
 
         if content == "":
-            print(photo_error)
+            print(utilities.photo_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_photo_by_path(file_path=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), has_spoiler=get(HAS_SPOILER), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_photo_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_photo(photo=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), has_spoiler=get(HAS_SPOILER), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_photo(photo=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
             
-    elif type == AUDIO:
+    elif type in utilities.AUDIO:
 
-        content = get(AUDIO)
+        content = get(utilities.AUDIO)
 
         if content == "":
-            print(audio_error)
+            print(utilities.audio_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_audio_by_path(file_path=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), duration=get(DURATION), performer=get(PERFORMER), title=get(TITLE), thumbnail=get(THUMBNAIL), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_audio_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), duration=get(utilities.DURATION), performer=get(utilities.PERFORMER), title=get(utilities.TITLE), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_audio(audio=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), duration=get(DURATION), performer=get(PERFORMER), title=get(TITLE), thumbnail=get(THUMBNAIL), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_audio(audio=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), duration=get(utilities.DURATION), performer=get(utilities.PERFORMER), title=get(utilities.TITLE), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == DOCUMENT:
+    elif type in utilities.DOCUMENT:
 
-        content = get(DOCUMENT)
+        content = get(utilities.DOCUMENT)
 
         if content == "":
-            print(doc_error)
+            print(utilities.doc_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_document_by_path(file_path=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), thumbnail=get(THUMBNAIL), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), disable_content_type_detection=get(DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_document_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), disable_content_type_detection=get(utilities.DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_document(document=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), thumbnail=get(THUMBNAIL), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), disable_content_type_detection=get(DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_document(document=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), disable_content_type_detection=get(utilities.DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == VIDEO:
+    elif type in utilities.VIDEO:
 
-        content = get(VIDEO)
+        content = get(utilities.VIDEO)
 
         if content == "":
-            print(video_error)
+            print(utilities.video_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_video_by_path(file_path=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), duration=get(DURATION), width=get(WIDTH), height=get(HEIGHT), thumbnail=get(THUMBNAIL), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), has_spoiler=get(HAS_SPOILER), supports_streaming=get(SUPPORTS_STREAMING), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_video_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), has_spoiler=get(utilities.HAS_SPOILER), supports_streaming=get(utilities.SUPPORTS_STREAMING), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_video(video=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), duration=get(DURATION), width=get(WIDTH), height=get(HEIGHT), thumbnail=get(THUMBNAIL), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), has_spoiler=get(HAS_SPOILER), supports_streaming=get(SUPPORTS_STREAMING), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_video(video=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), has_spoiler=get(utilities.HAS_SPOILER), supports_streaming=get(utilities.SUPPORTS_STREAMING), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         
-    elif type == VOICE:
+    elif type in utilities.VOICE:
 
-        content = get(VOICE)
+        content = get(utilities.VOICE)
 
         if content == "":
-            print(voice_error)
+            print(utilities.voice_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_voice_by_path(file_path=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), duration=get(DURATION), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_voice_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), duration=get(utilities.DURATION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_voice(voice=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), duration=get(DURATION), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_voice(voice=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), duration=get(utilities.DURATION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == ANIMATION:
+    elif type in utilities.ANIMATION:
 
-        content = get(ANIMATION)
+        content = get(utilities.ANIMATION)
 
         if content == "":
-            print(animation_error)
+            print(utilities.animation_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_animation_by_path(file_path=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), duration=get(DURATION), width=get(WIDTH), height=get(HEIGHT), thumbnail=get(THUMBNAIL), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), has_spoiler=get(HAS_SPOILER), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_animation_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_animation(animation=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), duration=get(DURATION), width=get(WIDTH), height=get(HEIGHT), thumbnail=get(THUMBNAIL), caption=get(CAPTION), parse_mode=get(PARSE_MODE), caption_entities=get(CAPTION_ENTITIES), has_spoiler=get(HAS_SPOILER), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_animation(animation=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), caption_entities=get(utilities.CAPTION_ENTITIES), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == VIDEONOTE:
+    elif type in utilities.VIDEONOTE:
 
-        content = get(VIDEONOTE)
+        content = get(utilities.VIDEONOTE)
 
         if content == "":
-            print(videonote_error)
+            print(utilities.videonote_error)
             exit(1)
 
         if ispath(content):
-            response = bot.send_videonote_by_path(file_path=content, cchat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), duration=get(DURATION), length=get(LENGTH), thumbnail=get(THUMBNAIL), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_videonote_by_path(file_path=content, cchat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), length=get(utilities.LENGTH), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
         else:
-            response = bot.send_videonote(videonote=content, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), duration=get(DURATION), length=get(LENGTH), thumbnail=get(THUMBNAIL), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+            response = bot.send_videonote(videonote=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), length=get(utilities.LENGTH), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == LOCATION:
+    elif type in utilities.LOCATION:
 
-        lat = get(LATITUDE)
-        lon = get(LONGITUDE)
+        lat = get(utilities.LATITUDE)
+        lon = get(utilities.LONGITUDE)
 
         if lat == "" or lon == "":
-            print(location_error)
+            print(utilities.location_error)
             exit(1)
 
-        response = bot.send_location(latitude=lat, longitude=lon, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), horizontal_accuracy=get(HORIZONTAL_ACCURACY), live_period=get(LIVE_PERIOD), heading=get(HEADING), proximity_alert_radius=get(PROXIMITY_ALERT_RADIUS), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+        response = bot.send_location(latitude=lat, longitude=lon, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), horizontal_accuracy=get(utilities.HORIZONTAL_ACCURACY), live_period=get(utilities.LIVE_PERIOD), heading=get(utilities.HEADING), proximity_alert_radius=get(utilities.PROXIMITY_ALERT_RADIUS), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == VENUE:
+    elif type in utilities.VENUE:
 
-        lat = get(LATITUDE)
-        lon = get(LONGITUDE)
-        title = get(TITLE)
-        address = get(ADDRESS)
+        lat = get(utilities.LATITUDE)
+        lon = get(utilities.LONGITUDE)
+        title = get(utilities.TITLE)
+        address = get(utilities.ADDRESS)
 
         if lat == "" or lon == "" or title == "" or address == "":
-            print(venue_error)
+            print(utilities.venue_error)
             exit(1)
 
-        response = bot.send_venue(latitude=lat, longitude=lon, title=title, address=address, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), foursquare_id=get(FOURSQUARE_ID), foursquare_type=get(FOURSQUARE_TYPE), google_place_id=get(GOOGLE_PLACE_ID), google_place_type=get(GOOGLE_PLACE_TYPE), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+        response = bot.send_venue(latitude=lat, longitude=lon, title=title, address=address, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), foursquare_id=get(utilities.FOURSQUARE_ID), foursquare_type=get(utilities.FOURSQUARE_TYPE), google_place_id=get(utilities.GOOGLE_PLACE_ID), google_place_type=get(utilities.GOOGLE_PLACE_TYPE), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == CONTACT:
+    elif type in utilities.CONTACT:
 
-        number = get(PHONE_NUMBER)
-        name = get(FIRST_NAME)
+        number = get(utilities.PHONE_NUMBER)
+        name = get(utilities.FIRST_NAME)
 
         if number == "" or name == "":
-            print(contact_error)
+            print(utilities.contact_error)
             exit(1)
 
-        response = bot.send_contact(phone_number=number, first_name=name, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), last_name=get(LAST_NAME), vcard=get(VCARD), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+        response = bot.send_contact(phone_number=number, first_name=name, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), last_name=get(utilities.LAST_NAME), vcard=get(utilities.VCARD), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == POLL:
+    elif type in utilities.POLL:
 
-        question = get(QUESTION)
-        options = get(OPTIONS)
+        question = get(utilities.QUESTION)
+        options = get(utilities.OPTIONS)
 
         if question == "" or options == "":
-            print(poll_error)
+            print(utilities.poll_error)
             exit(1)
 
-        response = bot.send_poll(question=question, options=options, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), is_anonymous=get(IS_ANONYMOUS), type=get(TYPE), allows_multiple_answers=get(ALLOWS_MULTIPLE_ANSWERS), correct_option_id=get(CORRECT_OPTION_ID), explanation=get(EXPLANATION), explanation_parse_mode=get(EXPLANATION_PARSE_MODE), explanation_entities=get(EXPLANATION_ENTITIES), open_period=get(OPEN_PERIOD), close_date=get(CLOSE_DATE), is_closed=get(IS_CLOSED), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOWS_MULTIPLE_ANSWERS), reply_markup=get(REPLY_MARKUP))
+        response = bot.send_poll(question=question, options=options, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), is_anonymous=get(utilities.IS_ANONYMOUS), type=get(utilities.TYPE), allows_multiple_answers=get(utilities.ALLOWS_MULTIPLE_ANSWERS), correct_option_id=get(utilities.CORRECT_OPTION_ID), explanation=get(utilities.EXPLANATION), explanation_parse_mode=get(utilities.EXPLANATION_PARSE_MODE), explanation_entities=get(utilities.EXPLANATION_ENTITIES), open_period=get(utilities.OPEN_PERIOD), close_date=get(utilities.CLOSE_DATE), is_closed=get(utilities.IS_CLOSED), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOWS_MULTIPLE_ANSWERS), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == DICE:
+    elif type in utilities.DICE:
 
-        response = bot.send_dice(chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID), emoji=get(EMOJI), disable_notification=get(DISABLE_NOTIFICATION), protect_content=get(PROTECT_CONTENT), reply_to_message_id=get(REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(REPLY_MARKUP))
+        response = bot.send_dice(chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), emoji=get(utilities.EMOJI), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), reply_markup=get(utilities.REPLY_MARKUP))
 
-    elif type == ACTION:
+    elif type in utilities.ACTION:
 
-        action = get(ACTION)
+        action = get(utilities.ACTION)
 
         if action == "":
-            print(action_error)
+            print(utilities.action_error)
             exit(1)
 
-        response = bot.send_chataction(action=action, chat_id=get(CHAT_ID), message_thread_id=get(MESSAGE_THREAD_ID))
+        response = bot.send_chataction(action=action, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID))
 
-    elif type == EXCEPTION:
+    elif type in utilities.EXCEPTION:
 
-        response = bot.send_exception(text=get(EXCEPTION), chat_id=get(CHAT_ID))
+        response = bot.send_exception(text=get(utilities.EXCEPTION), chat_id=get(utilities.CHAT_ID))
 
     else:
-        print(command_error)
+        print(utilities.command_error)
         exit(1)    
 
     if not response["ok"]:
@@ -359,13 +355,19 @@ def ntf_send():
 def ispath(content):
     return os.path.exists(content)
 
-def get(type):
+def get(lst_type):
 
     global command
 
-    index = command.find(f"-{type}")
+    for type in lst_type:
+        index = command.find(f"-{type}")
+        if index >= 0:
+            break
     if index < 0:
-        index = command.find(type)
+        for type in lst_type:
+            index = command.find(type)
+            if index >= 0:
+                break
         if index < 0: return ""
         c_len = command[index+1:].find("-")
         if c_len < 0:
@@ -380,8 +382,8 @@ def get(type):
     
     else:
 
-        if type not in SHORTCUT_COMMANDS:
-            print(error)
+        if lst_type[0] not in utilities.SHORTCUT_COMMANDS:
+            print(utilities.error)
             exit(1)
             
         c_len = command[index+2:].find("-")
@@ -400,23 +402,23 @@ def help(): #TODO
           
 CONFIGURATION COMMANDS:
 
-> notify {HELP_1} / > notify {HELP_2}
+> notify {utilities.tostr(utilities.HELP)}
     Prints the instructions
     You can add at the end the type of notify command you need help with
-    To see the description of ALL parameters that can be used, use {PARAMETERS}
+    To see the description of ALL parameters that can be used, use {utilities.tostr(utilities.PARAMETERS)}
 
-    Es: notify {HELP_1} {TEXT}
-    Es: notify {HELP_2} {EDIT}
-    Es: notify {HELP_1} {VOICE}
+    Es: notify {utilities.HELP[0]} {utilities.TEXT[0]}
+    Es: notify {utilities.HELP[1]} {utilities.EDIT[0]}
+    Es: notify {utilities.HELP[1]} {utilities.VOICE[0]}
 
-> notify {VERSION}
+> notify {utilities.tostr(utilities.VERSION)}
     See the current notify version
 
-> notify {UPDATE_1} / > notify {UPDATE_2}
+> notify {utilities.tostr(utilities.UPDATE_1)}
     Download the latest version of notify
     You can add at the end which type of update u prefer:
-        > {PROD} (default) : uploads to the latest tested version
-        > {DEV} : uploads to the latest version under development (not finished, not suggested)
+        > {utilities.tostr(utilities.PROD)} (default) : uploads to the latest tested version
+        > {utilities.tostr(utilities.DEV)} : uploads to the latest version under development (not finished, not suggested)
 
     Es: notify {UPDATE_2} {DEV}
         Requests an update to the latest version under development
@@ -855,209 +857,6 @@ def ntf_uninstall():
         with open(f"{home}/.zshrc", "w") as f:
             f.write(zshrc)
     print("notify has been succesfully uninstalled.")
-
-
-HELP_1 = "-help"
-HELP_2 = "-h"
-PARAMETERS = "-param"
-VERSION = "-version"
-UPDATE_1 = "-update"
-UPDATE_2 = "-u"
-PROD = "-prod"
-DEV = "-dev"
-CONF_1 = "-conf"
-CONF_2 = "-c"
-ADD = "-add"
-TOKEN = "-token"
-REMOVE = "-rm"
-SET = "-set"
-SEE = "-see"
-UNINSTALL = "-uninstall"
-PROFILE = "-prof"
-TEXT = "-t"
-COPY = "-cpy"
-FORWARD = "-frw"
-PHOTO = "-p"
-AUDIO = "-a"
-DOCUMENT = "-d"
-VIDEO = "-v"
-VOICE = "-voice"
-ANIMATION = "-anim"
-VIDEONOTE = "-vnote"
-LOCATION = "-loc"
-VENUE = "-ven"
-CONTACT = "-cnt"
-POLL = "-pll"
-DICE = "-dice"
-ACTION = "-act"
-EXCEPTION = "-exc"
-CHAT_ID = "-chat"
-MESSAGE_THREAD_ID = "-mt_id"
-REPLY_TO_MESSAGE_ID = "-reply"
-MESSAGE_ID = "-message"
-FROM_CHAT_ID = "-from"
-INLINE_MESSAGE_ID = "-inline_id"
-ENTITIES = "-entities"
-CAPTION = "-caption"
-CAPTION_ENTITIES = "-caption_entities"
-PARSE_MODE = "-parse"
-REPLY_MARKUP = "-reply_markup"
-DURATION = "-duration"
-LENGTH = "-length"
-PERFORMER = "-performer"
-TITLE = "-title"
-THUMBNAIL = "-thumb_path"
-WIDTH = "-width"
-HEIGHT = "-height"
-LATITUDE = "-lat"
-LONGITUDE = "-lon"
-HORIZONTAL_ACCURACY = "-accuracy"
-LIVE_PERIOD = "-live_period"
-HEADING = "-heading"
-PROXIMITY_ALERT_RADIUS = "-alert_radius"
-ADDRESS = "-address"
-FOURSQUARE_ID = "-foursquare_id"
-FOURSQUARE_TYPE = "-foursquare_type"
-GOOGLE_PLACE_ID = "-google_place_id"
-GOOGLE_PLACE_TYPE = "-google_place_type"
-PHONE_NUMBER = "-number"
-FIRST_NAME = "-name"
-LAST_NAME = "-surname"
-VCARD = "-vcard"
-QUESTION = "-question"
-OPTIONS = "-options"
-TYPE = "-type"
-CORRECT_OPTION_ID = "-correct"
-EXPLANATION = "-explanation"
-EXPLANATION_PARSE_MODE = "-exp_parse"
-EXPLANATION_ENTITIES = "-exp_entities"
-OPEN_PERIOD = "-period"
-CLOSE_DATE = "-close_date"
-EMOJI = "-emoji"
-DISABLE_WEB_PAGE_PREVIEW = "-no_webp_preview"
-DISABLE_NOTIFICATION = "-silent"
-PROTECT_CONTENT = "-protect_content"
-ALLOW_SENDING_WITHOUT_REPLY = "-reply_anyway"
-HAS_SPOILER = "-spoiler"
-DISABLE_CONTENT_TYPE_DETECTION = "-no_ctype_det"
-SUPPORTS_STREAMING = "-streaming"
-IS_ANONYMOUS = "-anon"
-ALLOWS_MULTIPLE_ANSWERS = "-multiple"
-IS_CLOSED = "-is_closed"
-EDIT = "-edit"
-
-SHORTCUT_COMMANDS = [DISABLE_WEB_PAGE_PREVIEW, DISABLE_NOTIFICATION, HAS_SPOILER, DISABLE_CONTENT_TYPE_DETECTION, SUPPORTS_STREAMING, IS_ANONYMOUS, ALLOWS_MULTIPLE_ANSWERS, ALLOW_SENDING_WITHOUT_REPLY, IS_CLOSED, PROTECT_CONTENT]
-
-explanation = {
-    CHAT_ID : f"{CHAT_ID} <chat_id> : chat to send the message to.",
-    MESSAGE_THREAD_ID : f"{MESSAGE_THREAD_ID} <thread_id> : Unique identifier for the target message thread (topic) of the forum; for forum supergroups only.",
-    PARSE_MODE : f"{PARSE_MODE} <parse_mode> : Mode for parsing entities in the message text/caption. See site for more details.",
-    ENTITIES : f"{ENTITIES} <TODO> : TODO",
-    DISABLE_WEB_PAGE_PREVIEW : f"{DISABLE_WEB_PAGE_PREVIEW} : <bool> : Disables link previews for links in this message.",
-    DISABLE_NOTIFICATION : f"{DISABLE_NOTIFICATION} <bool> : Sends the message silently. Users will receive a notification with no sound.",
-    PROTECT_CONTENT : f"{PROTECT_CONTENT} <bool> : Protects the contents of the sent message from forwarding and saving.",
-    REPLY_TO_MESSAGE_ID : f"{REPLY_TO_MESSAGE_ID} <message_id> : If the message is a reply, ID of the original message.",
-    ALLOW_SENDING_WITHOUT_REPLY : f"{ALLOW_SENDING_WITHOUT_REPLY} <bool> : Pass True if the message should be sent even if the specified replied-to message is not found.",
-    REPLY_MARKUP : f"{REPLY_MARKUP} <TODO> : TODO",
-    MESSAGE_ID : f"{MESSAGE_ID} <message_id> : the message to copy/forward.",
-    FROM_CHAT_ID : f"{FROM_CHAT_ID} <chat_id> : chat_id of the message to copy/forward.",
-    CAPTION : f"{CAPTION} <caption> : Caption, 0-1024 characters after entities parsing. If not specified, the original caption is kept.",
-    CAPTION_ENTITIES : f"{CAPTION_ENTITIES} <TODO> : TODO",
-    HAS_SPOILER : f"{HAS_SPOILER} <bool> : Pass True if the file needs to be covered with a spoiler animation.",
-    DURATION : f"{DURATION} <duration> : Duration in seconds.",
-    PERFORMER : f"{PERFORMER} <performer> : Performer",
-    TITLE : f"{TITLE} <title> : Title",
-    THUMBNAIL : f"{THUMBNAIL} <thumbnail_path> : Path of the Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320.",
-    DISABLE_CONTENT_TYPE_DETECTION : f"{DISABLE_CONTENT_TYPE_DETECTION} <bool> : Disables automatic server-side content type detection for files uploaded using multipart/form-data",
-    WIDTH : f"{WIDTH} <width> : Video/Animation width",
-    HEIGHT : f"{HEIGHT} <height> : Video/Animation height",
-    SUPPORTS_STREAMING : f"{SUPPORTS_STREAMING} <bool> : Pass True if the uploaded video is suitable for streaming",
-    LENGTH : f"{LENGTH} <length> : Length of the video note.",
-    LATITUDE : f"{LATITUDE} <latitude> : Latitude.",
-    LONGITUDE : f"{LONGITUDE} <longitude> : Longitude.",
-    HORIZONTAL_ACCURACY : f"{HORIZONTAL_ACCURACY} <horizontal_accuracy> : The radius of uncertainty for the location, measured in meters; 0-1500.",
-    LIVE_PERIOD : f"{LIVE_PERIOD} <live_period> : Period in seconds for which the location will be updated, should be between 60 and 86400.",
-    HEADING : f"{HEADING} <heading> : For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.",
-    PROXIMITY_ALERT_RADIUS : f"{PROXIMITY_ALERT_RADIUS} <alert_radius> : For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.",
-    ADDRESS : f"{ADDRESS} <address> : Address of the venue.",
-    FOURSQUARE_ID : f"{FOURSQUARE_ID} <foursquare_id> : Foursquare identifier of the venue, if known.",
-    FOURSQUARE_TYPE : f"{FOURSQUARE_TYPE} <foursquare_type> : Foursquare type of the venue, if known.",
-    GOOGLE_PLACE_ID : f"{GOOGLE_PLACE_ID} <googleplace_id> : Google Places identifier of the venue.",
-    GOOGLE_PLACE_TYPE : f"{GOOGLE_PLACE_TYPE} <googleplace_type> : Google Places type of the venue",
-    PHONE_NUMBER : f"{PHONE_NUMBER} <phone_number> : Contact's phone number.",
-    FIRST_NAME : f"{FIRST_NAME} <first_name> : Contact's first name.",
-    LAST_NAME : f"{LAST_NAME} <last_name> : Contact's last name.",
-    VCARD : f"{VCARD} <vcard> : Additional data about the contact in the form of a vCard.",
-    QUESTION : f"{QUESTION} <question> : Poll question.",
-    OPTIONS : f"{OPTIONS} <TODO> : TODO",
-    IS_ANONYMOUS : F"{IS_ANONYMOUS} <bool> : True, if the poll needs to be anonymous.",
-    TYPE : f"{TYPE} <type> : Poll type.",
-    ALLOWS_MULTIPLE_ANSWERS : f"{ALLOWS_MULTIPLE_ANSWERS} <bool> : Allows multiple answers if True.",
-    CORRECT_OPTION_ID : f"{CORRECT_OPTION_ID} <option_id> : ID of the correct answer for quizzes.",
-    EXPLANATION : f"{EXPLANATION} <explanation> : Explanation for the correct answer.",
-    EXPLANATION_PARSE_MODE : f"{EXPLANATION_PARSE_MODE} <explanation_parse_mode> : Mode for parsing entities in the explanation.",
-    EXPLANATION_ENTITIES : f"{EXPLANATION_ENTITIES} <TODO> : TODO",
-    OPEN_PERIOD : f"{OPEN_PERIOD} <open_period> : Time in seconds for which the poll will be active.",
-    CLOSE_DATE : f"{CLOSE_DATE} <close_date> : UNIX timestamp for the poll's closing date.",
-    IS_CLOSED : f"{IS_CLOSED} <bool> : Closes the poll if True.",
-    EMOJI : f"{EMOJI} <emoji> : Emoji symbolizing the dice throw animation (see the site).",
-    ACTION : f"{ACTION} <chat_action> : Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes."
-}
-
-nerror = "Notify error: "
-suggestion = "Use notify -h or notify -help to get instructions."
-command_error = f"\n{nerror}command not recognised.\n{suggestion}\n"
-
-error = f"\n{nerror}wrong arguments.\n{suggestion}\n"
-
-profile_error = f"\n{nerror}must specify at least the profile or the token.\n{suggestion}\n"
-add_conf_error = f"\n{nerror}must specify at least both name and token.\n{suggestion}\n"
-set_conf_error = f"\n{nerror}must specify a name.\n{suggestion}\n"
-
-message_error = f"\n{nerror}either specify a text message to send, or a file to read.\n{suggestion}\n"
-copy_error = f"\n{nerror}both message id and chat id must be specified.\n{suggestion}\n"
-forward_error = copy_error
-photo_error = f"\n{nerror}either specify a photo_id/web_url or the path to the photo to send.\n{suggestion}\n"
-audio_error = f"\n{nerror}either specify a audio_id/web_url or the path to the audio to send.\n{suggestion}\n"
-doc_error = f"\n{nerror}either specify a document_id/web_url or the path to the doc to send.\n{suggestion}\n"
-video_error = f"\n{nerror}either specify a video_id/web_url or the path to the doc to send.\n{suggestion}\n"
-voice_error = f"\n{nerror}either specify a voice_id/web_url or the path to the voice to send.\n{suggestion}\n"
-animation_error = f"\n{nerror}either specify an animation_id/web_url or the path to the animation to send.\n{suggestion}"
-videonote_error = f"\n{nerror}either specify a videonote_id/web_url or the path to the videonote to send.\n{suggestion}"
-location_error = f"\n{nerror}both latitude and longitude must be specified.\n{suggestion}"
-venue_error = f"\n{nerror}latitude, longitude, title and address must be specified.\n{suggestion}"
-contact_error = f"\n{nerror}both phone number and name must be specified.\n{suggestion}"
-poll_error = f"\n{nerror}both question and option must be specified.\n{suggestion}"
-action_error = f"\n{nerror}naction must be specified.\n{suggestion}"
-help_error = f"\n{nerror}either don't specify anything to have the full help message, or specify a notify command (not a parameter,t o see the parameters description use {PARAMETERS})."
-
-bashrc_edit_title = "#notify - zanzi"
-bashrc_edit_content = """alias notify='python3 $HOME/.notify_zanz/notify_app.py'
-export PYTHONPATH=$HOME/.notify_zanz/python_module
-"""
-
-home = os.path.expanduser('~')
-base_path = os.path.dirname(os.path.abspath(__file__))
-old_config_path = f"{home}/.zanz_notify_config"
-std_config_path = f"{home}/.zanz_notify_profiles"
-conf_file_info = f"""
-Configuration file: {std_config_path}"""
-files = ["notify.py", "notify_app.py", "change_log.md", "readme.md"]
-
-help_beginning = "Hi! Thanks for using notify!\n\nIf this instructions are not helping, please open an issue on github or give a look to the telegram API website (linked at the end of this message).\n\nHere's """
-help_conclusion = f"""
-SHORTCUTS:
-
-- For each bool parameter, '--<param>' is equal to '-<param> true'
-
-
-Base folder: {base_path}
-Profiles file: {std_config_path}
-Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
-Telegram API explanation: https://core.telegram.org/bots/api
-
-{version}
-"""
 
 if not os.path.exists(std_config_path):
     choice = "n"
