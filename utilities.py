@@ -9,7 +9,7 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 dest_path = f"{home}/.notify_zanz"
 log = f"{dest_path}/log.log"
 
-files = ["notify.py", "notify_app.py", "updater.py", "utilities.py", "update_setup.py"]
+files = ["notify.py", "notify_app.py", "updater.py", "utilities.py", "update_setup.py", "change_log.md", "readme.md"]
 
 bashrc_edit_title = "#notify - zanzi"
 bashrc_edit_content = """alias notify='python3 $HOME/.notify_zanz/notify_app.py'
