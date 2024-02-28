@@ -31,8 +31,8 @@ dev = len(sys.argv) == 2 and "d" in sys.argv[1]
 newer = text.partition("Version ")[2].partition("\n")[0]
 
 if not dev:
-    o_v, o_p, _ = utilities.version.partition(": ")[2].split(".")
-    n_v, n_p, _ = newer.split(".")
+    o_v, o_p = utilities.version.partition(": ")[2].split(".")[:2]
+    n_v, n_p = newer.split(".")[:2]
     update = o_v+o_p != n_v+n_p
 
 if not update:
