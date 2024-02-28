@@ -5,8 +5,6 @@ Currently it is configured to send text messages, markdown text messages, docume
 
 Current version: 2.0.1  
 
-For more informations, check out the <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier">GitHub page</a>.   
-
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
 ## Configuration
