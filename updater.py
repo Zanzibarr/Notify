@@ -12,7 +12,7 @@ down_folder = f"{utilities.base_path}/Downloads"
 if len(sys.argv) == 2 and sys.argv[1] not in ("d", "s", "ds"):
     print("Wrong arguments.")
     exit(1)
-log_to_file = "s" in sys.argv[1]
+log_to_file = len(sys.argv) == 2 and "s" in sys.argv[1]
 
 
 # --- VERSION CONTROL ---
@@ -27,15 +27,13 @@ if not r.ok:
 text = r.text
 
 update = True
-dev = "d" in sys.argv[1]
+dev = len(sys.argv) == 2 and "d" in sys.argv[1]
 newer = text.partition("Version ")[2].partition("\n")[0]
 
 if not dev:
-    a, _, rest = utilities.version.partition(": ")[2].partition(".")
-    old = f"{a}.{rest.partition('.')[0]}"
-    a, _, rest = newer.partition(": ")[2].partition(".")
-    new = f"{a}.{rest.partition('.')[0]}"
-    update = new == old
+    o_v, o_p, _ = utilities.version.partition(": ")[2].split(".")
+    n_v, n_p, _ = newer.split(".")
+    update = o_v+o_p != n_v+n_p
 
 if not update:
     utilities.ntf_print("notify is already up-to-date.", on_file=log_to_file)

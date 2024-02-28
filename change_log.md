@@ -1,3 +1,6 @@
+## Version 2.1
+- fixed updating bug
+
 # Version 2.0
 - bug fixing
 - stable version

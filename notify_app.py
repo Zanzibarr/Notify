@@ -452,7 +452,8 @@ def ntf_update():
         print(utilities.error)
         exit(1)
 
-    if len(sys.argv) == 2 or sys.argv[2] == utilities.DEV:
+    additional_text = ""
+    if len(sys.argv) == 3 and sys.argv[2] == utilities.DEV:
         additional_text = " d"
 
     subprocess.run(shlex.split(f"python3 {utilities.base_path}/updater.py{additional_text}"))

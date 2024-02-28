@@ -3,7 +3,7 @@
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
-Current version: 2.0.0  
+Current version: 2.0.1  
 
 For more informations, check out the <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier">GitHub page</a>.   
 
