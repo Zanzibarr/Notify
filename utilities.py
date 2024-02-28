@@ -85,7 +85,7 @@ explanation = {
 }
 
 nerror = "Notify error: "
-suggestion = "Use notify -h or notify -help to get instructions."
+suggestion = "Use notify -help to get instructions."
 command_error = f"\n{nerror}command not recognised.\n{suggestion}\n"
 
 error = f"\n{nerror}wrong arguments.\n{suggestion}\n"
