@@ -42,6 +42,14 @@ if not update:
 
 # --- DOWNLOADING ---
 
+update = input(f"Found version {newer}, wish to update? [y/n]: ")
+while update not in ("y", "n"):
+    update = input(f"Found version {newer}, wish to update? [y/n]: ")
+
+if update == "n":
+    print("Update cancelled.")
+    exit(0)
+
 if not os.path.exists(down_folder):
     utilities.ntf_print(f"{down_folder} not found, creating one.", on_file=log_to_file)
     os.mkdir(down_folder)

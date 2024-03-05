@@ -1,3 +1,6 @@
+### Version 2.2.1
+- added update confirmation: testing
+
 ## Version 2.2
 - fixed path bug
 
