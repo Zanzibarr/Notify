@@ -712,7 +712,7 @@ class bot:
 
 		if not os.path.exists(file_path):
 			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
-		if not os.path.exists(thumbnail):
+		if thumbnail != "" and not os.path.exists(thumbnail):
 			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {"audio" : open(file_path, "rb")}
@@ -773,7 +773,7 @@ class bot:
 		if parse_mode == "":
 			parse_mode = self.__profile["parse_mode"]
 
-		if not os.path.exists(thumbnail):
+		if thumbnail != "" and not os.path.exists(thumbnail):
 			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {}
@@ -834,7 +834,7 @@ class bot:
 
 		if not os.path.exists(file_path):
 			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
-		if not os.path.exists(thumbnail):
+		if thumbnail != "" and not os.path.exists(thumbnail):
 			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {"document" : open(file_path, "rb")}
@@ -889,7 +889,7 @@ class bot:
 		if parse_mode == "":
 			parse_mode = self.__profile["parse_mode"]
 
-		if not os.path.exists(thumbnail):
+		if thumbnail != "" and not os.path.exists(thumbnail):
 			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {}
@@ -952,7 +952,7 @@ class bot:
 
 		if not os.path.exists(file_path):
 			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
-		if not os.path.exists(thumbnail):
+		if thumbnail != "" and not os.path.exists(thumbnail):
 			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {"video" : open(file_path, "rb")}
@@ -1015,7 +1015,7 @@ class bot:
 		if parse_mode == "":
 			parse_mode = self.__profile["parse_mode"]
 
-		if not os.path.exists(thumbnail):
+		if thumbnail != "" and not os.path.exists(thumbnail):
 			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {}

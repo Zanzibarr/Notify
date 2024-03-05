@@ -1,3 +1,6 @@
+## Version 2.2
+- fixed path bug
+
 ## Version 2.1
 - fixed updating bug
 
