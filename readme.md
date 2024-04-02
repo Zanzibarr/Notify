@@ -53,7 +53,7 @@ You can now create new profiles and use the to re-use bot configurations and par
 ## Command line use
 Open a terminal and write:
 ```shell
-notify -h
+notify -help
 ```
 to get the list of commands.
 
