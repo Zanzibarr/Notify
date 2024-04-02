@@ -91,12 +91,13 @@ else:
 
     print("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
 
-    choice = input(f"Removing old credentials file ({utilities.old_config_path})? [y/n]: ")
-    while choice not in ("y", "n"):
-        choice = input(f"Command not recognised.\nRemoving old credentials file ({utilities.old_config_path})? [y/n]: ")
+    if os.path.exists(utilities.old_config_path):
+        choice = input(f"Removing old credentials file ({utilities.old_config_path})? [y/n]: ")
+        while choice not in ("y", "n"):
+            choice = input(f"Command not recognised.\nRemoving old credentials file ({utilities.old_config_path})? [y/n]: ")
 
-    if choice == "y":
-        subprocess.run(["rm", utilities.old_config_path])
+        if choice == "y":
+            subprocess.run(["rm", utilities.old_config_path])
 
 
 # --- MOVING FILES ---
