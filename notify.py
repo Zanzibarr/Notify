@@ -300,7 +300,7 @@ class bot:
 
 		return self.send_message_by_text(message, chat_id=chat_id, disable_notification=False, parse_mode="Markdown")
 
-	def create_progress_bar(self, steps, title="", text="", chat_id=""): #ŦESTED
+	def create_progress_bar(self, steps, title="", text="", chat_id=""):
 
 		'''Creates and send the initial progress bar (works only on for loops with a known number of steps)
 		
@@ -313,7 +313,7 @@ class bot:
 		message = message + "|" + '\u2581'*steps + "|\n"
 		message = message + f"Time elapsed: 0s/0s"
 
-		r = self.send_message_by_text(message, chat_id=chat_id, parse_mode="Markdown")
+		r = self.send_message_by_text(message, chat_id=chat_id, parse_mode="MarkdownV2")
 
 		self.__pb.active = True
 		self.__pb.title = title
@@ -343,7 +343,7 @@ class bot:
 		message = message + "|" + '\u2588'*(self.__pb.steps-self.__pb.missing_steps) + '\u2581'*self.__pb.missing_steps + "|\n"
 		message = message + f"Time elapsed: {round(self.__pb.time_elapsed, 2)}s/{round(self.__pb.time_elapsed + self.__pb.missing_steps * np.average(self.__pb.time_per_step), 2)}s"
 
-		r = self.edit_message_text(message, message_id=self.__pb.message_id, chat_id=self.__pb.chat_id, parse_mode="Markdown")
+		r = self.edit_message_text(message, message_id=self.__pb.message_id, chat_id=self.__pb.chat_id, parse_mode="MarkdownV2")
 
 		if self.__pb.missing_steps == 0:
 			self.__pb.active = False

@@ -1,6 +1,6 @@
 import os
 
-version = "notify version: 2.3"
+version = "notify version: 2.4"
 
 home = os.path.expanduser('~')
 std_config_path = f"{home}/.zanz_notify_profiles"

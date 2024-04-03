@@ -1,3 +1,6 @@
+## Version 2.4
+- MacOS bugfix
+
 ## Version 2.3
 - added update confirmation
 
