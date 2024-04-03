@@ -310,7 +310,7 @@ class bot:
 		- chat_id : int/str (optional) -> chat_id to send the message to (If not specified, using the default one)'''
 
 		message = f"*{title}*"+"\n"+text+"\n"
-		message = message + "\[" + '\u2581'*steps + "]\n"
+		message = message + "|" + '\u2581'*steps + "|\n"
 		message = message + f"Time elapsed: 0s/0s"
 
 		r = self.send_message_by_text(message, chat_id=chat_id, parse_mode="Markdown")
@@ -340,7 +340,7 @@ class bot:
 		self.__pb.time_elapsed = time.time() - self.__pb.time
 
 		message = f"*{self.__pb.title}*"+"\n"+self.__pb.text+"\n"
-		message = message + "\[" + '\u2588'*(self.__pb.steps-self.__pb.missing_steps) + '\u2581'*self.__pb.missing_steps + "]\n"
+		message = message + "|" + '\u2588'*(self.__pb.steps-self.__pb.missing_steps) + '\u2581'*self.__pb.missing_steps + "|\n"
 		message = message + f"Time elapsed: {round(self.__pb.time_elapsed, 2)}s/{round(self.__pb.time_elapsed + self.__pb.missing_steps * np.average(self.__pb.time_per_step), 2)}s"
 
 		r = self.edit_message_text(message, message_id=self.__pb.message_id, chat_id=self.__pb.chat_id, parse_mode="Markdown")
