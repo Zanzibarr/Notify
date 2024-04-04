@@ -161,6 +161,7 @@ bot.copy_message(message_id="message_id", chat_id="chat_id", ...)
 ```
 
 ## Utilities
+Each of the following methods will return the response recieved from the telegram API.  
 We've implemented some utilities that you might find useful:
 ### Send an exception
 Sends a text message formatted in a way that it stands out as exception:
@@ -200,6 +201,7 @@ bot.conclude_progree_bar()
 ```
 
 ## Edit messages
+Each of the following methods will return the response recieved from the telegram API.  
 There are a few options to edit messages that has been sent:
 ### Edit message text
 Please read the method's description to firther understand how this method works.  
