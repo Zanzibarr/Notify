@@ -13,11 +13,12 @@ Once you created your bot, start a chat with it (without this step, the applicat
 
 Make sure you have already installed the requests module:
 ```shell
-python3 pip -m install requests
+> python3 pip -m install requests
 ```
-To download and install properly notify, open a terminal and run the command  
+To download and install properly notify, open a terminal and run the following commands  
 ```shell
-git clone https://github.com/Zanzibarr/Telegram_Python_Notifier temp_notify_zanz/ && python3 temp_notify_zanz/setup.py
+> git clone https://github.com/Zanzibarr/Telegram_Python_Notifier temp_notify_zanz/
+> python3 temp_notify_zanz/setup.py
 ```
 
 Once you're done you will be ready to go (on a freshly opened terminal)  
@@ -32,7 +33,7 @@ If any problems occur, let me know by opening an <a target="_blank" href="https:
 We suggest you to read the <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/change_log.md">change_log</a> before updating!  
 To get the latest version of notify:
 ```shell
-notify -update
+> notify -update
 ```
 
 ## Python lib use
@@ -53,14 +54,22 @@ You can now create new profiles and use the to re-use bot configurations and par
 ## Command line use
 Open a terminal and write:
 ```shell
-notify -help
+> notify -help
 ```
 to get the list of commands.
 
 ## Uninstall
 To uninstall just run the command
 ```shell
-notify -uninstall
+> notify -uninstall
+```
+Uninstalling notify won't remove the configuration file located at
+```shell
+~/.zanz_notify_profiles
+```
+To remove those too just write
+```shell
+> rm ~/.zanz_notify_profiles
 ```
 
 ## Credits
