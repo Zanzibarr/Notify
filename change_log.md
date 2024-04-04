@@ -1,5 +1,6 @@
 ## Version 2.4
 - MacOS bugfix
+- updater bugfix
 - removed unused features
 - added documentation
 

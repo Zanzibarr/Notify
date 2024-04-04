@@ -74,7 +74,7 @@ for file in utilities.files:
 
 subprocess.run(["mv", f"{down_folder}/notify.py", f"{utilities.dest_path}/python_module/notify.py"])
 
-subprocess.run(["rm", "-r", down_folder])
+subprocess.run(["rm", "-r", f"{down_folder}/*"])
 
 if os.path.exists(f"{utilities.dest_path}/{update_setup_file}"):
     subprocess.run(["python3", f"{utilities.dest_path}/{update_setup_file}"])
