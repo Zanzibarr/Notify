@@ -1,5 +1,5 @@
 ## Using notify as a python module
-After following the [configuration setup](../readme.md), you should be able to use notify as a python module.  
+After following the [configuration setup](../readme.md#configuration), you should be able to use notify as a python module.  
 Please note that all details about parameters of the methods can be found in the method's description (either read the source or use an IDE and read the method's description).  
 
 # Index
