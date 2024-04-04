@@ -313,10 +313,11 @@ NOTIFY COMMANDS:
     If the {utilities.PROFILE} <profile_params> is omitted, the default profile found inside the configuration file will be used
     <send_options>:
         {utilities.TEXT} <text/path_to_file> <other_params> : Sends a text message by specifying the text or passing a text file.
-        {utilities.PHOTO} <photo_id/path_to_file> <other_params> : Sends a photo through photo_id or file.
-        {utilities.AUDIO} <audio_id/path_to_file> <other_params> : Sends an audio throuhg audio_id or file.
-        {utilities.DOCUMENT} <document_id/path_to_file> <other_params> : sends a document through document_id or file.
-        {utilities.VIDEO} <video_id/path_to_file> <other_params> : sends a video through document_id or file.
+        {utilities.PHOTO} <path_to_file> <other_params> : Sends a photo through file.
+        {utilities.AUDIO} <path_to_file> <other_params> : Sends an audio throuhg file.
+        {utilities.DOCUMENT} <path_to_file> <other_params> : sends a document through file.
+        {utilities.VIDEO} <path_to_file> <other_params> : sends a video through file.
+        {utilities.EXCEPTION} <text> <other_params> : sends a text message formatted as an exception.
         
         To see which parameters are allowed as <other_params> use >notify {utilities.HELP} <command>
         <other_params> can be omitted if you wish to use the default/selected profile ones
@@ -427,6 +428,13 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
         {utilities.explanation[utilities.PROTECT_CONTENT]}
         {utilities.explanation[utilities.REPLY_TO_MESSAGE_ID]}
         {utilities.explanation[utilities.ALLOW_SENDING_WITHOUT_REPLY]}
+"""
+        elif type == utilities.EXCEPTION:
+            message = f"""the explenation of the {utilities.EXCEPTION} command.
+> notify <optional_profile_setup> {utilities.EXCEPTION} <text> <exception_params>
+    <text> : The text of the exception to send.
+    <exception_params>:
+        {utilities.explanation[utilities.CHAT_ID]}
 """
         else:
             print(utilities.help_error)

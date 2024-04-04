@@ -101,7 +101,7 @@ photo_error = f"\n{nerror}specify the path to the photo to send.\n{suggestion}\n
 audio_error = f"\n{nerror}specify the path to the audio to send.\n{suggestion}\n"
 doc_error = f"\n{nerror}specify the path to the doc to send.\n{suggestion}\n"
 video_error = f"\n{nerror}specify the path to the doc to send.\n{suggestion}\n"
-help_error = f"\n{nerror}either don't specify anything to have the full help message, or specify a notify command (not a parameter,t o see the parameters description use {PARAMETERS})."
+help_error = f"\n{nerror}either don't specify anything to have the full help message, or specify a notify command (not a parameter, to see the parameters description use {PARAMETERS})."
 
 conf_file_info = f"""
 Configuration file: {std_config_path}"""
