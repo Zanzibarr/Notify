@@ -430,7 +430,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
         {utilities.explanation[utilities.ALLOW_SENDING_WITHOUT_REPLY]}
 """
         elif type == utilities.EXCEPTION:
-            message = f"""the explenation of the {utilities.EXCEPTION} command.
+            message = f"""the explanation of the {utilities.EXCEPTION} command.
 > notify <optional_profile_setup> {utilities.EXCEPTION} <text> <exception_params>
     <text> : The text of the exception to send.
     <exception_params>:

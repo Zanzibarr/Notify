@@ -17,7 +17,7 @@ export PYTHONPATH=$HOME/.notify_zanz/python_module"""
 bashrc_edit = f"{bashrc_edit_title}\n{bashrc_edit_content}"
 
 HELP = "-help"
-PARAMETERS = "-param"
+PARAMETERS = "-params"
 VERSION = "-version"
 UPDATE = "-update"
 PROD = "-prod"
