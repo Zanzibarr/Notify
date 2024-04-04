@@ -60,15 +60,15 @@ for file in utilities.files:
         utilities.ntf_print(f"Request to {base_url}{file} had response {r}", on_file=log_to_file)
         print(f"Exception: {r}")
         exit(1)
-    if not os.path.exists(f"{down_folder}/{file}"):
-        open(f"{down_folder}/{file}", "x")
+    #if not os.path.exists(f"{down_folder}/{file}"):
+    #    open(f"{down_folder}/{file}", "x")
     with open(f"{down_folder}/{file}", "w") as f:
         f.write(r.text)
 
 
 # --- MOVING FILES TO DESTINATION ---
 
-utilities.ntf_print(f"Moving files to base path {utilities.dest_path}")
+utilities.ntf_print(f"Moving files to base path {utilities.dest_path}", on_file=log_to_file)
 for file in utilities.files:
     subprocess.run(["cp", f"{down_folder}/{file}", f"{utilities.dest_path}/{file}"])
 
