@@ -381,24 +381,6 @@ class bot:
 
 		self.__send = False
 
-	def get_me(self): 
-		
-		'''A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.'''
-
-		return self.__request_format("getMe").json()
-
-	def log_out(self):
-
-		'''Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.'''
-
-		return self.__request_format("logOut").json()
-
-	def close(self):
-
-		'''Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.'''
-		
-		return self.__request_format("close").json()
-
 	def send_message_by_text(self, text, chat_id="", message_thread_id="", parse_mode="", disable_web_page_preview="", disable_notification="", protect_content="", reply_to_message_id="", allow_sending_without_reply=""):
 
 		'''Use this method to send text messages. On success, the sent Message is returned.
@@ -624,54 +606,6 @@ class bot:
 
 		return self.__request_format("sendPhoto", data=data, files=files).json()
 	
-	def send_photo(self, photo, chat_id = "", message_thread_id="", caption="", parse_mode="", has_spoiler="", disable_notification="", protect_content="", reply_to_message_id="", allow_sending_without_reply=""):
-
-		'''Use this method to send photos. On success, the sent Message is returned.
-	
-		- photo : InputFile/str -> Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on the site
-		- chat_id : int/str (optional) -> chat_id of the chat to send the photo to. The default one is the one specified by the profile
-		- message_thread_id : int (optional) -> Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-		- caption : str (optional) -> Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
-		- parse_mode : str (optional) -> Mode for parsing entities in the photo caption. See the site for more details.
-		- has_spoiler : bool (optional) -> Pass True if the photo needs to be covered with a spoiler animation
-		- disable_notification : bool (optional) -> Sends the message silently. Users will receive a notification with no sound.
-		- protect_content : bool (optional) -> Protects the contents of the sent message from forwarding and saving
-		- reply_to_message_id : int (optional) -> If the message is a reply, ID of the original message
-		- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found
-		
-		Refer to https://core.telegram.org/bots/api (sendPhoto) for more info'''
-
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
-		if not self.__send: return {}
-
-		if chat_id == "":
-			chat_id = self.__profile["to_chat_id"]
-		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
-		if disable_notification == "":
-			disable_notification = self.__profile["disable_notification"]
-		if protect_content == "":
-			protect_content = self.__profile["protect_content"]
-		if allow_sending_without_reply == "":
-			allow_sending_without_reply = self.__profile["allow_sending_without_reply"]
-		if parse_mode == "":
-			parse_mode = self.__profile["parse_mode"]
-
-		data={
-			"chat_id" : chat_id,
-			"message_thread_id" : message_thread_id,
-			"photo" : photo,
-			"caption" : caption,
-			"parse_mode" : parse_mode,
-			"has_spoiler" : has_spoiler,
-			"disable_notification" : disable_notification,
-			"protect_content" : protect_content,
-			"reply_to_message_id" : reply_to_message_id,
-			"allow_sending_without_reply" : allow_sending_without_reply,
-		}
-
-		return self.__request_format("sendPhoto", data=data).json()
-	
 	def send_audio_by_path(self, file_path, chat_id="", message_thread_id="", caption="", parse_mode="", duration="", performer="", title="", thumbnail="", disable_notification="", protect_content="", reply_to_message_id="", allow_sending_without_reply=""):
 
 		'''Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
@@ -727,69 +661,6 @@ class bot:
 			"duration" : duration,
 			"performer" : performer,
 			"title" : title,
-			"disable_notification" : disable_notification,
-			"protect_content" : protect_content,
-			"reply_to_message_id" : reply_to_message_id,
-			"allow_sending_without_reply" : allow_sending_without_reply,
-		}
-
-		return self.__request_format("sendAudio", data=data, files=files).json()
-	
-	def send_audio(self, audio, chat_id="", message_thread_id="", caption="", parse_mode="", duration="", performer="", title="", thumbnail="", disable_notification="", protect_content="", reply_to_message_id="", allow_sending_without_reply=""):
-
-		'''Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
-		
-		For sending voice messages, use the send_voice method instead.
-		
-		- audio : InputFile/str -> Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data. More information on the site
-		- chat_id : int/str (optional) -> chat_id of the chat to send the audio to. The default one is the one specified by the profile
-		- message_thread_id : int (optional) -> Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-		- caption : str (optional) -> Audio caption (may also be used when resending audios by file_id), 0-1024 characters after entities parsing
-		- parse_mode : str (optional) -> Mode for parsing entities in the audio caption. See the site for more details.
-		- duration : int (optional) -> Duration of the audio in seconds
-		- performer : str (optional) -> Performer
-		- title : str (optional) -> Track name
-		- thumbnail : str (optional) -> Path of the Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. More information in the site.
-		- disable_notification : bool (optional) -> Sends the message silently. Users will receive a notification with no sound.
-		- protect_content : bool (optional) -> Protects the contents of the sent message from forwarding and saving
-		- reply_to_message_id : int (optional) -> If the message is a reply, ID of the original message
-		- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found
-		
-		Refer to https://core.telegram.org/bots/api (sendAudio) for more info'''
-
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
-		if not self.__send: return {}
-
-		if chat_id == "":
-			chat_id = self.__profile["to_chat_id"]
-		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
-		if disable_notification == "":
-			disable_notification = self.__profile["disable_notification"]
-		if protect_content == "":
-			protect_content = self.__profile["protect_content"]
-		if allow_sending_without_reply == "":
-			allow_sending_without_reply = self.__profile["allow_sending_without_reply"]
-		if parse_mode == "":
-			parse_mode = self.__profile["parse_mode"]
-
-		if thumbnail != "" and not os.path.exists(thumbnail):
-			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
-
-		files = {}
-		if thumbnail != "":
-			files["thumbnail"] = open(thumbnail, "rb")
-
-		data={
-			"chat_id" : chat_id,
-			"message_thread_id" : message_thread_id,
-			"audio" : audio,
-			"caption" : caption,
-			"parse_mode" : parse_mode,
-			"duration" : duration,
-			"performer" : performer,
-			"title" : title,
-			"thumbnail" : thumbnail,
 			"disable_notification" : disable_notification,
 			"protect_content" : protect_content,
 			"reply_to_message_id" : reply_to_message_id,
@@ -855,63 +726,6 @@ class bot:
 
 		return self.__request_format("sendDocument", data=data, files=files).json()
 	
-	def send_document(self, document, chat_id="", message_thread_id="", thumbnail="", caption="", parse_mode="", disable_content_type_detection="", disable_notification="", protect_content="", reply_to_message_id="", allow_sending_without_reply=""):
-
-		'''Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
-	
-		- document : InputFile/str -> File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information in the site
-		- chat_id : int/str (optional) -> chat_id of the chat to send the document to. The default one is the one specified by the profile
-		- message_thread_id : int (optional) -> Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-		- thumbnail : str (optional) -> Path of the Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. More information in the site.
-		- caption : str (optional) -> Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
-		- parse_mode : str (optional) -> Mode for parsing entities in the document caption. See the site for more details.
-		- disable_content_type_detection : bool (optional) -> Disables automatic server-side content type detection for files uploaded using multipart/form-data
-		- disable_notification : bool (optional) -> Sends the message silently. Users will receive a notification with no sound.
-		- protect_content : bool (optional) -> Protects the contents of the sent message from forwarding and saving
-		- reply_to_message_id : int (optional) -> If the message is a reply, ID of the original message
-		- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found
-		
-		Refer to https://core.telegram.org/bots/api (sendDocument) for more info'''
-
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
-		if not self.__send: return {}
-
-		if chat_id == "":
-			chat_id = self.__profile["to_chat_id"]
-		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
-		if disable_notification == "":
-			disable_notification = self.__profile["disable_notification"]
-		if protect_content == "":
-			protect_content = self.__profile["protect_content"]
-		if allow_sending_without_reply == "":
-			allow_sending_without_reply = self.__profile["allow_sending_without_reply"]
-		if parse_mode == "":
-			parse_mode = self.__profile["parse_mode"]
-
-		if thumbnail != "" and not os.path.exists(thumbnail):
-			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
-
-		files = {}
-		if thumbnail != "":
-			files["thumbnail"] = open(thumbnail, "rb")
-
-		data={
-			"chat_id" : chat_id,
-			"message_thread_id" : message_thread_id,
-			"document" : document,
-			"thumbnail" : thumbnail,
-			"caption" : caption,
-			"parse_mode" : parse_mode,
-			"disable_content_type_detection" : disable_content_type_detection,
-			"disable_notification" : disable_notification,
-			"protect_content" : protect_content,
-			"reply_to_message_id" : reply_to_message_id,
-			"allow_sending_without_reply" : allow_sending_without_reply,
-		}
-
-		return self.__request_format("sendDocument", data=data, files=files).json()
-	
 	def send_video_by_path(self, file_path, chat_id="", message_thread_id="", duration="", width="", height="", thumbnail="", caption="", parse_mode="", has_spoiler="", supports_streaming="", disable_notification="", protect_content="", reply_to_message_id="", allow_sending_without_reply=""):
 
 		'''Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
@@ -962,70 +776,6 @@ class bot:
 		data={
 			"chat_id" : chat_id,
 			"message_thread_id" : message_thread_id,
-			"duration" : duration,
-			"width" : width,
-			"height" : height,
-			"caption" : caption,
-			"parse_mode" : parse_mode,
-			"has_spoiler" : has_spoiler,
-			"supports_streaming" : supports_streaming,
-			"disable_notification" : disable_notification,
-			"protect_content" : protect_content,
-			"reply_to_message_id" : reply_to_message_id,
-			"allow_sending_without_reply" : allow_sending_without_reply,
-		}
-
-		return self.__request_format("sendVideo", data=data, files=files).json()
-	
-	def send_video(self, video, chat_id="", message_thread_id="", duration="", width="", height="", thumbnail="", caption="", parse_mode="", has_spoiler="", supports_streaming="", disable_notification="", protect_content="", reply_to_message_id="", allow_sending_without_reply=""):
-
-		'''Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
-	
-		- video : InputFile/str -> Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information in the site.
-		- chat_id : int/str (optional) -> chat_id of the chat to send the video to. The default one is the one specified by the profile
-		- message_thread_id : int (optional) -> Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-		- duration : int (optional) -> Duration of sent video in seconds
-		- width : int (optional) -> Video width
-		- height : int (optional) -> Video height
-		- thumbnail : str (optional) -> Path of the Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. More information in the site.
-		- caption : str (optional) -> Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
-		- parse_mode : str (optional) -> Mode for parsing entities in the video caption. See the site for more details.
-		- has_spoiler : bool (optional) -> Pass True if the video needs to be covered with a spoiler animation
-		- supports_streaming : bool (optional) -> Pass True if the uploaded video is suitable for streaming
-		- disable_notification : bool (optional) -> Sends the message silently. Users will receive a notification with no sound.
-		- protect_content : bool (optional) -> Protects the contents of the sent message from forwarding and saving
-		- reply_to_message_id : int (optional) -> If the message is a reply, ID of the original message
-		- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found
-		
-		Refer to https://core.telegram.org/bots/api (sendVideo) for more info'''
-
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
-		if not self.__send: return {}
-
-		if chat_id == "":
-			chat_id = self.__profile["to_chat_id"]
-		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
-		if disable_notification == "":
-			disable_notification = self.__profile["disable_notification"]
-		if protect_content == "":
-			protect_content = self.__profile["protect_content"]
-		if allow_sending_without_reply == "":
-			allow_sending_without_reply = self.__profile["allow_sending_without_reply"]
-		if parse_mode == "":
-			parse_mode = self.__profile["parse_mode"]
-
-		if thumbnail != "" and not os.path.exists(thumbnail):
-			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
-
-		files = {}
-		if thumbnail != "":
-			files["thumbnail"] = open(thumbnail, "rb")
-
-		data={
-			"chat_id" : chat_id,
-			"message_thread_id" : message_thread_id,
-			"video" : video,
 			"duration" : duration,
 			"width" : width,
 			"height" : height,
@@ -1151,36 +901,6 @@ class bot:
 		}
 
 		return self.__request_format("editMessageMedia", data=data, files=files).json()
-	
-	def edit_message_reply_markup(self, chat_id="", message_id="", inline_message_id=""):
-
-		'''Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
-
-		- chat_id : int/str (limited) -> Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (if not defined looks for the default one)
-		- message_id : int (limited) -> Required if inline_message_id is not specified. Identifier of the message to edit
-		- inline_message_id : str (limited) -> Required if chat_id and message_id are not specified. Identifier of the inline message
-
-		Refer to https://core.telegram.org/bots/api (stopMessageLiveLocation) for more info'''
-
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
-		if not self.__send: return {}
-
-		if inline_message_id == "":
-			if chat_id == "":
-				chat_id = self.__profile["to_chat_id"]
-			if message_id == "" or chat_id == "":
-				raise Exception("EXCEPTION: If the inline_message_id is not defined, both chat_id (default counts) and message_id must be defined.")
-		else:
-			chat_id = ""
-			message_id =""
-
-		data={
-			"chat_id" : chat_id,
-			"message_id" : message_id,
-			"inline_message_id" : inline_message_id,
-		}
-
-		return self.__request_format("editMessageReplyMarkup", data=data).json()
 
 	def delete_message(self, message_id, chat_id=""):
 

@@ -39,26 +39,10 @@ To get the latest version of notify:
 ```
 
 ## Python lib use
-You can use the application as a python library:
-```python
-import notify
-```
-
-First of all, you must setup the bot token and chat id:
-```python
-bot = notify(token="your_bot_token")
-```
-
-Then you can use all the methods from the library.  
-
-You can now create new profiles and use the to re-use bot configurations and parameters.  
+[Python lib use](docs/python_use.md)
 
 ## Command line use
-Open a terminal and write:
-```shell
-> notify -help
-```
-to get the list of commands.
+[Command line use](docs/cmd_use.md)
 
 ## Uninstall
 To uninstall just run the command

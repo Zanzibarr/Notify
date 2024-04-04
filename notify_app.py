@@ -165,11 +165,8 @@ def ntf_send():
             print(utilities.photo_error)
             exit(1)
 
-        if ispath(content):
-            response = bot.send_photo_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
-        else:
-            response = bot.send_photo(photo=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
-            
+        response = bot.send_photo_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
+        
     elif type == utilities.AUDIO:
 
         content = get(utilities.AUDIO)
@@ -178,10 +175,7 @@ def ntf_send():
             print(utilities.audio_error)
             exit(1)
 
-        if ispath(content):
-            response = bot.send_audio_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), duration=get(utilities.DURATION), performer=get(utilities.PERFORMER), title=get(utilities.TITLE), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
-        else:
-            response = bot.send_audio(audio=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), duration=get(utilities.DURATION), performer=get(utilities.PERFORMER), title=get(utilities.TITLE), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
+        response = bot.send_audio_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), duration=get(utilities.DURATION), performer=get(utilities.PERFORMER), title=get(utilities.TITLE), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
 
     elif type == utilities.DOCUMENT:
 
@@ -191,10 +185,7 @@ def ntf_send():
             print(utilities.doc_error)
             exit(1)
 
-        if ispath(content):
-            response = bot.send_document_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), disable_content_type_detection=get(utilities.DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
-        else:
-            response = bot.send_document(document=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), disable_content_type_detection=get(utilities.DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
+        response = bot.send_document_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), disable_content_type_detection=get(utilities.DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
 
     elif type == utilities.VIDEO:
 
@@ -204,10 +195,7 @@ def ntf_send():
             print(utilities.video_error)
             exit(1)
 
-        if ispath(content):
-            response = bot.send_video_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), supports_streaming=get(utilities.SUPPORTS_STREAMING), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
-        else:
-            response = bot.send_video(video=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), supports_streaming=get(utilities.SUPPORTS_STREAMING), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
+        response = bot.send_video_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), supports_streaming=get(utilities.SUPPORTS_STREAMING), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
 
     elif type in utilities.EXCEPTION:
 
@@ -374,7 +362,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
         elif type == utilities.PHOTO:
             message = f"""the explanation of the {utilities.PHOTO} command.
 > notify <optional_profile_setup> {utilities.PHOTO} <file_path/photo_id> <photo_params>
-    <file_path/photo_id> : Path to the file to send of the photo id to use.
+    <file_path> : Path to the file to send.
     <photo_params>:
         {utilities.explanation[utilities.CHAT_ID]}
         {utilities.explanation[utilities.MESSAGE_THREAD_ID]}
@@ -389,7 +377,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
         elif type == utilities.AUDIO:
             message = f"""the explanation of the {utilities.AUDIO} command.
 > notify <optional_profile_setup> {utilities.AUDIO} <file_path/audio_id> <audio_params>
-    <file_path/audio_id> : Path to the file to send of the audio id to use.
+    <file_path> : Path to the file to send.
     <audio_params>:
         {utilities.explanation[utilities.CHAT_ID]}
         {utilities.explanation[utilities.MESSAGE_THREAD_ID]}
@@ -407,7 +395,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
         elif type == utilities.DOCUMENT:
             message = f"""the explanation of the {utilities.DOCUMENT} command.
 > notify <optional_profile_setup> {utilities.DOCUMENT} <file_path/document_id> <document_params>
-    <file_path/document_id> : Path to the file to send of the document id to use.
+    <file_path> : Path to the file to send.
     <document_params>:
         {utilities.explanation[utilities.CHAT_ID]}
         {utilities.explanation[utilities.MESSAGE_THREAD_ID]}
@@ -423,7 +411,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
         elif type == utilities.VIDEO:
             message = f"""the explanation of the {utilities.VIDEO} command.
 > notify <optional_profile_setup> {utilities.VIDEO} <file_path/video_id> <video_params>
-    <file_path/video_id> : Path to the file to send of the video id to use.
+    <file_path> : Path to the file to send.
     <video_params>:
         {utilities.explanation[utilities.CHAT_ID]}
         {utilities.explanation[utilities.MESSAGE_THREAD_ID]}
