@@ -22,6 +22,8 @@ Please note that all details about parameters of the methods can be found in the
     - [Send a document](#send-a-document-by-path)
     - [Send a video](#send-a-video-by-path)
 - [Utilities](#utilities)
+    - [Send an exception type message](#send-an-exception)
+    - [Send a progress bar](#progress-bar)
 - [Edit messages](#edit-messages)
     - [Edit a message text](#edit-message-text)
     - [Edit a message caption](#edit-message-caption)
