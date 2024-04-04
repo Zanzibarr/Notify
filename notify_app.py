@@ -310,7 +310,7 @@ NOTIFY COMMANDS:
         <name> : the name of the profile to load (if used, it's the first parameter. Es: notify {utilities.PROFILE} <name> <other_params>)
         {utilities.TOKEN} <token> : the token to use.
         If both name and token are specified first is loaded the <name> profile, then the <token> will overwrite the one specified by the profile.
-    If the {utilities.PROFILE} <profile_params> is omitted, the 'default' profile found inside the configuration file will be used
+    If the {utilities.PROFILE} <profile_params> is omitted, the default profile found inside the configuration file will be used
     <send_options>:
         {utilities.TEXT} <text/path_to_file> <other_params> : Sends a text message by specifying the text or passing a text file.
         {utilities.PHOTO} <photo_id/path_to_file> <other_params> : Sends a photo through photo_id or file.
@@ -361,7 +361,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
 """
         elif type == utilities.PHOTO:
             message = f"""the explanation of the {utilities.PHOTO} command.
-> notify <optional_profile_setup> {utilities.PHOTO} <file_path/photo_id> <photo_params>
+> notify <optional_profile_setup> {utilities.PHOTO} <file_path> <photo_params>
     <file_path> : Path to the file to send.
     <photo_params>:
         {utilities.explanation[utilities.CHAT_ID]}
@@ -376,7 +376,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
 """
         elif type == utilities.AUDIO:
             message = f"""the explanation of the {utilities.AUDIO} command.
-> notify <optional_profile_setup> {utilities.AUDIO} <file_path/audio_id> <audio_params>
+> notify <optional_profile_setup> {utilities.AUDIO} <file_path> <audio_params>
     <file_path> : Path to the file to send.
     <audio_params>:
         {utilities.explanation[utilities.CHAT_ID]}
@@ -394,7 +394,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
     """
         elif type == utilities.DOCUMENT:
             message = f"""the explanation of the {utilities.DOCUMENT} command.
-> notify <optional_profile_setup> {utilities.DOCUMENT} <file_path/document_id> <document_params>
+> notify <optional_profile_setup> {utilities.DOCUMENT} <file_path> <document_params>
     <file_path> : Path to the file to send.
     <document_params>:
         {utilities.explanation[utilities.CHAT_ID]}
@@ -410,7 +410,7 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
 """
         elif type == utilities.VIDEO:
             message = f"""the explanation of the {utilities.VIDEO} command.
-> notify <optional_profile_setup> {utilities.VIDEO} <file_path/video_id> <video_params>
+> notify <optional_profile_setup> {utilities.VIDEO} <file_path> <video_params>
     <file_path> : Path to the file to send.
     <video_params>:
         {utilities.explanation[utilities.CHAT_ID]}

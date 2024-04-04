@@ -1,8 +1,8 @@
-## Using notify as a python module
+# Using notify as a python module
 After following the [configuration setup](../readme.md#configuration), you should be able to use notify as a python module.  
 Please note that all details about parameters of the methods can be found in the method's description (either read the source or use an IDE and read the method's description).  
 
-# Index
+## Index
 - [Import and Access to the bot](#initial-steps)
     - [Import the module](#import-the-module)
     - [Access the bot](#access-the-telegram-bot)
