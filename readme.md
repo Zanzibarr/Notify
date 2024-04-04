@@ -7,6 +7,8 @@ Current version: 2.4
 
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
 
+### WORKS FOR LINUX AND MACOS
+
 ## Configuration
 To create your bot and view his token you can use the @BotFather (follow this <a target="_blank" href="https://www.youtube.com/watch?v=aNmRNjME6mE">tutorial</a>); to see your chat id you can use the @RawDataBot (follow this <a target="_blank" href="https://www.youtube.com/watch?v=UPC5Ck1oU6k">tutorial</a>).  
 Once you created your bot, start a chat with it (without this step, the application will run, but you won't recieve any message).  
