@@ -50,6 +50,8 @@ if update == "n":
     print("Update cancelled.")
     exit(0)
 
+print("Downloading new version...")
+
 if not os.path.exists(down_folder):
     print(f"{down_folder} not found, creating one.")
     os.mkdir(down_folder)
@@ -66,7 +68,7 @@ for file in utilities.files:
 
 # --- MOVING FILES TO DESTINATION ---
 
-print(f"Moving files to base path {utilities.dest_path}")
+print(f"Moving files to base folder {utilities.dest_path}")
 for file in utilities.files:
     subprocess.run(["mv", f"{down_folder}/{file}", f"{utilities.dest_path}/{file}"])
 
