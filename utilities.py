@@ -120,10 +120,3 @@ Telegram API explanation: https://core.telegram.org/bots/api
 
 {version}
 """
-
-def ntf_print(text:str, on_file = False):
-    if on_file:
-        with open(log, "a") as f:
-            f.write(f"\n{text}")
-    else:
-        print(text)
