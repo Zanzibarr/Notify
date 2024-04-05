@@ -64,13 +64,13 @@ for file in utilities.files:
         f.write(r.text)
 
 
-# --- MOVING FILES TO DESTINATION FOLDER---
+# --- MOVING FILES TO DESTINATION---
 
 utilities.ntf_print(f"Moving files to base path {utilities.dest_path}", on_file=log_to_file)
 for file in utilities.files:
     subprocess.run(["cp", f"{down_folder}/{file}", f"{utilities.dest_path}/{file}"])
 
-subprocess.run(["mv", f"{down_folder}/notify.py", f"{utilities.dest_path}/python_module/notify.py"])
+subprocess.run(["cp", f"{down_folder}/notify.py", f"{utilities.dest_path}/python_module/notify.py"])
 
 #subprocess.run(["rm", "-r", down_folder])
 
