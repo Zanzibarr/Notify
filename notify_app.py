@@ -268,7 +268,7 @@ CONFIGURATION COMMANDS:
     See the current notify version
 
 > notify {utilities.UPDATE}
-    Download the latest version of notify
+    Download the latest version of notify (please note that after a new version gets published, even if the new version is found, for one or two minutes the updated version might not be downloaded correctly due to the time github needs to update the raw.githubusercontent.com version of the repo...).
     You can add at the end which type of update u prefer:
         > {utilities.PROD} (default) : uploads to the latest tested version
         > {utilities.DEV} : uploads to the latest version under development (not finished, not suggested)
