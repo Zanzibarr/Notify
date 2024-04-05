@@ -64,7 +64,7 @@ for file in utilities.files:
         f.write(r.text)
 
 
-# --- MOVING FILES TO DESTINATION FOLDER ---
+# --- MOVING FILES TO DESTINATION ---
 
 utilities.ntf_print(f"Moving files to base path {utilities.dest_path}", on_file=log_to_file)
 for file in utilities.files:
