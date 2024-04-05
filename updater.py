@@ -51,28 +51,21 @@ if update == "n":
     exit(0)
 
 if not os.path.exists(down_folder):
-    #utilities.ntf_print(f"{down_folder} not found, creating one.", on_file=log_to_file)
     os.mkdir(down_folder)
 
 subprocess.run(["git", "clone", "https://github.com/Zanzibarr/Telegram_Python_Notifier.git", down_folder])
 
-#for file in utilities.files:
-#    r = requests.get(f"{base_url}{file}")
-#    if not r.ok:
-#        utilities.ntf_print(f"Request to {base_url}{file} had response {r}", on_file=log_to_file)
-#        print(f"Exception: {r}")
-#        exit(1)
-#    with open(f"{down_folder}/{file}", "w") as f:
-#        f.write(r.text)
 
-
-# --- MOVING FILES TO DESTINATION---
+# --- MOVING FILES TO DESTINATION ---
 
 utilities.ntf_print(f"Moving files to base path {utilities.dest_path}", on_file=log_to_file)
 for file in utilities.files:
     subprocess.run(["cp", f"{down_folder}/{file}", f"{utilities.dest_path}/{file}"])
 
-subprocess.run(["cp", f"{down_folder}/notify.py", f"{utilities.dest_path}/python_module/notify.py"])
+if not os.path.exists(f"{utilities.dest_path}/python_module"):
+    os.mkdir(f"{utilities.dest_path}/python_module")
+
+subprocess.run(["mv", f"{utilities.dest_path}/notify.py", f"{utilities.dest_path}/python_module/notify.py"])
 
 subprocess.run(["rm", "-r", down_folder])
 

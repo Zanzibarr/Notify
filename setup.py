@@ -111,7 +111,6 @@ for file in utilities.files:
     subprocess.run(["cp", f"{utilities.base_path}/{file}", f"{utilities.dest_path}/{file}"])
 
 if not os.path.exists(f"{utilities.dest_path}/python_module"):
-    print(f"Folder {utilities.dest_path}/python_module not found, creating one.")
     os.mkdir(f"{utilities.dest_path}/python_module")
 
 subprocess.run(["mv", f"{utilities.dest_path}/notify.py", f"{utilities.dest_path}/python_module/notify.py"])
