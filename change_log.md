@@ -1,3 +1,6 @@
+## Version 2.6
+- edit_profile() bugfix
+
 ## Version 2.5
 - updater bugfix
 - removed unused features

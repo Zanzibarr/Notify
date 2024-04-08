@@ -171,7 +171,7 @@ class bot:
 		- protect_content : bool (optional) -> Protects the contents of the sent message from forwarding and saving
 		- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found'''
 
-		if not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
+		if token != "" and not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
 
 		if token != "":
 			self.__profile["token"] = token
@@ -205,8 +205,9 @@ class bot:
 			- "allow_sending_without_reply" : bool (optional)
 			- "parse_mode" : str (optional) -> Mode for parsing entities in the message text. See the site for more details.'''
 
-		if "token" not in profile: raise Exception("EXCEPTION: Missing 'token' in the profile.")
-		if profile["token"]=="": raise Exception("EXCEPTION: Missing/Invalid token in the profile.")
+		if "token" not in profile: raise Exception("EXCEPTION: Missing field 'token' in the profile.")
+		if profile["token"]=="": raise Exception("EXCEPTION: Missing token in the profile.")
+		if not requests.post(f"https://api.telegram.org/bot{profile['token']}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
 
 		if "from_chat_id" not in profile: raise Exception("EXCEPTION: Missing 'from_chat_id' in the profile.")
 		if "to_chat_id" not in profile: raise Exception("EXCEPTION: Missing 'to_chat_id' in the profile.")
