@@ -1,12 +1,12 @@
 ## Please follow this format to submit the result of a test
 
-### Command:
-
-#### Steos to reach this point
+#### Steos to reach this point:
 ```
 Write here the steps taken to get here
 ```
 _add here eventual comments about the steps to get here_
+
+#### Command:
 ```
 <write command here>
 ```
