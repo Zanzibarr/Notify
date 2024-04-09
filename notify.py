@@ -1,7 +1,9 @@
 import requests, time, subprocess, os, json
 import numpy as np
 
-#region -------------------- CONFIGURATIONS -------------------- #
+#---------------------------------------------------------------
+#region                  CONFIGURATIONS                        -
+#---------------------------------------------------------------
 
 config_path = f"{os.path.expanduser('~')}/.zanz_notify_profiles"
 
@@ -38,6 +40,42 @@ def write_conf_profile(name, token, from_chat_id="", to_chat_id="", disable_web_
 	profile["protect_content"] = protect_content
 	profile["allow_sending_without_reply"] = allow_sending_without_reply
 	profile["parse_mode"] = parse_mode
+
+	with open(config_path, "w") as f:
+		f.write(json.dumps(configuration, indent=4))
+
+def edit_conf_profile(name, token="", from_chat_id="", to_chat_id="", disable_web_page_preview="", disable_notification="", protect_content="", allow_sending_without_reply="", parse_mode=""): 
+
+	'''Method to set a profile in the configuration file for future use
+	
+	- name : str -> Unique name of the profile to edit, if the name doesn't exist in the configuration file an exception will be raised
+	- token : str (optional) -> The token associated to the bot to use in this profile
+	- from_chat_id : int/str (optional) -> Chat id to use when searching for a message to copy/forward/...
+	- to_chat_id : int/str (optional) -> Chat id to use when sending/editing messages
+	- disable_web_page_preview : bool (optional) -> Disables link previews for links in this message
+	- disable_notification : bool (optional) -> Sends the message silently. Users will receive a notification with no sound.
+	- protect_content : bool (optional) -> Protects the contents of the sent message from forwarding and saving
+	- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found
+	- parse_mode : str (optional) -> Mode for parsing entities in the message text. See the site for more details.'''
+
+	if token != "" and not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
+
+	if not os.path.exists(config_path): raise Exception("EXCEPTION: Configuration file not found.")
+
+	with open(config_path, "r") as f:
+		configuration = json.loads(f.read())
+	
+	if name not in configuration["profiles"]: raise Exception("EXCEPTION: The specified name was not in the list of profiles in the configuration file.")
+
+	profile = configuration["profiles"][name]
+	if token != "": profile["token"] = token
+	if from_chat_id != "": profile["from_chat_id"] = from_chat_id
+	if to_chat_id != "": profile["to_chat_id"] = to_chat_id
+	if disable_web_page_preview != "": profile["disable_web_page_preview"] = disable_web_page_preview
+	if disable_notification != "": profile["disable_notification"] = disable_notification
+	if protect_content != "": profile["protect_content"] = protect_content
+	if allow_sending_without_reply != "": profile["allow_sending_without_reply"] = allow_sending_without_reply
+	if parse_mode != "": profile["parse_mode"] = parse_mode
 
 	with open(config_path, "w") as f:
 		f.write(json.dumps(configuration, indent=4))
@@ -157,7 +195,9 @@ class bot:
 		else:
 			self.off()
 
-	#region --------------------------- PROFILES -------------------------- #
+	#---------------------------------------------------------------
+	#region                      PROFILES                          -
+	#---------------------------------------------------------------
 
 	def edit_profile(self, token="", from_chat_id="", to_chat_id="", disable_web_page_preview="", disable_notification="", protect_content="", allow_sending_without_reply="", parse_mode=""): 
 
@@ -287,7 +327,9 @@ class bot:
 
 	#endregion
 
-	#region -------------------------- UTILITIES -------------------------- #
+	#---------------------------------------------------------------
+	#region                    UTILITIES                           -
+	#---------------------------------------------------------------
 
 	def send_exception(self, text="", chat_id=""): 
 
@@ -364,7 +406,9 @@ class bot:
 
 	#endregion
 
-	#region ------------------------ TELEGRAM API ------------------------- #
+	#---------------------------------------------------------------
+	#region                    TELEGRAM API                        -
+	#---------------------------------------------------------------
 
 	def on(self): 
 		

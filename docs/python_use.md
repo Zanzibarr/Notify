@@ -8,6 +8,7 @@ Please note that all details about parameters of the methods can be found in the
     - [Access the bot](#access-the-telegram-bot)
 - [Manage the configuration file](#managing-configuration-file)
     - [Setup a new profile](#setup-a-new-profile)
+    - [Edit a profile](#edit-a-profile)
     - [Delete a profile](#delete-a-profile)
     - [View profiles](#view-possible-profiles)
 - [Manage the bot's profile](#manage-bot-local-profile)
@@ -71,6 +72,12 @@ notify.write_conf_profile(name="profile_name", token="your_token", ...)
 - you can pass as a parameter a dict which needs to follow a strict structure (explained in the method's description)
 ```python
 notify.write_conf_profile(name="profile_name", profile={...})
+```
+
+### Edit a profile
+You can edit a profile from the configuration file as follows:
+```python
+notify.edit_conf_profile(name="profile_name"; ...)
 ```
 
 ### Delete a profile

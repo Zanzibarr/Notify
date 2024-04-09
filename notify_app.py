@@ -89,7 +89,17 @@ def ntf_config():
             exit(1)
 
         notify.write_conf_profile(name=name, token=token, from_chat_id=get(utilities.FROM_CHAT_ID), to_chat_id=get(utilities.CHAT_ID), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), parse_mode=get(utilities.PARSE_MODE))
-        
+
+    elif type == utilities.EDIT:
+
+        name = get(utilities.EDIT)
+
+        if name == "":
+            print(utilities.edit_conf_error)
+            exit(1)
+
+        notify.edit_conf_profile(name=name, token=get(utilities.TOKEN), from_chat_id=get(utilities.FROM_CHAT_ID), to_chat_id=get(utilities.CHAT_ID), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), parse_mode=get(utilities.PARSE_MODE))
+    
     elif type == utilities.REMOVE:
 
         name = get(utilities.REMOVE)
@@ -279,7 +289,7 @@ CONFIGURATION COMMANDS:
 > notify {utilities.CONF}
     Print the configuration file location.
     You can add at the end one of those additional commands:
-        > {utilities.ADD} <name> {utilities.TOKEN} <token> <other_params> : to add a profile to the configuration file
+        > {utilities.ADD} <name> {utilities.TOKEN} <token> <other_params> : add a profile to the configuration file
             <other_params>:
                 {utilities.explanation[utilities.FROM_CHAT_ID]}
                 {utilities.explanation[utilities.CHAT_ID]}
@@ -289,6 +299,7 @@ CONFIGURATION COMMANDS:
                 {utilities.explanation[utilities.ALLOW_SENDING_WITHOUT_REPLY]}
                 {utilities.explanation[utilities.PARSE_MODE]}
             <other_params> can be omitted if you wish to use the default/selected profile ones
+        > {utilities.EDIT} <name> <other_params> : edit a profile from the configuration file (creates a new one if the specified one doesn't exist)
         > {utilities.REMOVE} <name> : removes a profile from the configuration file
         > {utilities.SET} <name> : sets the default profile for command line use
         > {utilities.SEE} : prints the content of the configuration file

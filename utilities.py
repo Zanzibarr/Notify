@@ -1,6 +1,6 @@
 import os
 
-version = "notify version: 2.6"
+version = "notify version: 2.7"
 
 home = os.path.expanduser('~')
 std_config_path = f"{home}/.zanz_notify_profiles"
@@ -26,6 +26,7 @@ CONF = "-conf"
 ADD = "-add"
 TOKEN = "-token"
 REMOVE = "-rm"
+EDIT = "-edit"
 SET = "-set"
 SEE = "-see"
 UNINSTALL = "-uninstall"
@@ -92,6 +93,7 @@ error = f"\n{nerror}wrong arguments.\n{suggestion}\n"
 
 profile_error = f"\n{nerror}must specify at least the profile or the token.\n{suggestion}\n"
 add_conf_error = f"\n{nerror}must specify at least both name and token.\n{suggestion}\n"
+edit_conf_error = f"\n{nerror}must specify a valid name from the profiles configuration file.\n{suggestion}\n"
 set_conf_error = f"\n{nerror}must specify a name.\n{suggestion}\n"
 
 message_error = f"\n{nerror}either specify a text message to send, or a file to read.\n{suggestion}\n"

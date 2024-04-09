@@ -1,3 +1,6 @@
+## Version 2.7
+- added edit configuration profile functionality
+
 ## Version 2.6
 - edit_profile() bugfix
 
