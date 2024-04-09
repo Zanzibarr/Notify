@@ -1,7 +1,7 @@
 # Notify test cases
 
 Here are listed all test cases I can think of about this software.  
-If you find something not going accordingly or have suggestion on how to improve some output or feature, please contact me here [www.zanzi.dev/contacts](https://www.zanzi.dev/contacts/) or open an issue on <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">GitHub</a>.  
+If you find something not going accordingly or have suggestion on how to improve some output or feature, please contact me here <a target="_blank" href="https://www.zanzi.dev/contacts/">www.zanzi.dev/contacts/</a> or open an issue on <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">GitHub</a>.  
 
 You can also try something that's not listed here to see if any edge case has been handled (for example adding random text or parameters to see what happens).  
 
