@@ -1,5 +1,5 @@
 # Version 3.0
-**IF YOU ARE USING AN EARLIER VERSION** please uninstall and reinstall since the repo has been renamed and all old links won't work
+**IF YOU ARE USING AN EARLIER VERSION** please uninstall and reinstall since the repo has been renamed and all old links might not work
 - changed repo name
 - published test cases
 
