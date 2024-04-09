@@ -17,6 +17,7 @@ Feel free to suggest us new improvements or to report some bugs/problems by open
 - [Python lib use](docs/python_use.md)
 - [Command line use](docs/cmd_use.md)
 - [Uninstall](#uninstall)
+- [Test cases](docs/test.md)
 - [Credits](#credits)
 
 ## Installation
