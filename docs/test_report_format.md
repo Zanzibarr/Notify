@@ -1,6 +1,8 @@
 ## Please follow this format to submit the result of a test
 
 ### Command:
+
+#### Steos to reach this point
 ```
 Write here the steps taken to get here
 ```
