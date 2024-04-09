@@ -1,5 +1,5 @@
 
-## Telegram Python Notifier
+## Notify
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
