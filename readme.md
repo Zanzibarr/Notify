@@ -3,11 +3,11 @@
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
-Current version: 2.7  
+Current version: 3.0  
 
 If you wish to help us improving this python application give a look at some of our [test cases](docs/test.md).
 
-Feel free to suggest us new improvements or to report some bugs/problems by opening an <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
+Feel free to suggest us new improvements or to report some bugs/problems by opening an <a target="_blank" href="https://github.com/Zanzibarr/Notify/issues">Issue</a>.  
 
 ### WORKS FOR LINUX AND MACOS
 
@@ -30,7 +30,7 @@ Make sure you have already installed the requests module:
 ```
 To download and install properly notify, open a terminal and run the following commands  
 ```shell
-> git clone https://github.com/Zanzibarr/Telegram_Python_Notifier temp_notify_zanz/
+> git clone https://github.com/Zanzibarr/Notify temp_notify_zanz/
 > python3 temp_notify_zanz/setup.py
 ```
 
@@ -40,10 +40,10 @@ This setup works by editing the ~/.bashrc (or ~/.zshrc) file.
 
 Please note that notify will work only on python3, if you wish you can change the setup.py and notify_app.py by replacing all python3 commands with python commands.  
 
-If any problems occur, let me know by opening an <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">Issue</a>.  
+If any problems occur, let me know by opening an <a target="_blank" href="https://github.com/Zanzibarr/Notify/issues">Issue</a>.  
 
 ## Update build
-We suggest you to read the <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/change_log.md">change_log</a> before updating!  
+We suggest you to read the <a target="_blank" href="https://github.com/Zanzibarr/Notify/blob/main/change_log.md">change_log</a> before updating!  
 To get the latest version of notify:
 ```shell
 > notify -update

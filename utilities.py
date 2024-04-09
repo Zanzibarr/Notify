@@ -1,6 +1,6 @@
 import os
 
-version = "notify version: 2.7"
+version = "notify version: 3.0"
 
 home = os.path.expanduser('~')
 std_config_path = f"{home}/.zanz_notify_profiles"
@@ -117,7 +117,7 @@ SHORTCUTS:
 
 Base folder: {base_path}
 Profiles file: {std_config_path}
-Base repository: https://github.com/Zanzibarr/Telegram_Python_Notifier
+Base repository: https://github.com/Zanzibarr/Notify
 Telegram API explanation: https://core.telegram.org/bots/api
 
 {version}

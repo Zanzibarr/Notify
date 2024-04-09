@@ -1,3 +1,8 @@
+# Version 3.0
+**IF YOU ARE USING AN EARLIER VERSION** please uninstall and reinstall since the repo has been renamed and all old links won't work
+- changed repo name
+- published test cases
+
 ## Version 2.7
 - added edit configuration profile functionality
 
@@ -37,7 +42,7 @@
 - new update procedure
 
 # Version 1.7
-IF YOU ARE USING AN EARLIER VERSION, it's suggested to not update it, but to uninstall and repeat the setup procedure indicated in the readme to not have duplicates due to change of folder organization.  
+**IF YOU ARE USING AN EARLIER VERSION** it's suggested to not update it, but to uninstall and repeat the setup procedure indicated in the readme to not have duplicates due to change of folder organization.  
 - changed folder organization
 
 # Version 1.6

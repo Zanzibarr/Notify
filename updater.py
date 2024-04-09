@@ -1,6 +1,6 @@
 import requests, utilities, subprocess, sys, os, time
 
-base_url = "https://raw.githubusercontent.com/Zanzibarr/Telegram_Python_Notifier/main/"
+base_url = "https://raw.githubusercontent.com/Zanzibarr/Notify/main/"
 version_control = "change_log.md"
 update_setup_file = "update_setup.py"
 

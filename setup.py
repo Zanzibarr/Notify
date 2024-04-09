@@ -1,6 +1,6 @@
 import subprocess, notify, json, utilities, requests, os
 
-print("\nThanks for downloading notify!\n\nBase repo: https://github.com/Zanzibarr/Telegram_Python_Notifier\nScript made by @Zanzibarr and @RickSrick.\nBeginning setup...\n")
+print("\nThanks for downloading notify!\n\nBase repo: https://github.com/Zanzibarr/Notify\nScript made by @Zanzibarr and @RickSrick.\nBeginning setup...\n")
 
 
 # --- CONFIGURATION FILES ---

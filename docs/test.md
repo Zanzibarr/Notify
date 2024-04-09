@@ -1,7 +1,7 @@
 # Notify test cases
 
 Here are listed all test cases I can think of about this software.  
-If you find something not going accordingly or have suggestion on how to improve some output or feature, please contact me here <a target="_blank" href="https://www.zanzi.dev/contacts/">www.zanzi.dev/contacts/</a> or open an issue on <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/issues">GitHub</a>.  
+If you find something not going accordingly or have suggestion on how to improve some output or feature, please contact me here <a target="_blank" href="https://www.zanzi.dev/contacts/">www.zanzi.dev/contacts/</a> or open an issue on <a target="_blank" href="https://github.com/Zanzibarr/Notify/issues">GitHub</a>.  
 
 You can also try something that's not listed here to see if any edge case has been handled (for example adding random text or parameters to see what happens).  
 
@@ -14,7 +14,7 @@ Currently it's not supposed to work on Windows, so test those commands on Linux/
 
 ## Installation
 
-Follow all steps in the guide (<a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/readme.md">here</a>).  
+Follow all steps in the guide (<a target="_blank" href="https://github.com/Zanzibarr/Notify/blob/main/readme.md">here</a>).  
 Expected: successfull installation
 - Get working bots
 - Try to exit the installation process both and see if files have been created / bot works
@@ -159,7 +159,7 @@ Try sending messages adding options that are not supposed to be used with that s
 
 ## Python library
 
-Test the various features listed in the <a target="_blank" href="https://github.com/Zanzibarr/Telegram_Python_Notifier/blob/main/docs/python_use.md">python_use</a> file.  
+Test the various features listed in the <a target="_blank" href="https://github.com/Zanzibarr/Notify/blob/main/docs/python_use.md">python_use</a> file.  
 - Try adding illegal values (especially the token or profile name)
 - Try not specifying the default parameters
 - Check the precedence of token / profile where it's possible to specify both (es load_pofile(...))
