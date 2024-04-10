@@ -159,12 +159,12 @@ bot.send_document_by_path(file_path="path_to_file", ...)
 bot.send_video_by_path(file_path="path_to_file", ...)
 ```
 ### Forward a message
-Please read the method's description to firther understand how this method works.  
+Please read the method's description to further understand how this method works.  
 ```python
 bot.forward_message(message_id="message_id", chat_id="chat_id", ...)
 ```
 ### Copy a message
-Please read the method's description to firther understand how this method works.  
+Please read the method's description to further understand how this method works.  
 ```python
 bot.copy_message(message_id="message_id", chat_id="chat_id", ...)
 ```
@@ -213,17 +213,17 @@ bot.conclude_progree_bar()
 Each of the following methods will return the response recieved from the telegram API.  
 There are a few options to edit messages that has been sent:
 ### Edit message text
-Please read the method's description to firther understand how this method works.  
+Please read the method's description to further understand how this method works.  
 ```python
 bot.edit_message_text(text="new_text", chat_id="chat_id", message_id="message_id", ...)
 ```
 ### Edit message caption
-Please read the method's description to firther understand how this method works.  
+Please read the method's description to further understand how this method works.  
 ```python
 bot.edit_message_caption(caption="new_caption", chat_id="chat_id", message_id="message_id", ...)
 ```
 ### Edit message media
-Please read the method's description to firther understand how this method works.  
+Please read the method's description to further understand how this method works.  
 ```python
 bot.edit_message_media(file_path="new_media_file_path", chat_id="chat_id", message_id="message_id", ...)
 ```
