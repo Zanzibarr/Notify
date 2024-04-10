@@ -9,7 +9,7 @@ If you wish to help us improving this python application give a look at some of 
 
 Feel free to suggest us new improvements or to report some bugs/problems by opening an <a target="_blank" href="https://github.com/Zanzibarr/Notify/issues">Issue</a>.  
 
-### WORKS FOR LINUX AND MACOS
+### Works in Linux and MacOS (not on Windows)
 
 ## Index
 - [Installation](#installation)
