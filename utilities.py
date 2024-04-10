@@ -139,6 +139,7 @@ Telegram API explanation: https://core.telegram.org/bots/api
 def print_exception(message : str):
     for line in message.splitlines():
         if line != "": print(f"{cmd_exception}[ERROR]:{cmd_end} {line}")
+        else: print()
     exit(1)
 
 def print_bold(message):
@@ -147,10 +148,12 @@ def print_bold(message):
 def print_info(message : str):
     for line in message.splitlines():
         if line != "": print(f"{cmd_suggestion}[INFO ]:{cmd_end} {line}")
+        else: print()
 
 def print_warning(message : str):
     for line in message.splitlines():
         if line != "": print(f"{cmd_yellow}[WARN ]:{cmd_end} {line}")
+        else: print()
 
 def print_input(message):
     return input(f"{cmd_bold}{cmd_blue}[INPUT]:{cmd_end} {message}")
@@ -158,5 +161,6 @@ def print_input(message):
 def print_notify_error(message : str):
     for line in message.splitlines():
         if line != "": print(f"{cmd_exception}[ERROR]:{cmd_end} {line}")
+        else: print()
     print_info(suggestion)
     exit(1)
