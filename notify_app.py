@@ -135,7 +135,7 @@ def ntf_config():
 
         utilities.print_notify_error(utilities.command_error)
 
-    utilities.print_info(f"Edited configuration file.")
+    if type != utilities.SEE: utilities.print_info(f"Edited configuration file.")
 
 def ntf_profile():
 
