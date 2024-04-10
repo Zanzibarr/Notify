@@ -283,13 +283,13 @@ class bot:
 		
 		elif token == "" and name != "":
 			if name not in configuration:
-				print(f"Warning: the name {name} of the profile to load isn't associated to any profile.\nNo profile loaded.")
+				self.__print_warning(f"the name {name} of the profile to load isn't associated to any profile.\nNo profile loaded.")
 				return #---/no match
 			if "token" not in configuration[name]:
 				raise Exception("EXCEPTION: Configuration file corrupted.")
 			self.set_profile_from_dict(profile=configuration[name]) #---/valid
 			if not requests.post(f"https://api.telegram.org/bot{self.__profile['token']}/getMe").json()["ok"]:
-				print(f"Warning: the token inside the profile {name} is invalid, profile loaded anyways.\nConsider changing it or specify a new token.") #---/invalid
+				self.__print_warning(f"the token inside the profile {name} is invalid, profile loaded anyways.\nConsider changing it or specify a new token.") #---/invalid
 
 		elif name == "":
 			if not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]:
@@ -299,7 +299,7 @@ class bot:
 		elif name != "":
 			valid_token = requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]
 			if name not in configuration:
-				print(f"Warning: the name {name} of the profile to load isn't associated to any profile. Loading only the token specified.")
+				self.__print_warning(f"the name {name} of the profile to load isn't associated to any profile. Loading only the token specified.")
 				if not valid_token:
 					raise Exception("EXCEPTION: Invalid token.") #invalid/no match
 				self.__profile["token"] = token #valid/no match
@@ -311,10 +311,10 @@ class bot:
 				if not valid_token:
 					if not valid_profile:
 						raise Exception("EXCEPTION: Both tokens (the one specified and the one in the profile) are invalid.") #invalid/invalid
-					print(f"Warning: the token specified is invalid.\nUsing the {name} profile token.") #invalid/valid
+					self.__print_warning(f"the token specified is invalid.\nUsing the {name} profile token.") #invalid/valid
 				else:
 					if not valid_profile:
-						print(f"Warning: the token inside the profile {name} is invalid.\nRest of the profile loaded successfully, used token specified.")
+						self.__print_warning(f"the token inside the profile {name} is invalid.\nRest of the profile loaded successfully, used token specified.")
 					self.__profile["token"] = token #valid/valid or invalid
 
 	def save_profile(self, name): 
@@ -989,8 +989,12 @@ class bot:
 
 		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
 
-		url = self.__def_url + "/" + command;
+		url = self.__def_url + "/" + command
 
 		return requests.post(url, data=data, files=files)
+	
+	def __print_warning(self, message:str):
+		for line in message.splitlines():
+			print(f"\033[93m[WARN ]:\033[0m {line}")
 	
 	#endregion

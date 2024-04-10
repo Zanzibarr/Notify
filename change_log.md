@@ -1,3 +1,9 @@
+## Version 3.1
+- Formatting output (info/error/warning/input)
+- Sudo user check
+- Success message on edit conf file
+- Print changelog of new version in update
+
 # Version 3.0
 **IF YOU ARE USING AN EARLIER VERSION** please uninstall and reinstall since the repo has been renamed and all old links might not work
 - changed repo name

@@ -3,7 +3,7 @@
 This python application, will send messages on telegram, to the chat id specified, from the bot specified by the token.  
 Currently it is configured to send text messages, markdown text messages, documents, photos, video and audio.  
 
-Current version: 3.0  
+Current version: 3.1  
 
 If you wish to help us improving this python application give a look at some of our [test cases](docs/test.md).
 

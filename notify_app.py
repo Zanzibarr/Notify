@@ -7,49 +7,48 @@ def main():
     try:
         
         if len(sys.argv)==1:
-            print(utilities.error)
-            exit(1)
+            utilities.print_notify_error(utilities.error)
 
         elif sys.argv[1] == utilities.HELP:
             if len(sys.argv) not in (2, 3):
-                print(utilities.error)
-                exit(1)
+                utilities.print_notify_error(utilities.error)
 
+            utilities.print_info(f"Running {utilities.HELP} command.")
             help()
             exit(0)
 
         elif sys.argv[1] == utilities.UPDATE:
             if len(sys.argv) not in (2, 3):
-                print(sys.argv)
-                print(utilities.error)
-                exit(1)
+                utilities.print_notify_error(utilities.error)
 
+            utilities.print_info(F"Running {utilities.UPDATE} command.")
             ntf_update()
             exit(0)
 
         elif sys.argv[1] == utilities.UNINSTALL:
             if len(sys.argv) > 2:
-                print(utilities.error)
-                exit(1)
+                utilities.print_notify_error(utilities.error)
 
+            utilities.print_info(f"Running {utilities.UNINSTALL} command.")
             ntf_uninstall()
             exit(0)
 
         elif sys.argv[1] == utilities.VERSION:
             if len(sys.argv) > 2:
-                print(utilities.error)
-                exit(1)
+                utilities.print_notify_error(utilities.error)
 
-            print(utilities.version)
+            utilities.print_info(utilities.version)
             exit(0)
 
         elif sys.argv[1] == utilities.CONF:
             
+            utilities.print_info(f"Running {utilities.CONF} command.")
             command = " ".join(sys.argv[1:])
             ntf_config()
 
             if len(command.strip()) > 0:
-                print(f"\nIgnored parts of the input: {command}\n{utilities.suggestion}\n")
+                utilities.print_warning(f"Ignored parts of the input: {command}")
+                utilities.print_info(utilities.suggestion)
 
             exit(0)
 
@@ -57,15 +56,18 @@ def main():
 
         if sys.argv[1] == utilities.PROFILE:
 
+            utilities.print_info(f"Running {utilities.PROFILE} command.")
             ntf_profile()
-            
+        
         ntf_send()
         
         if len(command.strip()) > 0:
-            print(f"\nMessage sent successfully.\nIgnored parts of the input: {command}\n{utilities.suggestion}\n")
+            utilities.print_info(f"Message sent.")
+            utilities.print_warning(f"Ignored parts of the input: {command}")
+            utilities.print_info(utilities.suggestion)
 
     except Exception as e:
-        print(e)
+        utilities.print_exception(f"{e}")
 
 def ntf_config():
 
@@ -74,7 +76,7 @@ def ntf_config():
     command = command[6:]
 
     if command == "":
-        print(utilities.conf_file_info)
+        utilities.print_info(utilities.conf_file_info)
         exit(0)
 
     type = command.partition(" ")[0]
@@ -85,8 +87,7 @@ def ntf_config():
         token = get(utilities.TOKEN)
 
         if name == "" or token == "":
-            print(utilities.add_conf_error)
-            exit(1)
+            utilities.print_notify_error(utilities.add_conf_error)
 
         notify.write_conf_profile(name=name, token=token, from_chat_id=get(utilities.FROM_CHAT_ID), to_chat_id=get(utilities.CHAT_ID), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), parse_mode=get(utilities.PARSE_MODE))
 
@@ -95,8 +96,7 @@ def ntf_config():
         name = get(utilities.EDIT)
 
         if name == "":
-            print(utilities.edit_conf_error)
-            exit(1)
+            utilities.print_notify_error(utilities.edit_conf_error)
 
         notify.edit_conf_profile(name=name, token=get(utilities.TOKEN), from_chat_id=get(utilities.FROM_CHAT_ID), to_chat_id=get(utilities.CHAT_ID), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), parse_mode=get(utilities.PARSE_MODE))
     
@@ -111,14 +111,13 @@ def ntf_config():
         name = get(utilities.SET)
 
         if name == "":
-            print(utilities.set_conf_error)
-            exit(1)
+            utilities.print_notify_error(utilities.set_conf_error)
 
         with open(utilities.std_config_path, "r") as f:
             profiles = json.loads(f.read())
         
         if name not in [i for i in profiles["profiles"].keys()]:
-            print("The name specified was not found in the profiles configuration file.\nNot changing the default profile.")
+            utilities.print_warning("The name specified was not found in the profiles configuration file.\nNot changing the default profile.")
             exit(0)
 
         profiles["def"] = name
@@ -134,8 +133,9 @@ def ntf_config():
 
     else:
 
-        print(utilities.command_error)
-        exit(1)
+        utilities.print_notify_error(utilities.command_error)
+
+    utilities.print_info(f"Edited configuration file.")
 
 def ntf_profile():
 
@@ -145,8 +145,7 @@ def ntf_profile():
     profile = get(utilities.PROFILE)
 
     if profile == "" and token == "":
-        print(utilities.profile_error)
-        exit(1)
+        utilities.print_notify_error(utilities.profile_error)
 
     bot.load_profile(token=token, name=profile)
 
@@ -159,8 +158,7 @@ def ntf_send():
         content = get(utilities.TEXT)
 
         if content == "":
-            print(utilities.message_error)
-            exit(1)
+            utilities.print_notify_error(utilities.message_error)
 
         if ispath(content):
             response = bot.send_message_by_file(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), parse_mode=get(utilities.PARSE_MODE), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
@@ -172,8 +170,7 @@ def ntf_send():
         content = get(utilities.PHOTO)
 
         if content == "":
-            print(utilities.photo_error)
-            exit(1)
+            utilities.print_notify_error(utilities.photo_error)
 
         response = bot.send_photo_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
         
@@ -182,8 +179,7 @@ def ntf_send():
         content = get(utilities.AUDIO)
 
         if content == "":
-            print(utilities.audio_error)
-            exit(1)
+            utilities.print_notify_error(utilities.audio_error)
 
         response = bot.send_audio_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), duration=get(utilities.DURATION), performer=get(utilities.PERFORMER), title=get(utilities.TITLE), thumbnail=get(utilities.THUMBNAIL), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
 
@@ -192,8 +188,7 @@ def ntf_send():
         content = get(utilities.DOCUMENT)
 
         if content == "":
-            print(utilities.doc_error)
-            exit(1)
+            utilities.print_notify_error(utilities.doc_error)
 
         response = bot.send_document_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), disable_content_type_detection=get(utilities.DISABLE_CONTENT_TYPE_DETECTION), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
 
@@ -202,8 +197,7 @@ def ntf_send():
         content = get(utilities.VIDEO)
 
         if content == "":
-            print(utilities.video_error)
-            exit(1)
+            utilities.print_notify_error(utilities.video_error)
 
         response = bot.send_video_by_path(file_path=content, chat_id=get(utilities.CHAT_ID), message_thread_id=get(utilities.MESSAGE_THREAD_ID), duration=get(utilities.DURATION), width=get(utilities.WIDTH), height=get(utilities.HEIGHT), thumbnail=get(utilities.THUMBNAIL), caption=get(utilities.CAPTION), parse_mode=get(utilities.PARSE_MODE), has_spoiler=get(utilities.HAS_SPOILER), supports_streaming=get(utilities.SUPPORTS_STREAMING), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), reply_to_message_id=get(utilities.REPLY_TO_MESSAGE_ID), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY))
 
@@ -212,11 +206,13 @@ def ntf_send():
         response = bot.send_exception(text=get(utilities.EXCEPTION), chat_id=get(utilities.CHAT_ID))
 
     else:
-        print(utilities.command_error)
-        exit(1)    
+        utilities.print_notify_error(utilities.command_error)
 
     if not response["ok"]:
-        print(f"Something went wrong:\n{response}")
+        utilities.print_exception(f"Something went wrong:\n{response}")
+
+    print(response)
+    utilities.print_info("Message sent succesfully.")
 
 def ispath(content):
     return os.path.exists(content)
@@ -246,8 +242,7 @@ def get(type):
     else:
 
         if type not in utilities.SHORTCUT_COMMANDS:
-            print(utilities.error)
-            exit(1)
+            utilities.print_notify_error(utilities.error)
             
         c_len = command[index+2:].find("-")
         if c_len < 0:
@@ -449,16 +444,14 @@ Use notify {utilities.HELP} <notify_command> to get the list of parameters accep
         {utilities.explanation[utilities.CHAT_ID]}
 """
         else:
-            print(utilities.help_error)
-            exit(1)
+            utilities.print_notify_error(utilities.help_error)
     
     print(utilities.help_beginning + message + utilities.help_conclusion)
 
 def ntf_update():
 
     if len(sys.argv) == 3 and sys.argv[2] != utilities.PROD and sys.argv[2] != utilities.DEV:
-        print(utilities.error)
-        exit(1)
+        utilities.print_notify_error(utilities.error)
 
     additional_text = ""
     if len(sys.argv) == 3 and sys.argv[2] == utilities.DEV:
@@ -468,15 +461,16 @@ def ntf_update():
 
 def ntf_uninstall(): 
         
-    choice = input("Proceeding to uninstall notify? [y/n]: ")
+    choice = utilities.print_input(f"{utilities.cmd_input}Proceeding to uninstall notify?{utilities.cmd_end} [y/n]: ")
     while choice not in ("y", "n"):
-        choice = input(f"{utilities.command_error}Proceeding to uninstall notify? [y/n]: ")
+        utilities.print_warning(f"{utilities.command_error}")
+        choice = utilities.print_input(f"Proceeding to uninstall notify? [y/n]: ")
 
     if choice == "n":
-        print("Uninstall aborted.")
+        utilities.print_warning("Uninstall aborted.")
         exit(0)
     
-    print("Uninstalling...")
+    utilities.print_info("Uninstalling...")
     subprocess.run(shlex.split(f"rm -r {utilities.home}/.notify_zanz"))
     
     if os.path.exists(f"{utilities.home}/.bashrc"):
@@ -496,18 +490,21 @@ def ntf_uninstall():
         with open(f"{utilities.home}/.zshrc", "w") as f:
             f.write(zshrc)
             
-    print("notify has been succesfully uninstalled.")
+    utilities.print_info("notify has been succesfully uninstalled.")
 
 if not os.path.exists(utilities.std_config_path):
     choice = "n"
     if os.path.exists(utilities.old_config_path):
 
-        choice = input(f"Found a configuration file ({utilities.old_config_path}) from a past version.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
+        utilities.print_warning(f"Found a configuration file ({utilities.old_config_path}) from a past version.")
+        choice = utilities.print_input(f"{utilities.cmd_input}Use that configuration to create a default profile in the standard configuration file ({utilities.std_config_path})?{utilities.cmd_end} [y/n/q to quit]: ")
         while choice not in ("y", "n", "q"):
-            choice = input("Command not recognised.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
+            utilities.print_warning("Command not recognised.")
+            choice = utilities.print_input(f"{utilities.cmd_input}Use that configuration to create a default profile?{utilities.cmd_end} [y/n/q to quit]: ")
 
         if choice == "q":
-            print("notify not installed.\nExiting setup.")
+            utilities.print_warning("Profiles not set up.")
+            utilities.print_info("Exiting.")
             exit(0)
 
         if choice == "y":
@@ -517,20 +514,23 @@ if not os.path.exists(utilities.std_config_path):
 
     if choice == "n":
 
-        choice = input("Do you wish to create a profile to store in the configuration file? [y/n/q to quit]: ")
+        choice = utilities.print_input(f"{utilities.cmd_input}Do you wish to create a profile to store in the configuration file?{utilities.cmd_end} [y/n/q to quit]: ")
         while choice not in ("y", "n", "q"):
-            choice = input("Command not recognised.\nCreating a profile to store in the configuration file? [y/n/q to quit]: ")
+            utilities.print_warning("Command not recognised.")
+            choice = utilities.print_input(f"{utilities.cmd_input}Creating a profile to store in the configuration file?{utilities.cmd_end} [y/n/q to quit]: ")
 
         if choice == "q":
-            print("notify not installed.\nExiting setup.")
+            utilities.print_warning("Profiles not set up.")
+            utilities.print_info("Exiting.")
+            exit(0)
 
         elif choice == "n":
-            print("No profile loaded, remember to specify the token each time or create a new profile.")
+            utilities.print_warning("No profile loaded, remember to specify the token each time or create a new profile.")
 
         else:
-            print("Creating a new profile.")
-            name = input("Insert the name of the profile to create: ")
-            token=input("Insert the token of the profile to create: ")
+            utilities.print_info("Creating a new profile.")
+            name = utilities.print_input("Insert the name of the profile to create: ")
+            token=utilities.print_input("Insert the token of the profile to create: ")
             notify.write_conf_profile(name=name, token=token)
             with open(utilities.std_config_path, "r") as f:
                 profiles = json.loads(f.read())
@@ -538,11 +538,12 @@ if not os.path.exists(utilities.std_config_path):
             with open(utilities.std_config_path, "w") as f:
                 f.write(json.dumps(profiles, indent=4))
 
-            print("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
+            utilities.print_info("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
 
-    choice = input(f"Removing old credentials file ({utilities.old_config_path})? [y/n]: ")
+    choice = utilities.print_input(f"Removing old credentials file ({utilities.old_config_path})? [y/n]: ")
     while choice not in ("y", "n"):
-        choice = input(f"Command not recognised.\nRemoving old credentials file ({utilities.old_config_path})? [y/n]: ")
+        utilities.print_warning("Command not recognised.")
+        choice = utilities.print_input(f"Removing old credentials file ({utilities.old_config_path})? [y/n]: ")
 
     if choice == "y":
         subprocess.run(shlex.split(f"rm {utilities.old_config_path}"))

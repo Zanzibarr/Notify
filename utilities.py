@@ -1,6 +1,6 @@
 import os
 
-version = "notify version: 3.0"
+version = "notify version: 3.1"
 
 home = os.path.expanduser('~')
 std_config_path = f"{home}/.zanz_notify_profiles"
@@ -85,28 +85,41 @@ explanation = {
     SUPPORTS_STREAMING: f"{SUPPORTS_STREAMING} <bool> : If the video is suitable for streaming"
 }
 
-nerror = "Notify error: "
-suggestion = "Use notify -help to get instructions."
-command_error = f"\n{nerror}command not recognised.\n{suggestion}\n"
+cmd_red = '\033[91m'
+cmd_yellow = '\033[93m'
+cmd_green = '\033[92m'
+cmd_blue = '\033[94m'
 
-error = f"\n{nerror}wrong arguments.\n{suggestion}\n"
+cmd_bold = '\033[1m'
+cmd_underline = '\033[4m'
 
-profile_error = f"\n{nerror}must specify at least the profile or the token.\n{suggestion}\n"
-add_conf_error = f"\n{nerror}must specify at least both name and token.\n{suggestion}\n"
-edit_conf_error = f"\n{nerror}must specify a valid name from the profiles configuration file.\n{suggestion}\n"
-set_conf_error = f"\n{nerror}must specify a name.\n{suggestion}\n"
+cmd_end = '\033[0m'
 
-message_error = f"\n{nerror}either specify a text message to send, or a file to read.\n{suggestion}\n"
-copy_error = f"\n{nerror}both message id and chat id must be specified.\n{suggestion}\n"
+cmd_input = cmd_bold + cmd_underline
+cmd_suggestion = cmd_green + cmd_bold
+cmd_exception = cmd_bold+cmd_red
+
+nerror = f"Notify error: "
+suggestion = f"Use notify -help to get instructions."
+command_error = f"{nerror}command not recognised."
+
+error = f"{nerror}wrong arguments."
+
+profile_error = f"{nerror}must specify at least the profile or the token."
+add_conf_error = f"{nerror}must specify at least both name and token."
+edit_conf_error = f"{nerror}must specify a valid name from the profiles configuration file."
+set_conf_error = f"{nerror}must specify a name."
+
+message_error = f"{nerror}either specify a text message to send, or a file to read."
+copy_error = f"{nerror}both message id and chat id must be specified."
 forward_error = copy_error
-photo_error = f"\n{nerror}specify the path to the photo to send.\n{suggestion}\n"
-audio_error = f"\n{nerror}specify the path to the audio to send.\n{suggestion}\n"
-doc_error = f"\n{nerror}specify the path to the doc to send.\n{suggestion}\n"
-video_error = f"\n{nerror}specify the path to the doc to send.\n{suggestion}\n"
-help_error = f"\n{nerror}either don't specify anything to have the full help message, or specify a notify command (not a parameter, to see the parameters description use {PARAMETERS})."
+photo_error = f"{nerror}specify the path to the photo to send."
+audio_error = f"{nerror}specify the path to the audio to send."
+doc_error = f"{nerror}specify the path to the doc to send."
+video_error = f"{nerror}specify the path to the doc to send."
+help_error = f"{nerror}either don't specify anything to have the full help message, or specify a notify command (not a parameter, to see the parameters description use {PARAMETERS})."
 
-conf_file_info = f"""
-Configuration file: {std_config_path}"""
+conf_file_info = f"""Configuration file: {std_config_path}"""
 
 help_beginning = "Hi! Thanks for using notify!\n\nIf this instructions are not helping, please open an issue on github or give a look to the telegram API website (linked at the end of this message).\n\nHere's """
 help_conclusion = f"""
@@ -122,3 +135,28 @@ Telegram API explanation: https://core.telegram.org/bots/api
 
 {version}
 """
+
+def print_exception(message : str):
+    for line in message.splitlines():
+        print(f"{cmd_exception}[ERROR]:{cmd_end} {line}")
+    exit(1)
+
+def print_bold(message):
+    print(f"{cmd_bold}{message}{cmd_end}")
+
+def print_info(message : str):
+    for line in message.splitlines():
+        print(f"{cmd_suggestion}[INFO ]:{cmd_end} {line}")
+
+def print_warning(message : str):
+    for line in message.splitlines():
+        print(f"{cmd_yellow}[WARN ]:{cmd_end} {line}")
+
+def print_input(message):
+    return input(f"{cmd_bold}{cmd_blue}[INPUT]:{cmd_end} {message}")
+
+def print_notify_error(message : str):
+    for line in message.splitlines():
+        print(f"{cmd_exception}[ERROR]:{cmd_end} {line}")
+    print_info(suggestion)
+    exit(1)

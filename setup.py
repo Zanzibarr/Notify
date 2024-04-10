@@ -2,6 +2,8 @@ import subprocess, notify, json, utilities, requests, os
 
 print("\nThanks for downloading notify!\n\nBase repo: https://github.com/Zanzibarr/Notify\nScript made by @Zanzibarr and @RickSrick.\nBeginning setup...\n")
 
+if utilities.home == "/var/root":
+    utilities.print_exception("Run the setup in user mode.")
 
 # --- CONFIGURATION FILES ---
 
@@ -12,26 +14,33 @@ if os.path.exists(utilities.std_config_path):
             profiles = json.loads(f.read())
         names = [name for name in profiles["profiles"].keys()]
 
-        print(f"Found a configuration file.\nList of profiles available: {names}.")
-        choice = input("Insert the name of the profile to load or '-new' if you wish to create a new one: ")
+        utilities.print_info(f"Found a configuration file.\nList of profiles available: {names}.")
+        choice = utilities.print_input(f"{utilities.cmd_input}Insert the name of the profile to load, '-new' if you wish to create a new one or '-q' to exit the installation:{utilities.cmd_end} ")
 
-        while choice not in names and choice != "-new":
-            choice = input("Command not recognised.\nInsert the name of the profile to load, '-none' if you wish to not load any profile or '-new' if you wish to create a new one: ")
+        while choice not in names and choice not in ("-new", "-q"):
+            utilities.print_warning("Command not recognised.")
+            choice = utilities.print_input(f"{utilities.cmd_input}Insert the name of the profile to load, '-new' if you wish to create a new one or '-q' to exit the installation:{utilities.cmd_end} ")
+
+        if choice == "-q":
+            utilities.print_warning("notify not installed.")
+            utilities.print_info("Exiting setup.")
+            exit(0)
 
         if choice == "-new":
-            print("Creating a new profile.")
-            name = input("Insert the name of the profile to create: ")
-            token = input("Insert the token of the profile to create: ")
+            utilities.print_info("Creating a new profile.")
+            name = utilities.print_input(f"{utilities.cmd_input}Insert the name of the profile to create:{utilities.cmd_end} ")
+            token = utilities.print_input(f"{utilities.cmd_input}Insert the token of the profile to create:{utilities.cmd_end} ")
             while not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]:
-                print("The token specified isn't associated to a telegram bot.\nPlease use a valid token.")
-                token=input("Insert the token of the profile to create (or q to quit): ")
+                utilities.print_warning("The token specified isn't associated to a telegram bot, please use a valid token.")
+                token=utilities.print_input(f"{utilities.cmd_input}Insert the token of the profile to create (or -q to quit):{utilities.cmd_end} ")
 
-                if token == "q":
-                    print("notify not installed.\nExiting setup.")
+                if token == "-q":
+                    utilities.print_warning("notify not installed.")
+                    utilities.print_info("Exiting setup.")
                     exit(0)
 
             notify.write_conf_profile(name=name, token=token)
-            print("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
+            utilities.print_info("Profile created.\nYou can edit configuration parameters later using notify (see the help function).")
         
         else:
             name = choice
@@ -43,7 +52,7 @@ if os.path.exists(utilities.std_config_path):
 
     except Exception:
 
-        print(f"Configuration file has been corrupted.\nCannot proceed to install notify.\nDelete the configuration file {utilities.std_config_path} and run again the setup. (Consider saving somewhere the info in the configuration file if some info are still valuable).")
+        utilities.print_exception(f"Configuration file has been corrupted.\nCannot proceed to install notify.\nDelete the configuration file {utilities.std_config_path} and run again the setup. (Consider saving somewhere the info in the configuration file if some info are still valuable).")
         exit(1)
 
 else:
@@ -51,12 +60,14 @@ else:
     choice = "n"
     if os.path.exists(utilities.old_config_path):
 
-        choice = input(f"Found a configuration file ({utilities.old_config_path}) from a past version.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
-        while choice not in ("y", "n", "q"):
-            choice = input("Command not recognised.\nUse that configuration to create a default profile? [y/n/q to quit]: ")
+        choice = utilities.print_input(f"Found a configuration file ({utilities.old_config_path}) from a past version. {utilities.cmd_input}Use that configuration to create a default profile?{utilities.cmd_end} [y/n/-q to quit]: ")
+        while choice not in ("y", "n", "-q"):
+            utilities.print_warning("Command not recognised.")
+            choice = utilities.print_input(f"{utilities.cmd_input}Use that configuration to create a default profile?{utilities.cmd_end} [y/n/-q to quit]: ")
 
-        if choice == "q":
-            print("notify not installed.\nExiting setup.")
+        if choice == "-q":
+            utilities.print_warning("notify not installed.")
+            utilities.print_info("Exiting setup.")
             exit(0)
 
         if choice == "y":
@@ -65,20 +76,21 @@ else:
                 try:
                     notify.write_conf_profile(name="default", token=conf["token"], to_chat_id=conf["chatid"])
                 except Exception as e:
-                    print("The token found in the old configuration file isn't associated to a telegram bot. You will need to create manually a new profile.")
+                    utilities.print_warning("The token found in the old configuration file isn't associated to a telegram bot. You will need to create manually a new profile.")
                     choice = "n"
 
     if choice == "n":
             
-        print("Creating a new profile.")
-        name = input("Insert the name of the profile to create: ")
-        token=input("Insert the token of the profile to create: ")
+        utilities.print_info("Creating a new profile.")
+        name = utilities.print_input(f"{utilities.cmd_input}Insert the name of the profile to create:{utilities.cmd_end} ")
+        token=utilities.print_input(f"{utilities.cmd_input}Insert the token of the profile to create:{utilities.cmd_end} ")
         while not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]:
-            print("The token specified isn't associated to a telegram bot.\nPlease use a valid token.")
-            token=input("Insert the token of the profile to create (or q to quit): ")
+            utilities.print_warning("The token specified isn't associated to a telegram bot, please use a valid token.")
+            token=utilities.print_input(f"{utilities.cmd_input}Insert the token of the profile to create (or -q to quit):{utilities.cmd_end} ")
 
-            if token == "q":
-                print("notify not installed.\nExiting setup.")
+            if token == "-q":
+                utilities.print_warning("notify not installed.")
+                utilities.print_info("Exiting setup.")
                 exit(0)
 
         notify.write_conf_profile(name=name, token=token)
@@ -89,12 +101,13 @@ else:
         with open(utilities.std_config_path, "w") as f:
             f.write(json.dumps(profiles, indent=4))
 
-    print("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
+    utilities.print_info("Profile created.\nYou can edit configuration parameters later on using notify (use the help function).")
 
     if os.path.exists(utilities.old_config_path):
-        choice = input(f"Removing old credentials file ({utilities.old_config_path})? [y/n]: ")
+        choice = utilities.print_input(f"{utilities.cmd_input}Removing old credentials file ({utilities.old_config_path})?{utilities.cmd_end} [y/n]: ")
         while choice not in ("y", "n"):
-            choice = input(f"Command not recognised.\nRemoving old credentials file ({utilities.old_config_path})? [y/n]: ")
+            utilities.print_warning("Command not recognised.")
+            choice = utilities.print_input(f"{utilities.cmd_input}Removing old credentials file ({utilities.old_config_path})?{utilities.cmd_end} [y/n]: ")
 
         if choice == "y":
             subprocess.run(["rm", utilities.old_config_path])
@@ -103,10 +116,10 @@ else:
 # --- MOVING FILES ---
 
 if not os.path.exists(utilities.dest_path):
-    print(f"Folder {utilities.dest_path} not found, creating one.")
+    utilities.print_info(f"Folder {utilities.dest_path} not found, creating one.")
     os.mkdir(utilities.dest_path)
 
-print(f"Moving files to base path {utilities.dest_path}")
+utilities.print_info(f"Moving files to base path: {utilities.dest_path}")
 for file in utilities.files:
     subprocess.run(["cp", f"{utilities.base_path}/{file}", f"{utilities.dest_path}/{file}"])
 
@@ -119,7 +132,7 @@ subprocess.run(["mv", f"{utilities.dest_path}/notify.py", f"{utilities.dest_path
 # --- BASHRC AND ZSHRC EDITS ---
 
 if not os.path.exists(f"{utilities.home}/.bashrc") and not os.path.exists(f"{utilities.home}/.zshrc"):
-    print(f"Couldnt find {utilities.home}/.bashrc nor {utilities.home}/.zshrc.\nTo use notify as a python module: use the module {utilities.dest_path}/python_module/notify.py\nTo use notify as a shell command: python3 {utilities.dest_path}/notify_app.py ...")
+    utilities.print_warning(f"Couldnt find {utilities.home}/.bashrc nor {utilities.home}/.zshrc.\nTo use notify as a python module: use the module {utilities.dest_path}/python_module/notify.py\n \u21b3 To use notify as a shell command: python3 {utilities.dest_path}/notify_app.py ...")
 
 check_bashrc = False
 check_zshrc = False
@@ -129,7 +142,7 @@ if os.path.exists(f"{utilities.home}/.bashrc"):
         if utilities.bashrc_edit in f.read():
             check_bashrc = True
     if not check_bashrc:
-        print(f"Writing on {utilities.home}/.bashrc file (append)...")
+        utilities.print_info(f"Writing on {utilities.home}/.bashrc file (append)...")
         with open(f"{utilities.home}/.bashrc", "a") as f:
             f.write(utilities.bashrc_edit)
 else:
@@ -140,23 +153,25 @@ if os.path.exists(f"{utilities.home}/.zshrc"):
         if utilities.bashrc_edit in f.read():
             check_zshrc = True
     if not check_zshrc:
-        print(f"Writing on {utilities.home}/.zshrc file (append)...")
+        utilities.print_info(f"Writing on {utilities.home}/.zshrc file (append)...")
         with open(f"{utilities.home}/.zshrc", "a") as f:
             f.write(utilities.bashrc_edit)
 else:
     check_zshrc = True
 
 if not check_zshrc or not check_bashrc:
-    print(f"[ATTENTION]: To use the application now, you will have to open a NEW terminal and use it there.")
+    utilities.print_warning(f"To use the application now, you will have to open a NEW terminal and use it there.")
 
 
 # --- REMOVING TEMPORARY FILES ---
 
-choice = input(f"To remove the temporary folder {utilities.base_path}, the setup will need to have root permission.\nWish to remove automatically this folder? [y/n]: ")
+utilities.print_warning(f"To remove the temporary folder {utilities.base_path}, the setup will need to have root permission.")
+choice = utilities.print_input(f"{utilities.cmd_input}Wish to remove automatically this folder?{utilities.cmd_end} [y/n]: ")
 while choice not in ("y", "n"):
-    choice = input("Input not recognised.\nWish to automatically remove the folder? [y/n]: ")
+    utilities.print_warning("Command not recognised.")
+    choice = utilities.print_input(f"{utilities.cmd_input}Wish to automatically remove the folder?{utilities.cmd_end} [y/n]: ")
 if choice == "y":
-    print("Removing temporary files...")
+    utilities.print_info("Removing temporary files...")
     subprocess.run(["sudo"], ["rm"], ["-r"], utilities.base_path)
 
-print("Setup completed.")
+utilities.print_info("Setup completed.")
