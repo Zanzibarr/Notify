@@ -37,7 +37,7 @@ def main():
             if len(sys.argv) > 2:
                 utilities.print_notify_error(utilities.error)
 
-            utilities.print_info(utilities.version)
+            print(utilities.version)
             exit(0)
 
         elif sys.argv[1] == utilities.CONF:
