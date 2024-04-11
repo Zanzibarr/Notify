@@ -21,7 +21,7 @@ def write_conf_profile(name, token, from_chat_id="", to_chat_id="", disable_web_
 	- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found
 	- parse_mode : str (optional) -> Mode for parsing entities in the message text. See the site for more details.'''
 
-	if not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
+	if not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: bot.__raise_exception("EXCEPTION: Invalid token.")
 
 	if not os.path.exists(config_path):
 		subprocess.run(["touch", config_path])
@@ -58,14 +58,14 @@ def edit_conf_profile(name, token="", from_chat_id="", to_chat_id="", disable_we
 	- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found
 	- parse_mode : str (optional) -> Mode for parsing entities in the message text. See the site for more details.'''
 
-	if token != "" and not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
+	if token != "" and not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: bot.__raise_exception("EXCEPTION: Invalid token.")
 
-	if not os.path.exists(config_path): raise Exception("EXCEPTION: Configuration file not found.")
+	if not os.path.exists(config_path): bot.__raise_exception("EXCEPTION: Configuration file not found.")
 
 	with open(config_path, "r") as f:
 		configuration = json.loads(f.read())
 	
-	if name not in configuration["profiles"]: raise Exception("EXCEPTION: The specified name was not in the list of profiles in the configuration file.")
+	if name not in configuration["profiles"]: bot.__raise_exception("EXCEPTION: The specified name was not in the list of profiles in the configuration file.")
 
 	profile = configuration["profiles"][name]
 	if token != "": profile["token"] = token
@@ -96,8 +96,8 @@ def write_conf_profile_from_dict(name, profile):
 		- "parse_mode" : str (optional)
 	'''
 
-	if "token" not in profile: raise Exception("EXCEPTION: Missing 'token' in the profile.")
-	if not requests.post(f"https://api.telegram.org/bot{profile['token']}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
+	if "token" not in profile: bot.__raise_exception("EXCEPTION: Missing 'token' in the profile.")
+	if not requests.post(f"https://api.telegram.org/bot{profile['token']}/getMe").json()["ok"]: bot.__raise_exception("EXCEPTION: Invalid token.")
 
 	if not os.path.exists(config_path):
 		subprocess.run(["touch", config_path])
@@ -107,15 +107,32 @@ def write_conf_profile_from_dict(name, profile):
 	with open(config_path, "r") as f:
 		configuration = json.loads(f.read())
 
-	if "from_chat_id" not in profile: raise Exception("EXCEPTION: Missing 'from_chat_id' in the profile.")
-	if "to_chat_id" not in profile: raise Exception("EXCEPTION: Missing 'to_chat_id' in the profile.")
-	if "disable_web_page_preview" not in profile: raise Exception("EXCEPTION: Missing 'disable_web_page_preview' in the profile.")
-	if "disable_notification" not in profile: raise Exception("EXCEPTION: Missing 'disable_notification' in the profile.")
-	if "protect_content" not in profile: raise Exception("EXCEPTION: Missing 'protect_content' in the profile.")
-	if "allow_sending_without_reply" not in profile: raise Exception("EXCEPTION: Missing 'allow_sending_without_reply' in the profile.")
-	if "parse_mode" not in profile: raise Exception("EXCEPTION: Missing 'parse_mode' in the profile.")
+	if "from_chat_id" not in profile: bot.__raise_exception("EXCEPTION: Missing 'from_chat_id' in the profile.")
+	if "to_chat_id" not in profile: bot.__raise_exception("EXCEPTION: Missing 'to_chat_id' in the profile.")
+	if "disable_web_page_preview" not in profile: bot.__raise_exception("EXCEPTION: Missing 'disable_web_page_preview' in the profile.")
+	if "disable_notification" not in profile: bot.__raise_exception("EXCEPTION: Missing 'disable_notification' in the profile.")
+	if "protect_content" not in profile: bot.__raise_exception("EXCEPTION: Missing 'protect_content' in the profile.")
+	if "allow_sending_without_reply" not in profile: bot.__raise_exception("EXCEPTION: Missing 'allow_sending_without_reply' in the profile.")
+	if "parse_mode" not in profile: bot.__raise_exception("EXCEPTION: Missing 'parse_mode' in the profile.")
 
 	configuration["profiles"][name] = profile
+
+	with open(config_path, "w") as f:
+		f.write(json.dumps(configuration, indent=4))
+
+def set_default_profile(name):
+
+	'''Method to set the default profile in the configuration file
+	
+	- name : str -> name of the profile to set as default'''
+
+	with open(config_path, "r") as f:
+		configuration = json.loads(f.read())
+
+	if name not in configuration["profiles"]:
+		bot.__raise_exception("EXCEPTION: The specified name was not in the list of profiles in the configuration file.")
+	
+	configuration["def"] = name
 
 	with open(config_path, "w") as f:
 		f.write(json.dumps(configuration, indent=4))
@@ -211,7 +228,7 @@ class bot:
 		- protect_content : bool (optional) -> Protects the contents of the sent message from forwarding and saving
 		- allow_sending_without_reply : bool (optional) -> Pass True if the message should be sent even if the specified replied-to message is not found'''
 
-		if token != "" and not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
+		if token != "" and not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]: self.__raise_exception("EXCEPTION: Invalid token.")
 
 		if token != "":
 			self.__profile["token"] = token
@@ -245,17 +262,17 @@ class bot:
 			- "allow_sending_without_reply" : bool (optional)
 			- "parse_mode" : str (optional) -> Mode for parsing entities in the message text. See the site for more details.'''
 
-		if "token" not in profile: raise Exception("EXCEPTION: Missing field 'token' in the profile.")
-		if profile["token"]=="": raise Exception("EXCEPTION: Missing token in the profile.")
-		if not requests.post(f"https://api.telegram.org/bot{profile['token']}/getMe").json()["ok"]: raise Exception("EXCEPTION: Invalid token.")
+		if "token" not in profile: self.__raise_exception("EXCEPTION: Missing field 'token' in the profile.")
+		if profile["token"]=="": self.__raise_exception("EXCEPTION: Missing token in the profile.")
+		if not requests.post(f"https://api.telegram.org/bot{profile['token']}/getMe").json()["ok"]: self.__raise_exception("EXCEPTION: Invalid token.")
 
-		if "from_chat_id" not in profile: raise Exception("EXCEPTION: Missing 'from_chat_id' in the profile.")
-		if "to_chat_id" not in profile: raise Exception("EXCEPTION: Missing 'to_chat_id' in the profile.")
-		if "disable_web_page_preview" not in profile: raise Exception("EXCEPTION: Missing 'disable_web_page_preview' in the profile.")
-		if "disable_notification" not in profile: raise Exception("EXCEPTION: Missing 'disable_notification' in the profile.")
-		if "protect_content" not in profile: raise Exception("EXCEPTION: Missing 'protect_content' in the profile.")
-		if "allow_sending_without_reply" not in profile: raise Exception("EXCEPTION: Missing 'allow_sending_without_reply' in the profile.")
-		if "parse_mode" not in profile: raise Exception("EXCEPTION: Missing 'parse_mode' in the profile.")
+		if "from_chat_id" not in profile: self.__raise_exception("EXCEPTION: Missing 'from_chat_id' in the profile.")
+		if "to_chat_id" not in profile: self.__raise_exception("EXCEPTION: Missing 'to_chat_id' in the profile.")
+		if "disable_web_page_preview" not in profile: self.__raise_exception("EXCEPTION: Missing 'disable_web_page_preview' in the profile.")
+		if "disable_notification" not in profile: self.__raise_exception("EXCEPTION: Missing 'disable_notification' in the profile.")
+		if "protect_content" not in profile: self.__raise_exception("EXCEPTION: Missing 'protect_content' in the profile.")
+		if "allow_sending_without_reply" not in profile: self.__raise_exception("EXCEPTION: Missing 'allow_sending_without_reply' in the profile.")
+		if "parse_mode" not in profile: self.__raise_exception("EXCEPTION: Missing 'parse_mode' in the profile.")
 
 		self.__profile["token"] = profile["token"]
 		self.__profile["from_chat_id"] = profile["from_chat_id"]
@@ -279,21 +296,21 @@ class bot:
 			configuration = json.loads(f.read())["profiles"]
 
 		if token == "" and name == "":
-			raise Exception("EXCEPTION: Either the token or the name of the profile must be specified.") #---/---
+			self.__raise_exception("EXCEPTION: Either the token or the name of the profile must be specified.") #---/---
 		
 		elif token == "" and name != "":
 			if name not in configuration:
 				self.__print_warning(f"the name {name} of the profile to load isn't associated to any profile.\nNo profile loaded.")
 				return #---/no match
 			if "token" not in configuration[name]:
-				raise Exception("EXCEPTION: Configuration file corrupted.")
+				self.__raise_exception("EXCEPTION: Configuration file corrupted.")
 			self.set_profile_from_dict(profile=configuration[name]) #---/valid
 			if not requests.post(f"https://api.telegram.org/bot{self.__profile['token']}/getMe").json()["ok"]:
 				self.__print_warning(f"the token inside the profile {name} is invalid, profile loaded anyways.\nConsider changing it or specify a new token.") #---/invalid
 
 		elif name == "":
 			if not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]:
-				raise Exception("EXCEPTION: Invalid token.") #invalid/---
+				self.__raise_exception("EXCEPTION: Invalid token.") #invalid/---
 			self.__profile["token"] = token #valid/---
 		
 		elif name != "":
@@ -301,16 +318,16 @@ class bot:
 			if name not in configuration:
 				self.__print_warning(f"the name {name} of the profile to load isn't associated to any profile. Loading only the token specified.")
 				if not valid_token:
-					raise Exception("EXCEPTION: Invalid token.") #invalid/no match
+					self.__raise_exception("EXCEPTION: Invalid token.") #invalid/no match
 				self.__profile["token"] = token #valid/no match
 			else:
 				if "token" not in configuration[name]:
-					raise Exception("EXCEPTION: Configuration file corrupted.")
+					self.__raise_exception("EXCEPTION: Configuration file corrupted.")
 				self.set_profile_from_dict(profile=configuration[name])
 				valid_profile = requests.post(f"https://api.telegram.org/bot{self.__profile['token']}/getMe").json()["ok"]
 				if not valid_token:
 					if not valid_profile:
-						raise Exception("EXCEPTION: Both tokens (the one specified and the one in the profile) are invalid.") #invalid/invalid
+						self.__raise_exception("EXCEPTION: Both tokens (the one specified and the one in the profile) are invalid.") #invalid/invalid
 					self.__print_warning(f"the token specified is invalid.\nUsing the {name} profile token.") #invalid/valid
 				else:
 					if not valid_profile:
@@ -375,7 +392,7 @@ class bot:
 
 		'''Updates of 1 step the progress bar (works only on for loops with a known number of steps)'''
 
-		if not self.__pb.active: raise Exception("EXCEPTION: Progress bar hasn't been created or has already terminated.")
+		if not self.__pb.active: self.__raise_exception("EXCEPTION: Progress bar hasn't been created or has already terminated.")
 
 		self.__pb.missing_steps = self.__pb.missing_steps - 1
 
@@ -414,7 +431,7 @@ class bot:
 		
 		'''Turns on the bot'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 
 		self.__send = True
 
@@ -422,7 +439,7 @@ class bot:
 
 		'''Turns off the bot'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 
 		self.__send = False
 
@@ -443,13 +460,13 @@ class bot:
 		See the site for formatting options.
 		Refer to https://core.telegram.org/bots/api (sendMessage) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if chat_id == "":
 			chat_id = self.__profile["to_chat_id"]
 		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
 		if disable_web_page_preview == "":
 			disable_web_page_preview = self.__profile["disable_web_page_preview"]
 		if disable_notification == "":
@@ -492,13 +509,13 @@ class bot:
 		See the site for formatting options
 		Refer to https://core.telegram.org/bots/api (sendMessage) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if chat_id == "":
 			chat_id = self.__profile["to_chat_id"]
 		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
 		if disable_web_page_preview == "":
 			disable_web_page_preview = self.__profile["disable_web_page_preview"]
 		if disable_notification == "":
@@ -528,13 +545,13 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (forwardMessage) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if from_chat_id == "":
 			from_chat_id = self.__profile["from_chat_id"]
 		if from_chat_id == "":
-			raise Exception("EXCEPTION: Either set a from_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a from_chat_id in the profile or specify one as a parameter.")
 		if disable_notification == "":
 			disable_notification = self.__profile["disable_notification"]
 		if protect_content == "":
@@ -568,13 +585,13 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (copyMessage) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if from_chat_id == "":
 			from_chat_id = self.__profile["from_chat_id"]
 		if from_chat_id == "":
-			raise Exception("EXCEPTION: Either set a from_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a from_chat_id in the profile or specify one as a parameter.")
 		if disable_notification == "":
 			disable_notification = self.__profile["disable_notification"]
 		if protect_content == "":
@@ -616,13 +633,13 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (sendPhoto) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if chat_id == "":
 			chat_id = self.__profile["to_chat_id"]
 		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
 		if disable_notification == "":
 			disable_notification = self.__profile["disable_notification"]
 		if protect_content == "":
@@ -633,7 +650,7 @@ class bot:
 			parse_mode = self.__profile["parse_mode"]
 
 		if not os.path.exists(file_path):
-			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
 
 		files = {"photo" : open(file_path, "rb")}
 
@@ -673,13 +690,13 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (sendAudio) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if chat_id == "":
 			chat_id = self.__profile["to_chat_id"]
 		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
 		if disable_notification == "":
 			disable_notification = self.__profile["disable_notification"]
 		if protect_content == "":
@@ -690,9 +707,9 @@ class bot:
 			parse_mode = self.__profile["parse_mode"]
 
 		if not os.path.exists(file_path):
-			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
 		if thumbnail != "" and not os.path.exists(thumbnail):
-			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {"audio" : open(file_path, "rb")}
 		if thumbnail != "":
@@ -732,13 +749,13 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (sendDocument) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if chat_id == "":
 			chat_id = self.__profile["to_chat_id"]
 		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
 		if disable_notification == "":
 			disable_notification = self.__profile["disable_notification"]
 		if protect_content == "":
@@ -749,9 +766,9 @@ class bot:
 			parse_mode = self.__profile["parse_mode"]
 
 		if not os.path.exists(file_path):
-			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
 		if thumbnail != "" and not os.path.exists(thumbnail):
-			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {"document" : open(file_path, "rb")}
 		if thumbnail != "":
@@ -793,13 +810,13 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (sendVideo) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if chat_id == "":
 			chat_id = self.__profile["to_chat_id"]
 		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a to_chat_id in the profile or specify one as a parameter.")
 		if disable_notification == "":
 			disable_notification = self.__profile["disable_notification"]
 		if protect_content == "":
@@ -810,9 +827,9 @@ class bot:
 			parse_mode = self.__profile["parse_mode"]
 
 		if not os.path.exists(file_path):
-			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
 		if thumbnail != "" and not os.path.exists(thumbnail):
-			raise Exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {thumbnail} doesn't lead to any file.")
 
 		files = {"video" : open(file_path, "rb")}
 		if thumbnail != "":
@@ -849,14 +866,14 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (editMessageText) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if inline_message_id == "":
 			if chat_id == "":
 				chat_id = self.__profile["to_chat_id"]
 			if message_id == "" or chat_id == "":
-				raise Exception("EXCEPTION: If the inline_message_id is not defined, both chat_id (default counts) and message_id must be defined.")
+				self.__raise_exception("EXCEPTION: If the inline_message_id is not defined, both chat_id (default counts) and message_id must be defined.")
 		else:
 			chat_id = ""
 			message_id = ""
@@ -888,14 +905,14 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (editMessageCaption) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if inline_message_id == "":
 			if chat_id == "":
 				chat_id = self.__profile["to_chat_id"]
 			if message_id == "" or chat_id == "":
-				raise Exception("EXCEPTION: If the inline_message_id is not defined, both chat_id (default counts) and message_id must be defined.")
+				self.__raise_exception("EXCEPTION: If the inline_message_id is not defined, both chat_id (default counts) and message_id must be defined.")
 		else:
 			chat_id = ""
 			message_id =""
@@ -923,20 +940,20 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (editMessageMedia) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if inline_message_id == "":
 			if chat_id == "":
 				chat_id = self.__profile["to_chat_id"]
 			if message_id == "" or chat_id == "":
-				raise Exception("EXCEPTION: If the inline_message_id is not defined, both chat_id (default counts) and message_id must be defined.")
+				self.__raise_exception("EXCEPTION: If the inline_message_id is not defined, both chat_id (default counts) and message_id must be defined.")
 		else:
 			chat_id = ""
 			message_id =""
 
 		if not os.path.exists(file_path):
-			raise Exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
+			self.__raise_exception(f"EXCEPTION: The file_path {file_path} doesn't lead to any file.")
 		files = {"media" : open(file_path, "rb")}
 
 		data={
@@ -965,13 +982,13 @@ class bot:
 		
 		Refer to https://core.telegram.org/bots/api (deleteMessage) for more info'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 		if not self.__send: return {}
 
 		if chat_id == "":
 			chat_id = self.__profile["to_chat_id"]
 		if chat_id == "":
-			raise Exception("EXCEPTION: Either set a chat_id in the profile or specify one as a parameter.")
+			self.__raise_exception("EXCEPTION: Either set a chat_id in the profile or specify one as a parameter.")
 
 		data={
 			"chat_id" : chat_id,
@@ -987,14 +1004,26 @@ class bot:
 		- command : str -> the command to use
 		- data : str -> the data to pass through'''
 
-		if not self.__env: raise Exception("EXCEPTION: constructor hasn't been called yet.")
+		if not self.__env: self.__raise_exception("EXCEPTION: constructor hasn't been called yet.")
 
 		url = self.__def_url + "/" + command
 
 		return requests.post(url, data=data, files=files)
 	
+	#endregion
+ 
+	#---------------------------------------------------------------
+	#region                  PRIVATE METHODS                       -
+	#---------------------------------------------------------------
+	
 	def __print_warning(self, message:str):
 		for line in message.splitlines():
 			print(f"\033[93m[WARN ]:\033[0m {line}")
+
+	def __raise_exception(self, message:str):
+		for line in message.splitlines():
+			if line != "": print(f"\033[1m\033[91m[ERROR]:\033[0m {line}")
+			else: print()
+		raise Exception(message)
 	
 	#endregion

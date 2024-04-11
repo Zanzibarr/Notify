@@ -107,7 +107,7 @@ error = f"{nerror}wrong arguments."
 
 profile_error = f"{nerror}must specify at least the profile or the token."
 add_conf_error = f"{nerror}must specify at least both name and token."
-edit_conf_error = f"{nerror}must specify a valid name from the profiles configuration file."
+profile_name_error = f"{nerror}must specify a valid name from the profiles configuration file."
 set_conf_error = f"{nerror}must specify a name."
 
 message_error = f"{nerror}either specify a text message to send, or a file to read."

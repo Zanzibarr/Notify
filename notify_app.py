@@ -59,6 +59,7 @@ def main():
             utilities.print_info(f"Running {utilities.PROFILE} command.")
             ntf_profile()
         
+        utilities.print_info(f"Sending message.")
         ntf_send()
         
         if len(command.strip()) > 0:
@@ -66,8 +67,8 @@ def main():
             utilities.print_warning(f"Ignored parts of the input: {command}")
             utilities.print_info(utilities.suggestion)
 
-    except Exception as e:
-        utilities.print_exception(f"{e}")
+    except:
+        pass
 
 def ntf_config():
 
@@ -96,7 +97,7 @@ def ntf_config():
         name = get(utilities.EDIT)
 
         if name == "":
-            utilities.print_notify_error(utilities.edit_conf_error)
+            utilities.print_notify_error(utilities.profile_name_error)
 
         notify.edit_conf_profile(name=name, token=get(utilities.TOKEN), from_chat_id=get(utilities.FROM_CHAT_ID), to_chat_id=get(utilities.CHAT_ID), disable_web_page_preview=get(utilities.DISABLE_WEB_PAGE_PREVIEW), disable_notification=get(utilities.DISABLE_NOTIFICATION), protect_content=get(utilities.PROTECT_CONTENT), allow_sending_without_reply=get(utilities.ALLOW_SENDING_WITHOUT_REPLY), parse_mode=get(utilities.PARSE_MODE))
     
@@ -104,7 +105,16 @@ def ntf_config():
 
         name = get(utilities.REMOVE)
 
-        notify.remove_profile(name)
+        choice = utilities.print_input(f"{utilities.cmd_input}Removing profile {name}?{utilities.cmd_end} [y/n]: ")
+        while choice not in ("y", "n"):
+            utilities.print_warning("Command not recognised.")
+            choice = utilities.print_input(f"{utilities.cmd_input}Removing profile {name}?{utilities.cmd_end} [y/n]: ")
+
+        if choice == "y":
+            notify.remove_profile(name)
+            utilities.print_info("Profile removed.")
+        else:
+            utilities.print_info("Profile not removed.")
 
     elif type == utilities.SET:
 
@@ -113,23 +123,14 @@ def ntf_config():
         if name == "":
             utilities.print_notify_error(utilities.set_conf_error)
 
-        with open(utilities.std_config_path, "r") as f:
-            profiles = json.loads(f.read())
-        
-        if name not in [i for i in profiles["profiles"].keys()]:
-            utilities.print_warning("The name specified was not found in the profiles configuration file.\nNot changing the default profile.")
-            exit(0)
-
-        profiles["def"] = name
-
-        with open(utilities.std_config_path, "w") as f:
-            f.write(json.dumps(profiles, indent=4))
+        notify.set_default_profile(name)
 
     elif type == utilities.SEE:
 
         get(utilities.SEE)
 
-        print(json.dumps(notify.get_profiles(), indent=4))
+        with open(utilities.std_config_path, "r") as f:
+            print(f.read())
 
     else:
 
@@ -147,6 +148,10 @@ def ntf_profile():
     if profile == "" and token == "":
         utilities.print_notify_error(utilities.profile_error)
 
+    with open(utilities.std_config_path) as f:
+        if profile not in json.loads(f.read())["profiles"]:
+            utilities.print_notify_error(utilities.profile_name_error)
+    
     bot.load_profile(token=token, name=profile)
 
 def ntf_send():
@@ -209,9 +214,8 @@ def ntf_send():
         utilities.print_notify_error(utilities.command_error)
 
     if not response["ok"]:
-        utilities.print_exception(f"Something went wrong:\n{response}")
+        utilities.print_notify_error(f"Something went wrong:\n{response}")
 
-    print(response)
     utilities.print_info("Message sent succesfully.")
 
 def ispath(content):

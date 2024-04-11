@@ -30,6 +30,7 @@ if os.path.exists(utilities.std_config_path):
             utilities.print_info("Creating a new profile.")
             name = utilities.print_input(f"{utilities.cmd_input}Insert the name of the profile to create:{utilities.cmd_end} ")
             token = utilities.print_input(f"{utilities.cmd_input}Insert the token of the profile to create:{utilities.cmd_end} ")
+            chat = utilities.print_input(f"{utilities.cmd_input}Insert the default chat_id to send the message to:{utilities.cmd_end} (or -q to ignore for now) ")
             while not requests.post(f"https://api.telegram.org/bot{token}/getMe").json()["ok"]:
                 utilities.print_warning("The token specified isn't associated to a telegram bot, please use a valid token.")
                 token=utilities.print_input(f"{utilities.cmd_input}Insert the token of the profile to create (or -q to quit):{utilities.cmd_end} ")
@@ -39,21 +40,19 @@ if os.path.exists(utilities.std_config_path):
                     utilities.print_info("Exiting setup.")
                     exit(0)
 
-            notify.write_conf_profile(name=name, token=token)
-            utilities.print_info("Profile created.\nYou can edit configuration parameters later using notify (see the help function).")
+            chat = "" if chat == "-q" else chat
+            notify.write_conf_profile(name=name, token=token, to_chat_id=chat)
         
         else:
             name = choice
 
-        profiles["def"] = name
-
-        with open(utilities.std_config_path, "w") as f:
-            f.write(json.dumps(profiles, indent=4))
+        notify.set_default_profile(name=name)
+            
+        utilities.print_info("Profile created.\nYou can edit configuration parameters later using notify (see the help function).")
 
     except Exception:
 
         utilities.print_exception(f"Configuration file has been corrupted.\nCannot proceed to install notify.\nDelete the configuration file {utilities.std_config_path} and run again the setup. (Consider saving somewhere the info in the configuration file if some info are still valuable).")
-        exit(1)
 
 else:
 
