@@ -2,6 +2,8 @@ import subprocess, utilities, notify, shlex, json, sys, os
 
 def main():
 
+    utilities.print_warning("This is an old version of notify and will not be supported anymore.\nYou can find the new version here: https://github.com/Zanzibarr/Notify2 .\nInstalling the new version will remove this old version.")
+
     global command
 
     try:

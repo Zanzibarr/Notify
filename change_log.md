@@ -1,3 +1,6 @@
+# Version 3.2
+- notify deprecated, please go to notify2 (https://github.com/Zanzibarr/Notify2)
+
 ## Version 3.1
 - Formatting output (info/error/warning/input)
 - Sudo user check
